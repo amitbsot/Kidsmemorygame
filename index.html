@@ -197,16 +197,28 @@
             window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
         }
 
+        // Expanded categories with more items!
         const CATEGORIES = {
-            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [{ content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }] },
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [{ content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }] },
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [{ content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }] },
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [{ content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }] },
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [{ content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }] },
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [{ content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }] }
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }, { content: '🐔', label: 'Chicken' }, { content: '🐧', label: 'Penguin' }, { content: '🐢', label: 'Turtle' }, { content: '🐍', label: 'Snake' }, { content: '🐴', label: 'Horse' }, { content: '🐘', label: 'Elephant' }, { content: '🦒', label: 'Giraffe' }, { content: '🦓', label: 'Zebra' }, { content: '🐬', label: 'Dolphin' }, { content: '🐳', label: 'Whale' }, { content: '🐟', label: 'Fish' }, { content: '🐦', label: 'Bird' }
+            ]},
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }, { content: 'M', label: 'M', spokenLabel: 'm' }, { content: 'N', label: 'N', spokenLabel: 'n' }, { content: 'O', label: 'O', spokenLabel: 'o' }, { content: 'P', label: 'P', spokenLabel: 'p' }, { content: 'Q', label: 'Q', spokenLabel: 'q' }, { content: 'R', label: 'R', spokenLabel: 'r' }, { content: 'S', label: 'S', spokenLabel: 's' }, { content: 'T', label: 'T', spokenLabel: 't' }, { content: 'U', label: 'U', spokenLabel: 'u' }, { content: 'V', label: 'V', spokenLabel: 'v' }, { content: 'W', label: 'W', spokenLabel: 'w' }, { content: 'X', label: 'X', spokenLabel: 'x' }, { content: 'Y', label: 'Y', spokenLabel: 'y' }, { content: 'Z', label: 'Z', spokenLabel: 'z' }
+            ]},
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }, { content: '🩵', label: 'Light Blue' }, { content: '💚', label: 'Lime' }, { content: '🤎', label: 'Dark Brown' }
+            ]},
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }, { content: '🍆', label: 'Eggplant' }, { content: '🌽', label: 'Corn' }, { content: '🍄', label: 'Mushroom' }
+            ]},
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: '🚕', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
+            ]},
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
+            ]}
         };
 
-        // Levels mapped to create optimal grids. Stage 4 uses 4 rows by 5 columns for landscape iPad layout.
         const LEVELS = [
             { level: 1, pairs: 3, cols: 'grid-cols-2 sm:grid-cols-3', rows: 'grid-rows-3 sm:grid-rows-2' },
             { level: 2, pairs: 6, cols: 'grid-cols-3 sm:grid-cols-4', rows: 'grid-rows-4 sm:grid-rows-3' },
@@ -270,6 +282,8 @@
             const [gameState, setGameState] = useState('menu'); 
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
+            const [previousLevelItems, setPreviousLevelItems] = useState([]); // Keeps track of words used in the previous stage
+
             const [cards, setCards] = useState([]);
             const [flippedIndices, setFlippedIndices] = useState([]);
             const [mismatchIndices, setMismatchIndices] = useState([]); 
@@ -277,17 +291,46 @@
             const [isLocked, setIsLocked] = useState(false);
             const [highlightMatch, setHighlightMatch] = useState(null); 
 
+            const resetToMenu = () => {
+                setGameState('menu');
+                setSelectedCategory(null);
+                setPreviousLevelItems([]); // Clear history when returning to main menu
+            };
+
             const initGame = (categoryKey, levelIdx) => {
                 const category = CATEGORIES[categoryKey];
                 const level = LEVELS[levelIdx];
-                const shuffledItems = [...category.items].sort(() => 0.5 - Math.random());
-                const selectedItems = shuffledItems.slice(0, level.pairs);
+                
+                let selectedItems = [];
+
+                // Smart Logic: If progressing to a higher level in the SAME category, carry over 2 items
+                if (levelIdx > 0 && selectedCategory === categoryKey && previousLevelItems.length >= 2) {
+                    // Pick 2 random items from the previous level
+                    const shuffledPrev = [...previousLevelItems].sort(() => 0.5 - Math.random());
+                    const carryOverItems = shuffledPrev.slice(0, 2);
+                    
+                    // Pick the remaining items from the main category pool (avoiding duplicates)
+                    const remainingPool = category.items.filter(item => !carryOverItems.some(c => c.label === item.label));
+                    const shuffledRemaining = remainingPool.sort(() => 0.5 - Math.random());
+                    const newItems = shuffledRemaining.slice(0, level.pairs - 2);
+                    
+                    // Combine and shuffle them all
+                    selectedItems = [...carryOverItems, ...newItems].sort(() => 0.5 - Math.random());
+                } else {
+                    // Stage 1 OR starting a fresh category
+                    const shuffledItems = [...category.items].sort(() => 0.5 - Math.random());
+                    selectedItems = shuffledItems.slice(0, level.pairs);
+                }
+
+                // Update states for the new game
+                setPreviousLevelItems(selectedItems);
+                setSelectedCategory(categoryKey);
+                setCurrentLevelIndex(levelIdx);
+                
                 const gameCards = [...selectedItems, ...selectedItems].sort(() => 0.5 - Math.random()).map((item, index) => ({
                     id: index, ...item, isFlipped: false, isMatched: false
                 }));
 
-                setSelectedCategory(categoryKey);
-                setCurrentLevelIndex(levelIdx);
                 setCards(gameCards);
                 setFlippedIndices([]);
                 setMismatchIndices([]);
@@ -307,7 +350,6 @@
                 setFlippedIndices(newFlippedIndices);
 
                 if (newFlippedIndices.length === 1) {
-                    // First card - Say the name aloud
                     playVoice(cards[index].spokenLabel || cards[index].label);
                 } 
                 else if (newFlippedIndices.length === 2) {
@@ -316,17 +358,14 @@
                     const isMatch = cards[firstIndex].label === cards[secondIndex].label;
 
                     if (!isMatch) {
-                        // Second card is a mismatch - Say its name aloud immediately
                         playVoice(cards[secondIndex].spokenLabel || cards[secondIndex].label);
                     }
-                    // If it IS a match, do NOT say anything yet. Wait for the big card display.
 
                     setTimeout(() => {
                         if (isMatch) {
                             playDing();
                             setHighlightMatch(cards[firstIndex]);
                             
-                            // Say the name of the matched pair when the BIG card is displayed
                             setTimeout(() => {
                                 playVoice(cards[firstIndex].spokenLabel || cards[firstIndex].label);
                             }, 100);
@@ -362,10 +401,8 @@
 
             return (
                 <>
-                    {/* Hide the main header during gameplay to maximize screen real estate on iPads */}
                     {!isPlaying && <Header />}
 
-                    {/* Main area - Takes 100dvh (full screen) when playing */}
                     <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
                         
                         <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4 md:p-6 lg:p-8'}`}>
@@ -399,7 +436,7 @@
                                                 <div className="animate-fade-in">
                                                     <div className="flex justify-between items-center mb-6">
                                                         <button 
-                                                            onClick={() => setGameState('menu')}
+                                                            onClick={resetToMenu}
                                                             className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-2 px-3 sm:px-4 rounded-xl shadow-sm transition active:scale-95 text-sm"
                                                         >⬅️ Back</button>
                                                         <h3 className="text-xl sm:text-2xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
@@ -431,7 +468,7 @@
                                     
                                     <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-2">
                                         <button 
-                                            onClick={() => { setGameState('menu'); setSelectedCategory(null); }}
+                                            onClick={resetToMenu}
                                             className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
                                         >Menu</button>
                                         <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
@@ -460,13 +497,11 @@
                                                         key={index} onClick={() => handleCardClick(index)}
                                                         className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
-                                                        {/* Card Back (Hidden until flipped) */}
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
                                                             <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
                                                             <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
                                                         
-                                                        {/* Card Front (Shows Image ONLY as requested) */}
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(147,197,253,1)] sm:shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-[3px] lg:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
                                                             <div className="flex-1 w-full flex items-center justify-center h-full">
                                                                 <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
@@ -479,7 +514,7 @@
                                         </div>
                                     </div>
 
-                                    {/* HIGHLIGHT MATCH (Big Card showing BOTH Image AND Word as requested) */}
+                                    {/* HIGHLIGHT MATCH */}
                                     {highlightMatch && (
                                         <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none">
                                             <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
@@ -491,6 +526,7 @@
                                         </div>
                                     )}
 
+                                    {/* WON STATE */}
                                     {gameState === 'won' && (
                                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-40 backdrop-blur-md p-4 animate-fade-in">
                                             <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
@@ -503,7 +539,7 @@
                                                     ) : (
                                                         <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
                                                     )}
-                                                    <button onClick={() => { setGameState('menu'); setSelectedCategory(null); }} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                    <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -512,12 +548,10 @@
                             )}
                         </div>
 
-                        {/* SEO CONTENT SECTION - Hidden during gameplay for maximum immersion */}
                         {!isPlaying && <SeoContentSection />}
 
                     </main>
 
-                    {/* FOOTER & LEGAL LINKS - Hidden during gameplay */}
                     {!isPlaying && (
                         <footer className="bg-white border-t border-gray-200 mt-auto">
                             <div className="max-w-6xl mx-auto px-4 py-8">
@@ -535,7 +569,6 @@
                         </footer>
                     )}
 
-                    {/* MODALS FOR LEGAL CONTENT */}
                     {activeModal === 'privacy' && (
                         <LegalModal 
                             title="Privacy Policy" 
