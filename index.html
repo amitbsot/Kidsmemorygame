@@ -113,7 +113,8 @@
         }
     </style>
 </head>
-<body class="overflow-x-hidden bg-polka text-gray-800">
+<!-- Added touch-manipulation to help prevent double-tap zoom globally -->
+<body class="overflow-x-hidden bg-polka text-gray-800 touch-manipulation">
     <div id="root" class="min-h-screen flex flex-col"></div>
 
     <script type="text/babel" data-presets="react,env">
@@ -455,7 +456,7 @@
                     <main className="flex-1 flex flex-col relative w-full items-center">
                         
                         {/* GAME AREA - Fixed height ratio so scrolling isn't required to play */}
-                        <div className="w-full game-area relative flex items-center justify-center p-2 sm:p-4 shrink-0">
+                        <div className="w-full game-area relative flex flex-col items-center justify-center p-2 sm:p-4 shrink-0">
                             
                             {/* MENU STATES */}
                             {(gameState === 'menu' || gameState === 'level_select') && (
@@ -536,37 +537,46 @@
                                     </div>
 
                                     <div className="flex-1 w-full max-w-2xl min-h-0 flex items-center justify-center pb-2 z-10">
-                                        <div className={`grid gap-2 sm:gap-4 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000`}>
-                                            {cards.map((card, index) => {
-                                                const isMismatched = mismatchIndices.includes(index);
-                                                return (
-                                                <div 
-                                                    key={index} onClick={() => handleCardClick(index)}
-                                                    className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
-                                                >
-                                                    <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
-                                                        <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-xl"></div>
-                                                        <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 4rem)' }}>?</span>
+                                        
+                                        {/* ADDED: Frame container with background and touch-none.
+                                            touch-none prevents scrolling and pinch-to-zoom on this specific area. 
+                                        */}
+                                        <div className="w-full h-full bg-blue-50/60 backdrop-blur-md border-[3px] sm:border-4 border-blue-300 rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-5 shadow-xl touch-none">
+                                            
+                                            <div className={`grid gap-2 sm:gap-4 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000`}>
+                                                {cards.map((card, index) => {
+                                                    const isMismatched = mismatchIndices.includes(index);
+                                                    return (
+                                                    <div 
+                                                        key={index} onClick={() => handleCardClick(index)}
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                    >
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-xl"></div>
+                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 4rem)' }}>?</span>
+                                                        </div>
+                                                        
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                            {selectedCategory === 'abc' ? (
+                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10" style={{ fontSize: 'clamp(2rem, 10vmin, 5rem)' }}>{card.content}</span>
+                                                            ) : (
+                                                                <>
+                                                                    <div className="flex-1 w-full flex items-center justify-center min-h-0 pt-1">
+                                                                        <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(1.5rem, 6vmin, 3.5rem)' }}>{card.content}</span>
+                                                                    </div>
+                                                                    <div className="hidden sm:flex shrink-0 w-full justify-center items-end pb-1 px-1">
+                                                                        <span className="font-extrabold text-blue-600 tracking-wide uppercase bg-white/90 px-2 py-0.5 rounded-full z-10 shadow-sm border border-blue-100 truncate max-w-[95%] text-center" style={{ fontSize: 'clamp(0.6rem, 2vmin, 0.9rem)' }}>{card.label}</span>
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                    
-                                                    <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
-                                                        {selectedCategory === 'abc' ? (
-                                                            <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10" style={{ fontSize: 'clamp(2rem, 10vmin, 5rem)' }}>{card.content}</span>
-                                                        ) : (
-                                                            <>
-                                                                <div className="flex-1 w-full flex items-center justify-center min-h-0 pt-1">
-                                                                    <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(1.5rem, 6vmin, 3.5rem)' }}>{card.content}</span>
-                                                                </div>
-                                                                <div className="hidden sm:flex shrink-0 w-full justify-center items-end pb-1 px-1">
-                                                                    <span className="font-extrabold text-blue-600 tracking-wide uppercase bg-white/90 px-2 py-0.5 rounded-full z-10 shadow-sm border border-blue-100 truncate max-w-[95%] text-center" style={{ fontSize: 'clamp(0.6rem, 2vmin, 0.9rem)' }}>{card.label}</span>
-                                                                </div>
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                );
-                                            })}
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
+                                        {/* END OF FRAME */}
+
                                     </div>
 
                                     {highlightMatch && (
@@ -685,3 +695,4 @@
     </script>
 </body>
 </html>
+
