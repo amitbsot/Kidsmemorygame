@@ -64,13 +64,13 @@
 
         @keyframes bounceMatch {
             0%, 100% { transform: scale(1) rotateY(180deg); }
-            50% { transform: scale(1.1) rotateY(180deg); }
+            50% { transform: scale(1.05) rotateY(180deg); }
         }
         .animate-bounce-match { animation: bounceMatch 0.5s ease-in-out; }
 
         @keyframes bounceUI {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.05); }
         }
         .animate-bounce-ui { animation: bounceUI 0.5s ease-in-out; }
 
@@ -86,10 +86,10 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0) rotateY(180deg); }
-            20% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); }
-            40% { transform: translateX(6px) rotateY(180deg) rotate(3deg); }
-            60% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); }
-            80% { transform: translateX(6px) rotateY(180deg) rotate(3deg); }
+            20% { transform: translateX(-6px) rotateY(180deg) rotate(-2deg); }
+            40% { transform: translateX(6px) rotateY(180deg) rotate(2deg); }
+            60% { transform: translateX(-6px) rotateY(180deg) rotate(-2deg); }
+            80% { transform: translateX(6px) rotateY(180deg) rotate(2deg); }
         }
         .animate-shake { animation: shake 0.5s ease-in-out; }
 
@@ -105,15 +105,9 @@
             100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); }
         }
         
-        /* Specific height for game area to ensure it fits on screen before scrolling */
-        .game-area {
-            height: 70vh;
-            min-height: 500px;
-            max-height: 800px;
-        }
+        /* Removed fixed heights from CSS, we will handle it with Tailwind for max flexibility */
     </style>
 </head>
-<!-- Added touch-manipulation to help prevent double-tap zoom globally -->
 <body class="overflow-x-hidden bg-polka text-gray-800 touch-manipulation">
     <div id="root" class="min-h-screen flex flex-col"></div>
 
@@ -187,7 +181,7 @@
         };
 
         // ==========================================
-        // CONTENT & MODAL COMPONENTS (FOR ADSENSE)
+        // CONTENT & MODAL COMPONENTS
         // ==========================================
 
         const LegalModal = ({ title, content, onClose }) => (
@@ -205,10 +199,10 @@
         );
 
         const Header = () => (
-            <header className="bg-white/90 backdrop-blur-md border-b border-green-200 py-4 px-6 sticky top-0 z-40 flex justify-between items-center shadow-sm">
+            <header className="bg-white/90 backdrop-blur-md border-b border-green-200 py-3 sm:py-4 px-4 sm:px-6 sticky top-0 z-40 flex justify-between items-center shadow-sm">
                 <div className="flex items-center gap-2">
-                    <span className="text-3xl emoji-shadow">🧠</span>
-                    <h1 className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">Kids Memory Game</h1>
+                    <span className="text-2xl sm:text-3xl emoji-shadow">🧠</span>
+                    <h1 className="text-lg sm:text-2xl font-extrabold text-blue-600 tracking-tight">Kids Memory Game</h1>
                 </div>
                 <nav className="hidden sm:flex gap-4 font-bold text-green-600">
                     <a href="#about-game" className="hover:text-blue-500 transition">How to Play</a>
@@ -218,7 +212,7 @@
         );
 
         const SeoContentSection = () => (
-            <article className="seo-content max-w-4xl mx-auto p-6 sm:p-10 bg-white/95 rounded-3xl shadow-xl mt-8 mb-12 border-4 border-green-100">
+            <article className="seo-content max-w-5xl mx-auto p-6 sm:p-10 bg-white/95 rounded-3xl shadow-xl mt-12 mb-12 border-4 border-green-100">
                 <h2 id="about-game" className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-6 text-center">
                     Welcome to the Ultimate Kids Memory Game!
                 </h2>
@@ -266,7 +260,7 @@
         );
 
         // ==========================================
-        // GAME LOGIC (Rest of the original game)
+        // GAME LOGIC
         // ==========================================
 
         let preferredVoice = null;
@@ -353,7 +347,7 @@
         const App = () => {
             const [showAdOverlay, setShowAdOverlay] = useState(true);
             const [pendingAction, setPendingAction] = useState({ fn: () => {} });
-            const [activeModal, setActiveModal] = useState(null); // 'privacy', 'terms', 'contact'
+            const [activeModal, setActiveModal] = useState(null);
 
             const [gameState, setGameState] = useState('menu'); 
             const [selectedCategory, setSelectedCategory] = useState(null);
@@ -453,21 +447,21 @@
 
                     {showAdOverlay && <InterstitialAd onClose={closeAd} />}
 
-                    <main className="flex-1 flex flex-col relative w-full items-center">
+                    <main className="flex-1 w-full flex flex-col items-center">
                         
-                        {/* GAME AREA - Fixed height ratio so scrolling isn't required to play */}
-                        <div className="w-full game-area relative flex flex-col items-center justify-center p-2 sm:p-4 shrink-0">
+                        {/* GAME AREA - Adjusted to fill the maximum possible screen space */}
+                        <div className="w-full flex-1 max-w-7xl mx-auto flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 shrink-0 min-h-[500px] max-h-[calc(100vh-100px)] relative">
                             
                             {/* MENU STATES */}
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-lg w-full text-center border-4 border-yellow-300">
-                                        <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-8 drop-shadow-sm">Select Game</h2>
+                                    <div className="bg-white/95 backdrop-blur-sm rounded-[2rem] shadow-[0_12px_0_rgba(209,213,219,1)] p-8 sm:p-10 max-w-2xl w-full text-center border-4 border-yellow-300">
+                                        <h2 className="text-4xl md:text-5xl font-extrabold text-blue-600 mb-10 drop-shadow-sm">Select Game</h2>
                                         
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
                                                 <div>
-                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                    <div className="grid grid-cols-2 gap-4 sm:gap-6">
                                                         {Object.keys(CATEGORIES).map(key => (
                                                             <button 
                                                                 key={key}
@@ -475,7 +469,7 @@
                                                                     setSelectedCategory(key);
                                                                     setGameState('level_select');
                                                                 }}
-                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg sm:text-xl flex flex-col items-center justify-center gap-1`}
+                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-6 sm:py-8 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-xl sm:text-2xl flex flex-col items-center justify-center gap-1`}
                                                             >
                                                                 <span>{CATEGORIES[key].title}</span>
                                                             </button>
@@ -484,23 +478,23 @@
                                                 </div>
                                             ) : (
                                                 <div className="animate-fade-in">
-                                                    <div className="flex justify-between items-center mb-6">
+                                                    <div className="flex justify-between items-center mb-8">
                                                         <button 
                                                             onClick={() => setGameState('menu')}
-                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-2 px-3 sm:px-4 rounded-xl shadow-sm transition active:scale-95 text-sm"
+                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 px-4 sm:px-6 rounded-xl shadow-sm transition active:scale-95 text-base"
                                                         >⬅️ Back</button>
-                                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
-                                                        <div className="w-[70px] sm:w-[85px]"></div>
+                                                        <h3 className="text-2xl sm:text-3xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <div className="w-[80px] sm:w-[100px]"></div>
                                                     </div>
-                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
                                                         {LEVELS.map((lvl, idx) => (
                                                             <button 
                                                                 key={idx}
                                                                 onClick={() => initGame(selectedCategory, idx)}
-                                                                className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-2 border-yellow-400 font-bold py-4 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-lg flex flex-col items-center"
+                                                                className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-[3px] border-yellow-400 font-bold py-6 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-xl flex flex-col items-center"
                                                             >
                                                                 <span>Stage {lvl.level}</span>
-                                                                <span className="text-xs sm:text-sm font-normal opacity-80 mt-1">{lvl.pairs} Pairs</span>
+                                                                <span className="text-sm sm:text-base font-normal opacity-80 mt-1">{lvl.pairs} Pairs</span>
                                                             </button>
                                                         ))}
                                                     </div>
@@ -513,59 +507,61 @@
 
                             {/* PLAYING STATE */}
                             {(gameState === 'playing' || gameState === 'won') && (
-                                <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4">
+                                <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 lg:p-6 w-full h-full">
                                     {gameState === 'won' && <Confetti />}
                                     
-                                    <div className="w-full max-w-2xl flex justify-between items-center mb-2 mt-1 shrink-0 z-10">
+                                    {/* Top Info Bar - Expanded width */}
+                                    <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-1">
                                         <button 
                                             onClick={() => { setGameState('menu'); setSelectedCategory(null); }}
-                                            className="bg-white text-blue-500 font-bold py-1.5 px-3 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
+                                            className="bg-white text-blue-500 font-bold py-2 px-4 rounded-xl shadow border-[3px] border-blue-200 hover:bg-blue-50 active:scale-95 transition text-sm sm:text-lg"
                                         >Menu</button>
-                                        <h3 className="text-lg sm:text-2xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
-                                        <div className="text-xs sm:text-lg font-bold text-green-600 bg-white px-2 py-1 rounded-xl shadow whitespace-nowrap">
+                                        <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-gray-700 truncate px-2 drop-shadow-sm">Stage {currentLevelIndex + 1}</h3>
+                                        <div className="text-sm sm:text-xl lg:text-2xl font-bold text-green-600 bg-white px-4 py-2 rounded-xl shadow whitespace-nowrap border-[3px] border-green-100">
                                             Pairs: {matches} / {currentLevel.pairs}
                                         </div>
                                     </div>
 
-                                    <div className="w-full max-w-2xl bg-white border-2 border-gray-100 rounded-full h-2 sm:h-4 mb-2 shrink-0 shadow-inner overflow-hidden relative z-10">
+                                    {/* Progress Bar - Expanded width */}
+                                    <div className="w-full bg-white border-[3px] border-gray-100 rounded-full h-3 sm:h-5 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
                                         <div 
-                                            className="bg-green-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
+                                            className="bg-gradient-to-r from-green-300 to-green-500 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-2"
                                             style={{width: `${Math.max(5, (matches / currentLevel.pairs) * 100)}%`}}
                                         >
-                                            {matches > 0 && <span className="text-[8px] text-white font-bold animate-fade-in">⭐</span>}
+                                            {matches > 0 && <span className="text-[10px] sm:text-[14px] text-white font-bold animate-fade-in drop-shadow-md">⭐</span>}
                                         </div>
                                     </div>
 
-                                    <div className="flex-1 w-full max-w-2xl min-h-0 flex items-center justify-center pb-2 z-10">
-                                        
-                                        {/* ADDED: Frame container with background and touch-none.
-                                            touch-none prevents scrolling and pinch-to-zoom on this specific area. 
-                                        */}
-                                        <div className="w-full h-full bg-blue-50/60 backdrop-blur-md border-[3px] sm:border-4 border-blue-300 rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-5 shadow-xl touch-none">
+                                    {/* GAME BOARD FRAME - Expanded and responsive */}
+                                    <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
+                                        <div className="w-full h-full bg-blue-50/70 backdrop-blur-md border-[4px] sm:border-[6px] lg:border-[8px] border-blue-300/80 rounded-[1.5rem] sm:rounded-[2.5rem] lg:rounded-[3.5rem] p-3 sm:p-5 md:p-6 lg:p-8 shadow-2xl touch-none flex flex-col justify-center">
                                             
-                                            <div className={`grid gap-2 sm:gap-4 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000`}>
+                                            {/* Dynamic Grid */}
+                                            <div className={`grid gap-2 sm:gap-4 md:gap-5 lg:gap-6 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto`}>
                                                 {cards.map((card, index) => {
                                                     const isMismatched = mismatchIndices.includes(index);
                                                     return (
                                                     <div 
                                                         key={index} onClick={() => handleCardClick(index)}
-                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-95' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
-                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
-                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-xl"></div>
-                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 4rem)' }}>?</span>
+                                                        {/* Front of card (Hidden) */}
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-500 rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] shadow-[0_6px_0_rgba(217,119,6,1)] sm:shadow-[0_8px_0_rgba(217,119,6,1)] border-[3px] sm:border-[5px] border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-3 lg:inset-4 border-2 lg:border-[4px] border-dashed border-white/50 rounded-[1rem] sm:rounded-[1.5rem] lg:rounded-[2rem]"></div>
+                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(3rem, 15vmin, 8rem)' }}>?</span>
                                                         </div>
                                                         
-                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-2xl sm:rounded-3xl shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                        {/* Back of card (Revealed) */}
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] shadow-[0_6px_0_rgba(147,197,253,1)] sm:shadow-[0_8px_0_rgba(147,197,253,1)] border-[3px] sm:border-[5px] border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
                                                             {selectedCategory === 'abc' ? (
-                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10" style={{ fontSize: 'clamp(2rem, 10vmin, 5rem)' }}>{card.content}</span>
+                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10" style={{ fontSize: 'clamp(4rem, 20vmin, 12rem)' }}>{card.content}</span>
                                                             ) : (
                                                                 <>
-                                                                    <div className="flex-1 w-full flex items-center justify-center min-h-0 pt-1">
-                                                                        <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(1.5rem, 6vmin, 3.5rem)' }}>{card.content}</span>
+                                                                    <div className="flex-1 w-full flex items-center justify-center min-h-0 pt-2 lg:pt-4">
+                                                                        <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(3rem, 15vmin, 10rem)' }}>{card.content}</span>
                                                                     </div>
-                                                                    <div className="hidden sm:flex shrink-0 w-full justify-center items-end pb-1 px-1">
-                                                                        <span className="font-extrabold text-blue-600 tracking-wide uppercase bg-white/90 px-2 py-0.5 rounded-full z-10 shadow-sm border border-blue-100 truncate max-w-[95%] text-center" style={{ fontSize: 'clamp(0.6rem, 2vmin, 0.9rem)' }}>{card.label}</span>
+                                                                    <div className="hidden sm:flex shrink-0 w-full justify-center items-end pb-2 lg:pb-4 px-2">
+                                                                        <span className="font-extrabold text-blue-600 tracking-wide uppercase bg-white/90 px-3 py-1 lg:px-4 lg:py-2 rounded-full z-10 shadow-sm border-2 border-blue-100 truncate max-w-[90%] text-center" style={{ fontSize: 'clamp(1rem, 4vmin, 2rem)' }}>{card.label}</span>
                                                                     </div>
                                                                 </>
                                                             )}
@@ -574,35 +570,36 @@
                                                     );
                                                 })}
                                             </div>
-                                        </div>
-                                        {/* END OF FRAME */}
 
+                                        </div>
                                     </div>
 
+                                    {/* Highlight Match Overlay */}
                                     {highlightMatch && (
-                                        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none">
-                                            <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
-                                                <span className="text-[6rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40 backdrop-blur-sm animate-fade-in pointer-events-none">
+                                            <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[4rem] p-12 sm:p-16 lg:p-24 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-[12px] border-yellow-300">
+                                                <span className="leading-none mb-6 emoji-shadow" style={{ fontSize: 'clamp(8rem, 25vmin, 15rem)' }}>{highlightMatch.content}</span>
                                                 {selectedCategory !== 'abc' && (
-                                                    <span className="text-3xl font-black text-blue-600 uppercase tracking-widest bg-white px-8 py-3 rounded-full shadow-md border-2 border-blue-100">{highlightMatch.label}</span>
+                                                    <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-lg border-[4px] border-blue-100">{highlightMatch.label}</span>
                                                 )}
                                             </div>
                                         </div>
                                     )}
 
+                                    {/* Win Screen Overlay */}
                                     {gameState === 'won' && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-40 backdrop-blur-md p-4 animate-fade-in">
-                                            <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
-                                                <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
-                                                <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-40 backdrop-blur-md p-4 animate-fade-in">
+                                            <div className="bg-gradient-to-br from-white to-green-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl text-center max-w-2xl w-full border-[10px] border-yellow-400 transform scale-100 animate-bounce-ui">
+                                                <h2 className="text-5xl sm:text-6xl font-black text-green-500 mb-4 emoji-shadow">Awesome! 🎉</h2>
+                                                <p className="text-2xl sm:text-3xl text-gray-700 mb-8 font-bold">You found all the pairs!</p>
                                                 
-                                                <div className="flex flex-col gap-3">
+                                                <div className="flex flex-col gap-4">
                                                     {currentLevelIndex < LEVELS.length - 1 ? (
-                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, currentLevelIndex + 1))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, currentLevelIndex + 1))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-extrabold py-5 px-8 rounded-3xl shadow-lg transform transition active:scale-95 text-2xl sm:text-3xl flex justify-center items-center gap-3">Next Stage Now ➡️</button>
                                                     ) : (
-                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, 0))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, 0))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-extrabold py-5 px-8 rounded-3xl shadow-lg transform transition active:scale-95 text-2xl sm:text-3xl">Play Again</button>
                                                     )}
-                                                    <button onClick={() => { setGameState('menu'); setSelectedCategory(null); }} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                    <button onClick={() => { setGameState('menu'); setSelectedCategory(null); }} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 px-8 rounded-3xl shadow transform transition active:scale-95 text-xl sm:text-2xl">Main Menu</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -611,7 +608,7 @@
                             )}
                         </div>
 
-                        {/* SEO CONTENT SECTION - This is what Google Bots read */}
+                        {/* SEO CONTENT SECTION */}
                         <SeoContentSection />
 
                     </main>
@@ -695,4 +692,5 @@
     </script>
 </body>
 </html>
+
 
