@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kids Memory Game - Fun & Educational Brain Training</title>
     
-    <!-- SEO Meta Tags for AdSense & Google Search -->
     <meta name="description" content="Play the best free online memory game for kids. Improve cognitive skills, learn ABCs, colors, fruits, shapes, and more with our fun and educational matching game.">
     <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
     <meta name="author" content="Kids Learning Games">
@@ -17,9 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.3/babel.min.js"></script>
-
-    <!-- Google AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_CLIENT_ID" crossorigin="anonymous"></script>
 
     <style>
         * {
@@ -35,11 +31,9 @@
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0fdf4;
-            /* Allow vertical scrolling only, explicitly disable pinch-to-zoom everywhere */
             touch-action: pan-y;
         }
 
-        /* Allow text selection ONLY in the SEO/Legal articles so AdSense bots can read it easily */
         .seo-content, .legal-content {
             -webkit-user-select: text;
             -moz-user-select: text;
@@ -105,15 +99,6 @@
             0% { opacity: 1; top: -10%; transform: translateX(0) rotate(0deg); }
             100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); }
         }
-        
-        /* Game area fully adjusted to viewport height for fullscreen feel */
-        .game-area {
-            width: 100%;
-            /* 100dvh accounts for mobile browser address bars. Subtracting header (~70px) and ad (~50px) */
-            height: calc(100vh - 140px);
-            height: calc(100dvh - 140px);
-            min-height: 400px;
-        }
     </style>
 </head>
 <body class="overflow-x-hidden bg-polka text-gray-800">
@@ -121,76 +106,6 @@
 
     <script type="text/babel" data-presets="react,env">
         const { useState, useEffect, useRef } = React;
-
-        // ==========================================
-        // AD COMPONENTS
-        // ==========================================
-
-        const BannerAd = () => {
-            useEffect(() => {
-                try {
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) { console.log("AdSense error (expected if local)", e); }
-            }, []);
-
-            return (
-                <div className="w-full h-[50px] bg-white/80 backdrop-blur border-b border-green-200 flex justify-center items-center shrink-0 overflow-hidden relative z-10">
-                    <span className="absolute text-xs text-gray-400">Advertisement</span>
-                    <ins className="adsbygoogle relative z-10"
-                         style={{ display: "inline-block", width: "320px", height: "50px" }}
-                         data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
-                         data-ad-slot="YOUR_BANNER_SLOT_ID"></ins>
-                </div>
-            );
-        };
-
-        const InterstitialAd = ({ onClose }) => {
-            const [timeLeft, setTimeLeft] = useState(5);
-
-            useEffect(() => {
-                try {
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) { console.log("AdSense error (expected if local)", e); }
-
-                const timer = setInterval(() => {
-                    setTimeLeft(prev => {
-                        if (prev <= 1) clearInterval(timer);
-                        return prev - 1;
-                    });
-                }, 1000);
-                
-                return () => clearInterval(timer);
-            }, []);
-
-            return (
-                <div className="fixed inset-0 z-[100] bg-white flex flex-col">
-                    <div className="w-full p-4 flex justify-between items-center bg-gray-50 border-b border-gray-200">
-                        <span className="text-gray-500 font-bold text-sm">Advertisement</span>
-                        <button 
-                            onClick={onClose} 
-                            disabled={timeLeft > 0}
-                            className={`px-4 py-2 rounded-full font-bold transition ${timeLeft > 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600 text-white shadow-md active:scale-95'}`}
-                        >
-                            {timeLeft > 0 ? `Wait ${timeLeft}s...` : 'X Close'}
-                        </button>
-                    </div>
-                    
-                    <div className="flex-1 flex justify-center items-center bg-gray-100 relative p-4">
-                        <span className="absolute text-xl text-gray-400">Ad Loading...</span>
-                        <ins className="adsbygoogle relative z-10"
-                             style={{ display: "block", width: "100%", height: "100%", maxHeight: "600px" }}
-                             data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
-                             data-ad-slot="YOUR_FULLPAGE_SLOT_ID"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                    </div>
-                </div>
-            );
-        };
-
-        // ==========================================
-        // CONTENT & MODAL COMPONENTS (FOR ADSENSE)
-        // ==========================================
 
         const LegalModal = ({ title, content, onClose }) => (
             <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
@@ -238,9 +153,11 @@
                         <li><strong>Safe & Educational:</strong> Designed with young children in mind, featuring child-friendly navigation and no confusing external links.</li>
                     </ul>
 
-                    <h3 id="features" className="text-2xl font-bold text-yellow-500 mt-8 mb-4 border-b-2 border-yellow-100 pb-2">🌟 Explore Five Fun Categories</h3>
-                    <p>We offer diverse categories to keep your child engaged while learning new concepts:</p>
+                    <h3 id="features" className="text-2xl font-bold text-yellow-500 mt-8 mb-4 border-b-2 border-yellow-100 pb-2">🌟 Explore Six Fun Categories</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                            <strong>🐶 Animals:</strong> Discover cute animals and learn their names!
+                        </div>
                         <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
                             <strong>🔤 Letters (ABC):</strong> Master the English alphabet. Great for early reading preparation.
                         </div>
@@ -253,16 +170,10 @@
                         <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
                             <strong>⭐ Shapes:</strong> Identify geometric shapes like circles, squares, and triangles.
                         </div>
-                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100 sm:col-span-2 text-center">
+                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
                             <strong>🚗 Vehicles:</strong> From cars to rockets, learn about transportation!
                         </div>
                     </div>
-
-                    <h3 className="text-2xl font-bold text-purple-500 mt-8 mb-4 border-b-2 border-purple-100 pb-2">🎮 How to Play</h3>
-                    <p>
-                        Playing is simple! Choose a category from the main menu, then select a difficulty stage. Stage 1 starts with a simple 2-pair board, perfect for beginners. As you progress to Stage 5, the board expands to 8 pairs. 
-                        Click or tap a card to reveal its picture. Try to remember its position and find its matching pair. Match all the cards to win the level and enjoy the confetti celebration!
-                    </p>
                 </div>
             </article>
         );
@@ -287,20 +198,21 @@
         }
 
         const CATEGORIES = {
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [{ content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }] },
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [{ content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }] },
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [{ content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }] },
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [{ content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }] },
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [{ content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }] }
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [{ content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }] },
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [{ content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }] },
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [{ content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }] },
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [{ content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }] },
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [{ content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }] },
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [{ content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }] }
         };
 
-        // Enhanced for landscape support (iPad/Desktop). Wider layouts distribute cards horizontally.
+        // Levels mapped to create optimal grids. Stage 4 uses 4 rows by 5 columns for landscape iPad layout.
         const LEVELS = [
-            { level: 1, pairs: 2, cols: 'grid-cols-2 md:grid-cols-4', rows: 'grid-rows-2 md:grid-rows-1' },
-            { level: 2, pairs: 3, cols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-6', rows: 'grid-rows-3 sm:grid-rows-2 md:grid-rows-1' },
-            { level: 3, pairs: 4, cols: 'grid-cols-2 sm:grid-cols-4 md:grid-cols-4', rows: 'grid-rows-4 sm:grid-rows-2 md:grid-rows-2' },
-            { level: 4, pairs: 6, cols: 'grid-cols-3 sm:grid-cols-4 md:grid-cols-6', rows: 'grid-rows-4 sm:grid-rows-3 md:grid-rows-2' },
-            { level: 5, pairs: 8, cols: 'grid-cols-4 lg:grid-cols-8', rows: 'grid-rows-4 lg:grid-rows-2' }
+            { level: 1, pairs: 3, cols: 'grid-cols-2 sm:grid-cols-3', rows: 'grid-rows-3 sm:grid-rows-2' },
+            { level: 2, pairs: 6, cols: 'grid-cols-3 sm:grid-cols-4', rows: 'grid-rows-4 sm:grid-rows-3' },
+            { level: 3, pairs: 8, cols: 'grid-cols-4', rows: 'grid-rows-4' },
+            { level: 4, pairs: 10, cols: 'grid-cols-4 md:grid-cols-5', rows: 'grid-rows-5 md:grid-rows-4' },
+            { level: 5, pairs: 12, cols: 'grid-cols-4 md:grid-cols-6', rows: 'grid-rows-6 md:grid-rows-4' }
         ];
 
         const playVoice = (text) => {
@@ -354,10 +266,7 @@
         };
 
         const App = () => {
-            const [showAdOverlay, setShowAdOverlay] = useState(true);
-            const [pendingAction, setPendingAction] = useState({ fn: () => {} });
             const [activeModal, setActiveModal] = useState(null); 
-
             const [gameState, setGameState] = useState('menu'); 
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
@@ -367,19 +276,6 @@
             const [matches, setMatches] = useState(0);
             const [isLocked, setIsLocked] = useState(false);
             const [highlightMatch, setHighlightMatch] = useState(null); 
-
-            const runWithAd = (actionFn) => {
-                setPendingAction({ fn: actionFn });
-                setShowAdOverlay(true);
-            };
-
-            const closeAd = () => {
-                setShowAdOverlay(false);
-                if (pendingAction.fn) {
-                    pendingAction.fn();
-                    setPendingAction({ fn: () => {} });
-                }
-            };
 
             const initGame = (categoryKey, levelIdx) => {
                 const category = CATEGORIES[categoryKey];
@@ -400,27 +296,41 @@
                 setHighlightMatch(null);
                 setGameState('playing');
                 
-                // Scroll game to view
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
             const handleCardClick = (index) => {
                 if (isLocked || cards[index].isFlipped || cards[index].isMatched) return;
-                playVoice(cards[index].spokenLabel || cards[index].label);
 
-                setCards(prev => prev.map((c, i) => i === index ? { ...c, isFlipped: true } : c));
                 const newFlippedIndices = [...flippedIndices, index];
+                setCards(prev => prev.map((c, i) => i === index ? { ...c, isFlipped: true } : c));
                 setFlippedIndices(newFlippedIndices);
 
-                if (newFlippedIndices.length === 2) {
+                if (newFlippedIndices.length === 1) {
+                    // First card - Say the name aloud
+                    playVoice(cards[index].spokenLabel || cards[index].label);
+                } 
+                else if (newFlippedIndices.length === 2) {
                     setIsLocked(true);
                     const [firstIndex, secondIndex] = newFlippedIndices;
                     const isMatch = cards[firstIndex].label === cards[secondIndex].label;
+
+                    if (!isMatch) {
+                        // Second card is a mismatch - Say its name aloud immediately
+                        playVoice(cards[secondIndex].spokenLabel || cards[secondIndex].label);
+                    }
+                    // If it IS a match, do NOT say anything yet. Wait for the big card display.
 
                     setTimeout(() => {
                         if (isMatch) {
                             playDing();
                             setHighlightMatch(cards[firstIndex]);
+                            
+                            // Say the name of the matched pair when the BIG card is displayed
+                            setTimeout(() => {
+                                playVoice(cards[firstIndex].spokenLabel || cards[firstIndex].label);
+                            }, 100);
+
                             setTimeout(() => {
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
                                 setFlippedIndices([]); setMatches(m => m + 1); setHighlightMatch(null); setIsLocked(false);
@@ -437,6 +347,7 @@
             };
 
             const currentLevel = LEVELS[currentLevelIndex];
+            const isPlaying = gameState === 'playing' || gameState === 'won';
 
             useEffect(() => {
                 let winTimer;
@@ -451,15 +362,13 @@
 
             return (
                 <>
-                    <Header />
-                    <BannerAd />
+                    {/* Hide the main header during gameplay to maximize screen real estate on iPads */}
+                    {!isPlaying && <Header />}
 
-                    {showAdOverlay && <InterstitialAd onClose={closeAd} />}
-
-                    <main className="flex-1 flex flex-col relative w-full items-center">
+                    {/* Main area - Takes 100dvh (full screen) when playing */}
+                    <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
                         
-                        {/* GAME AREA - Adjusted width & height for fullscreen landscape fit */}
-                        <div className="w-full max-w-7xl mx-auto game-area relative flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 shrink-0">
+                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4 md:p-6 lg:p-8'}`}>
                             
                             {/* MENU STATES */}
                             {(gameState === 'menu' || gameState === 'level_select') && (
@@ -470,7 +379,7 @@
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
                                                 <div>
-                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                                                         {Object.keys(CATEGORIES).map(key => (
                                                             <button 
                                                                 key={key}
@@ -478,9 +387,10 @@
                                                                     setSelectedCategory(key);
                                                                     setGameState('level_select');
                                                                 }}
-                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg sm:text-xl flex flex-col items-center justify-center gap-1`}
+                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
                                                             >
-                                                                <span>{CATEGORIES[key].title}</span>
+                                                                <span className="text-3xl mb-1">{CATEGORIES[key].items[0].content}</span>
+                                                                <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
                                                             </button>
                                                         ))}
                                                     </div>
@@ -515,7 +425,7 @@
                             )}
 
                             {/* PLAYING STATE */}
-                            {(gameState === 'playing' || gameState === 'won') && (
+                            {isPlaying && (
                                 <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full">
                                     {gameState === 'won' && <Confetti />}
                                     
@@ -539,7 +449,7 @@
                                         </div>
                                     </div>
 
-                                    {/* GAME BOARD FRAME & GRID - touch-none prevents scrolling/zooming entirely within the board */}
+                                    {/* GAME BOARD FRAME & GRID */}
                                     <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
                                         <div className="w-full h-full bg-blue-50/70 backdrop-blur-md border-[4px] sm:border-[6px] lg:border-[8px] border-blue-300/80 rounded-[1.5rem] sm:rounded-[2.5rem] lg:rounded-[3.5rem] p-3 sm:p-5 md:p-6 lg:p-8 shadow-2xl touch-none flex flex-col justify-center">
                                             <div className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
@@ -550,24 +460,17 @@
                                                         key={index} onClick={() => handleCardClick(index)}
                                                         className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
+                                                        {/* Card Back (Hidden until flipped) */}
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
                                                             <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
                                                             <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
                                                         
+                                                        {/* Card Front (Shows Image ONLY as requested) */}
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(147,197,253,1)] sm:shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-[3px] lg:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
-                                                            {selectedCategory === 'abc' ? (
-                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
-                                                            ) : (
-                                                                <>
-                                                                    <div className="flex-1 w-full flex items-center justify-center min-h-0 pt-1">
-                                                                        <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(1.5rem, 6vmin, 4rem)' }}>{card.content}</span>
-                                                                    </div>
-                                                                    <div className="hidden sm:flex shrink-0 w-full justify-center items-end pb-1 lg:pb-2 px-1">
-                                                                        <span className="font-extrabold text-blue-600 tracking-wide uppercase bg-white/90 px-2 py-0.5 rounded-full z-10 shadow-sm border border-blue-100 truncate max-w-[95%] text-center" style={{ fontSize: 'clamp(0.6rem, 2vmin, 1rem)' }}>{card.label}</span>
-                                                                    </div>
-                                                                </>
-                                                            )}
+                                                            <div className="flex-1 w-full flex items-center justify-center h-full">
+                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     );
@@ -576,12 +479,13 @@
                                         </div>
                                     </div>
 
+                                    {/* HIGHLIGHT MATCH (Big Card showing BOTH Image AND Word as requested) */}
                                     {highlightMatch && (
                                         <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none">
                                             <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
-                                                <span className="text-[6rem] sm:text-[8rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                                <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
                                                 {selectedCategory !== 'abc' && (
-                                                    <span className="text-2xl sm:text-4xl font-black text-blue-600 uppercase tracking-widest bg-white px-8 py-3 rounded-full shadow-md border-2 border-blue-100">{highlightMatch.label}</span>
+                                                    <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100">{highlightMatch.label}</span>
                                                 )}
                                             </div>
                                         </div>
@@ -595,9 +499,9 @@
                                                 
                                                 <div className="flex flex-col gap-3">
                                                     {currentLevelIndex < LEVELS.length - 1 ? (
-                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, currentLevelIndex + 1))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                        <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
                                                     ) : (
-                                                        <button onClick={() => runWithAd(() => initGame(selectedCategory, 0))} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                        <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
                                                     )}
                                                     <button onClick={() => { setGameState('menu'); setSelectedCategory(null); }} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
                                                 </div>
@@ -608,27 +512,28 @@
                             )}
                         </div>
 
-                        {/* SEO CONTENT SECTION - This is what Google Bots read */}
-                        <SeoContentSection />
+                        {/* SEO CONTENT SECTION - Hidden during gameplay for maximum immersion */}
+                        {!isPlaying && <SeoContentSection />}
 
                     </main>
 
-                    {/* FOOTER & LEGAL LINKS */}
-                    <footer className="bg-white border-t border-gray-200 mt-auto">
-                        <div className="max-w-6xl mx-auto px-4 py-8">
-                            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                                <div className="text-gray-500 text-sm text-center md:text-left">
-                                    &copy; {new Date().getFullYear()} Kids Memory Game. All rights reserved.<br/>
-                                    Educational web games for toddlers and preschoolers.
-                                </div>
-                                <div className="flex gap-6 text-sm font-semibold text-blue-600">
-                                    <button onClick={() => setActiveModal('privacy')} className="hover:underline">Privacy Policy</button>
-                                    <button onClick={() => setActiveModal('terms')} className="hover:underline">Terms of Use</button>
-                                    <button onClick={() => setActiveModal('contact')} className="hover:underline">Contact Us</button>
+                    {/* FOOTER & LEGAL LINKS - Hidden during gameplay */}
+                    {!isPlaying && (
+                        <footer className="bg-white border-t border-gray-200 mt-auto">
+                            <div className="max-w-6xl mx-auto px-4 py-8">
+                                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                                    <div className="text-gray-500 text-sm text-center md:text-left">
+                                        &copy; {new Date().getFullYear()} Kids Memory Game. All rights reserved.<br/>
+                                        Educational web games for toddlers and preschoolers.
+                                    </div>
+                                    <div className="flex gap-6 text-sm font-semibold text-blue-600">
+                                        <button onClick={() => setActiveModal('privacy')} className="hover:underline">Privacy Policy</button>
+                                        <button onClick={() => setActiveModal('terms')} className="hover:underline">Terms of Use</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </footer>
+                        </footer>
+                    )}
 
                     {/* MODALS FOR LEGAL CONTENT */}
                     {activeModal === 'privacy' && (
@@ -639,12 +544,7 @@
                                 <div>
                                     <p><strong>Last Updated:</strong> Today</p>
                                     <p>Welcome to Kids Memory Game. We are committed to protecting your privacy and ensuring a safe online environment for children.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">1. Information We Collect</h3>
-                                    <p>We do not collect any Personally Identifiable Information (PII) from children. The game runs entirely in your web browser. We do not require account creation, emails, or names to play.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">2. Cookies and Third-Party Advertising</h3>
-                                    <p>We use Google AdSense to display advertisements. Google uses cookies to serve ads based on prior visits to our website or other websites. Because our site is designated as "Child-Directed" (COPPA compliant), personalized advertising is disabled, and ads are contextual.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">3. COPPA Compliance</h3>
-                                    <p>We comply with the Children's Online Privacy Protection Act (COPPA). We do not knowingly collect personal data from children under 13.</p>
+                                    <p>We do not collect any Personally Identifiable Information (PII) from children. The game runs entirely in your web browser.</p>
                                 </div>
                             }
                         />
@@ -657,28 +557,7 @@
                             content={
                                 <div>
                                     <p>By accessing and playing Kids Memory Game, you accept these terms of use.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">1. Usage</h3>
                                     <p>This game is provided free of charge for educational and entertainment purposes.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">2. Intellectual Property</h3>
-                                    <p>The code, design, and structure of this game are protected by copyright. You may not copy or redistribute the game without permission.</p>
-                                    <h3 className="font-bold text-lg mt-4 text-gray-800">3. Disclaimer</h3>
-                                    <p>The game is provided "as is" without warranties of any kind. We are not responsible for any technical issues that occur while playing.</p>
-                                </div>
-                            }
-                        />
-                    )}
-
-                    {activeModal === 'contact' && (
-                        <LegalModal 
-                            title="Contact Us" 
-                            onClose={() => setActiveModal(null)}
-                            content={
-                                <div>
-                                    <p>If you have any questions, feedback, or concerns regarding the Kids Memory Game or our Privacy Policy, please reach out to us.</p>
-                                    <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 text-center">
-                                        <p className="font-bold text-lg text-blue-800">Email us at:</p>
-                                        <p className="text-blue-600 text-xl mt-2">contact.kidsmemorygame@gmail.com</p>
-                                    </div>
                                 </div>
                             }
                         />
