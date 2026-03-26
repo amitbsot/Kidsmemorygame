@@ -98,13 +98,15 @@
             100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); }
         }
         
-        /* Fullscreen utilities */
+        /* Fullscreen utilities - Now with strict gesture prevention for iPad */
         .fullscreen-active {
             width: 100vw !important;
             height: 100vh !important;
             border-radius: 0 !important;
             border: none !important;
             padding: 2rem !important;
+            touch-action: none !important;
+            overscroll-behavior: none !important;
         }
     </style>
 </head>
@@ -273,7 +275,7 @@
                 id: i, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 2}s`, animationDuration: `${Math.random() * 2 + 2}s`, backgroundColor: colors[Math.floor(Math.random() * colors.length)]
             }));
             return (
-                <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
+                <div className="absolute inset-0 pointer-events-none z-[70] overflow-hidden">
                     {pieces.map(p => <div key={p.id} className="confetti rounded-full" style={{ left: p.left, backgroundColor: p.backgroundColor, animation: `fall ${p.animationDuration} linear ${p.animationDelay} infinite` }} /> )}
                 </div>
             );
@@ -305,7 +307,7 @@
                 return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
             }, []);
 
-            const toggleFullscreen = (e) => {
+            const enterFullscreen = (e) => {
                 e.stopPropagation();
                 if (!document.fullscreenElement) {
                     if (boardRef.current && boardRef.current.requestFullscreen) {
@@ -313,7 +315,12 @@
                             console.error(`Error attempting to enable fullscreen: ${err.message}`);
                         });
                     }
-                } else {
+                }
+            };
+
+            const exitFullscreen = (e) => {
+                e.stopPropagation();
+                if (document.fullscreenElement) {
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
                     }
@@ -488,7 +495,6 @@
                             {/* PLAYING STATE */}
                             {isPlaying && (
                                 <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full">
-                                    {gameState === 'won' && <Confetti />}
                                     
                                     <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-2">
                                         <button 
@@ -519,20 +525,21 @@
                                             
                                             {/* FULLSCREEN BUTTON */}
                                             <button 
-                                                onClick={toggleFullscreen}
+                                                onClick={!isFullscreen ? enterFullscreen : undefined}
+                                                onDoubleClick={isFullscreen ? exitFullscreen : undefined}
                                                 style={{
                                                     position: 'absolute',
-                                                    top: '12px',
-                                                    right: '12px',
-                                                    width: isFullscreen ? '5px' : '10px',
-                                                    height: isFullscreen ? '5px' : '10px',
+                                                    top: '15px',
+                                                    right: '15px',
+                                                    width: 'max(20px, 3%)',
+                                                    height: 'max(20px, 3%)',
                                                     background: 'transparent',
                                                     border: 'none',
                                                     padding: 0,
                                                     cursor: 'pointer',
-                                                    zIndex: 50
+                                                    zIndex: 80
                                                 }}
-                                                title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                                                title={isFullscreen ? "Double Click to Exit Fullscreen" : "Fullscreen"}
                                             >
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{width: '100%', height: '100%', color: '#3b82f6'}}>
                                                     {isFullscreen ? (
@@ -565,39 +572,43 @@
                                                     );
                                                 })}
                                             </div>
+
+                                            {/* HIGHLIGHT MATCH (Moved Inside Board) */}
+                                            {highlightMatch && (
+                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
+                                                    <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
+                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                                        {selectedCategory !== 'abc' && (
+                                                            <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100">{highlightMatch.label}</span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* WON STATE (Moved Inside Board) */}
+                                            {gameState === 'won' && (
+                                                <>
+                                                    <Confetti />
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md p-4 animate-fade-in rounded-inherit">
+                                                        <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
+                                                            <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
+                                                            <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                            
+                                                            <div className="flex flex-col gap-3">
+                                                                {currentLevelIndex < LEVELS.length - 1 ? (
+                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                                ) : (
+                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                                )}
+                                                                <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+
                                         </div>
                                     </div>
-
-                                    {/* HIGHLIGHT MATCH */}
-                                    {highlightMatch && (
-                                        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none">
-                                            <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
-                                                <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
-                                                {selectedCategory !== 'abc' && (
-                                                    <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100">{highlightMatch.label}</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* WON STATE */}
-                                    {gameState === 'won' && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-40 backdrop-blur-md p-4 animate-fade-in">
-                                            <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
-                                                <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
-                                                <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
-                                                
-                                                <div className="flex flex-col gap-3">
-                                                    {currentLevelIndex < LEVELS.length - 1 ? (
-                                                        <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
-                                                    ) : (
-                                                        <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
-                                                    )}
-                                                    <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             )}
                         </div>
