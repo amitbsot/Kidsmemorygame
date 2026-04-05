@@ -1,0 +1,14 @@
+{
+  "name": "kidsmemorygame",
+  "version": "1.0.0",
+  "description": "Kids Memory Game - Fun & Educational Brain Training",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static HTML project - no build needed'",
+    "lint": "echo 'No linter configured for static HTML project'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
