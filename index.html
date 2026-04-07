@@ -9,23 +9,31 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Memory Game">
     
-    <link rel="apple-touch-icon" href="IMG_8097.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="IMG_8097.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="IMG_8097.png">
+    <link rel="apple-touch-icon" href="IMG_8097.png?v=2">
+    <link rel="icon" type="image/png" sizes="192x192" href="IMG_8097.png?v=2">
+    <link rel="icon" type="image/png" sizes="512x512" href="IMG_8097.png?v=2">
     
     <link rel="manifest" href="manifest.json">
 
     <meta name="description" content="Play the best free online memory game for kids. Improve cognitive skills, learn ABCs, colors, fruits, shapes, and more with our fun and educational matching game.">
     <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
     <meta name="author" content="Kids Learning Games">
-
+    
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    
     <script src="react.production.min.js"></script>
     <script src="react-dom.production.min.js"></script>
     <script src="babel.min.js"></script>
     <script src="tailwind.js"></script>
 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
-        /* ה-CSS המקורי שלך ללא שינוי */
+        /* ה-CSS המקורי נשמר */
         * {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -34,37 +42,101 @@
             -ms-user-select: none;
             user-select: none;
         }
-        body, html { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0fdf4; touch-action: pan-y; }
-        .seo-content, .legal-content { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+
+        body, html {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0fdf4;
+            touch-action: pan-y;
+        }
+
+        .seo-content, .legal-content {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
         .rotate-y-180 { transform: rotateY(180deg); }
+        
         .transition-transform { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounceMatch { 0%, 100% { transform: scale(1) rotateY(180deg); } 50% { transform: scale(1.1) rotateY(180deg); } }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceMatch {
+            0%, 100% { transform: scale(1) rotateY(180deg); }
+            50% { transform: scale(1.1) rotateY(180deg); }
+        }
         .animate-bounce-match { animation: bounceMatch 0.5s ease-in-out; }
-        @keyframes bounceUI { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+        @keyframes bounceUI {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
         .animate-bounce-ui { animation: bounceUI 0.5s ease-in-out; }
-        .bg-polka { background-color: #f0fdf4; background-image: radial-gradient(#bbf7d0 3px, transparent 3px); background-size: 40px 40px; }
-        .emoji-shadow { filter: drop-shadow(0px 8px 8px rgba(0,0,0,0.15)); }
-        @keyframes shake { 0%, 100% { transform: translateX(0) rotateY(180deg); } 20% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); } 40% { transform: translateX(6px) rotateY(180deg) rotate(3deg); } 60% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); } 80% { transform: translateX(6px) rotateY(180deg) rotate(3deg); } }
+
+        .bg-polka {
+            background-color: #f0fdf4;
+            background-image: radial-gradient(#bbf7d0 3px, transparent 3px);
+            background-size: 40px 40px;
+        }
+        
+        .emoji-shadow {
+            filter: drop-shadow(0px 8px 8px rgba(0,0,0,0.15));
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotateY(180deg); }
+            20% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); }
+            40% { transform: translateX(6px) rotateY(180deg) rotate(3deg); }
+            60% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); }
+            80% { transform: translateX(6px) rotateY(180deg) rotate(3deg); }
+        }
         .animate-shake { animation: shake 0.5s ease-in-out; }
-        .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; opacity: 0; }
-        @keyframes fall { 0% { opacity: 1; top: -10%; transform: translateX(0) rotate(0deg); } 100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); } }
-        .fullscreen-active { width: 100vw !important; height: 100vh !important; border-radius: 0 !important; border: none !important; padding: 2rem !important; touch-action: none !important; overscroll-behavior: none !important; }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+        @keyframes fall {
+            0% { opacity: 1; top: -10%; transform: translateX(0) rotate(0deg); }
+            100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); }
+        }
+        
+        .fullscreen-active {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            padding: 2rem !important;
+            touch-action: none !important;
+            overscroll-behavior: none !important;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden bg-polka text-gray-800">
-
-    <button id="installApp" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 100;" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition active:scale-95 text-lg flex items-center gap-2 bounceUI animate-bounce-ui">
+    
+    <button id="installApp" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 100;" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition active:scale-95 text-lg flex items-center gap-2 bounceUI animate-bounce-ui overflow-visible">
         התקן אפליקציה 📲
     </button>
 
     <div id="root" class="min-h-screen flex flex-col"></div>
 
     <script type="text/babel" data-presets="react,env">
+        // קוד ה-React מהגרסה החדשה שסיפקת (נשמר ללא שינוי)
         const { useState, useEffect, useRef } = React;
 
         const LegalModal = ({ title, content, onClose }) => (
@@ -167,7 +239,7 @@
                 { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }, { content: '🍆', label: 'Eggplant' }, { content: '🌽', label: 'Corn' }, { content: '🍄', label: 'Mushroom' }
             ]},
             transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
-                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: '🚕', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: 'タクシー', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
             ]},
             shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
                 { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
@@ -431,9 +503,8 @@
                                                                 onClick={() => initGame(selectedCategory, idx)}
                                                                 className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-2 border-yellow-400 font-bold py-4 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-lg flex flex-col items-center"
                                                             >
-                                                                <span className="text-sm font-normal text-yellow-700">Level</span>
-                                                                <span className="text-3xl font-black">{lvl.level}</span>
-                                                                <span className="text-xs font-bold bg-white/50 px-2 py-0.5 rounded-full mt-1">{lvl.pairs} Pairs</span>
+                                                                <span>Stage {lvl.level}</span>
+                                                                <span className="text-xs sm:text-sm font-normal opacity-80 mt-1">{lvl.pairs} Pairs</span>
                                                             </button>
                                                         ))}
                                                     </div>
@@ -444,91 +515,144 @@
                                 </div>
                             )}
 
-                            {/* GAME BOARD */}
+                            {/* PLAYING STATE */}
                             {isPlaying && (
-                                <div ref={boardRef} className={`w-full h-full p-2 sm:p-4 bg-polka rounded-xl shadow-inner relative flex flex-col ${gameState === 'won' ? 'overflow-hidden' : ''}`}>
-                                    {gameState === 'won' && <Confetti />}
+                                <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full overflow-visible">
                                     
-                                    {/* Game Header */}
-                                    <div className="flex justify-between items-center gap-2 pb-3 mb-3 border-b-2 border-green-200 shrink-0">
-                                        <div className="flex items-center gap-2">
-                                            <button onClick={resetToMenu} className="text-2xl hover:scale-110 transition active:scale-95">🏠</button>
-                                            <div className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm">
-                                                <span className={`w-5 h-5 rounded-md ${CATEGORIES[selectedCategory].color}`}></span>
-                                                <span className="font-bold text-gray-700 text-sm sm:text-base">{CATEGORIES[selectedCategory].title}</span>
-                                                <span className="text-gray-400">|</span>
-                                                <span className="font-medium text-gray-500 text-sm">Lvl {currentLevel.level}</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="text-sm font-bold bg-white px-3 py-1 rounded-full shadow-sm">
-                                                <span className="text-green-600">{matches}</span> / {currentLevel.pairs}
-                                            </div>
-                                            {isFullscreen ? (
-                                                <button onClick={exitFullscreen} className="text-xl hover:scale-110 transition">🔳</button>
-                                            ) : (
-                                                <button onClick={enterFullscreen} className="text-xl hover:scale-110 transition">🔲</button>
-                                            )}
+                                    <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-2">
+                                        <button 
+                                            onClick={resetToMenu}
+                                            className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
+                                        >Menu</button>
+                                        <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
+                                        <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-white px-3 py-1.5 sm:py-2 rounded-xl shadow whitespace-nowrap">
+                                            Pairs: {matches} / {currentLevel.pairs}
                                         </div>
                                     </div>
 
-                                    {/* Grid */}
-                                    <div className="flex-1 flex items-center justify-center">
-                                        <div className={`grid ${currentLevel.cols} ${currentLevel.rows} gap-2 sm:gap-3 w-full h-full`}>
-                                            {cards.map((card, index) => (
-                                                <div 
-                                                    key={card.id} 
-                                                    onClick={() => handleCardClick(index)}
-                                                    className="aspect-[1/1] perspective-1000 cursor-pointer"
-                                                >
-                                                    <div className={`w-full h-full transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${mismatchIndices.includes(index) ? 'animate-shake' : ''} ${card === highlightMatch ? 'animate-bounce-match' : ''}`}>
-                                                        {/* Front */}
-                                                        <div className="absolute inset-0 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-md border-2 border-green-100 backface-hidden">
-                                                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl emoji-shadow">❓</span>
+                                    <div className="w-full bg-white border-2 border-gray-100 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
+                                        <div 
+                                            className="bg-green-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
+                                            style={{width: `${Math.max(5, (matches / currentLevel.pairs) * 100)}%`}}
+                                        >
+                                            {matches > 0 && <span className="text-[8px] sm:text-xs text-white font-bold animate-fade-in overflow-visible">⭐</span>}
+                                        </div>
+                                    </div>
+
+                                    {/* GAME BOARD FRAME & GRID */}
+                                    <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
+                                        <div 
+                                            ref={boardRef}
+                                            className={`w-full h-full bg-blue-50/70 backdrop-blur-md border-blue-300/80 shadow-2xl flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] sm:border-[6px] lg:border-[8px] rounded-[1.5rem] sm:rounded-[2.5rem] lg:rounded-[3.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
+                                        >
+                                            
+                                            {/* FULLSCREEN BUTTON */}
+                                            <button 
+                                                onClick={!isFullscreen ? enterFullscreen : undefined}
+                                                onDoubleClick={isFullscreen ? exitFullscreen : undefined}
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '15px',
+                                                    right: '15px',
+                                                    width: 'max(20px, 3%)',
+                                                    height: 'max(20px, 3%)',
+                                                    background: 'transparent',
+                                                    border: 'none',
+                                                    padding: 0,
+                                                    cursor: 'pointer',
+                                                    zIndex: 80
+                                                }}
+                                                title={isFullscreen ? "Double Click to Exit Fullscreen" : "Fullscreen"}
+                                            >
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{width: '100%', height: '100%', color: '#3b82f6'}}>
+                                                    {isFullscreen ? (
+                                                        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+                                                    ) : (
+                                                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                                                    )}
+                                                </svg>
+                                            </button>
+
+                                            <div className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
+                                                {cards.map((card, index) => {
+                                                    const isMismatched = mismatchIndices.includes(index);
+                                                    return (
+                                                    <div 
+                                                        key={index} onClick={() => handleCardClick(index)}
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                    >
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
+                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
-                                                        {/* Back */}
-                                                        <div className={`absolute inset-0 ${card.isMatched ? 'bg-green-100 border-green-300' : 'bg-white border-blue-100'} rounded-xl sm:rounded-2xl flex flex-col items-center justify-center shadow-lg border-2 rotate-y-180 backface-hidden p-1`}>
-                                                            <span className={`font-black text-center emoji-shadow ${selectedCategory === 'abc' ? 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-blue-700' : 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'}`}>
-                                                                {card.content}
-                                                            </span>
-                                                            <span className="text-[10px] sm:text-xs font-bold text-gray-500 mt-1 sm:mt-2 truncate w-full text-center px-1">
-                                                                {card.label}
-                                                            </span>
+                                                        
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(147,197,253,1)] sm:shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-[3px] lg:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                            <div className="flex-1 w-full flex items-center justify-center h-full">
+                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    );
+                                                })}
+                                            </div>
+
+                                            {/* HIGHLIGHT MATCH (Moved Inside Board) */}
+                                            {highlightMatch && (
+                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
+                                                    <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
+                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                                        {selectedCategory !== 'abc' && (
+                                                            <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100 overflow-visible">{highlightMatch.label}</span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            ))}
+                                            )}
+
+                                            {/* WON STATE (Moved Inside Board) */}
+                                            {gameState === 'won' && (
+                                                <>
+                                                    <Confetti />
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md p-4 animate-fade-in rounded-inherit">
+                                                        <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
+                                                            <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
+                                                            <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                            
+                                                            <div className="flex flex-col gap-3">
+                                                                {currentLevelIndex < LEVELS.length - 1 ? (
+                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                                ) : (
+                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                                )}
+                                                                <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+
                                         </div>
                                     </div>
-
-                                    {/* Win Overlay */}
-                                    {gameState === 'won' && (
-                                        <div className="absolute inset-0 bg-green-500/90 backdrop-blur-sm flex flex-col items-center justify-center z-50 animate-fade-in p-6 rounded-xl">
-                                            <span className="text-8xl mb-4 emoji-shadow">🎉</span>
-                                            <h3 className="text-5xl font-extrabold text-white mb-6 drop-shadow-md">Great Job!</h3>
-                                            <div className="flex gap-4">
-                                                <button onClick={resetToMenu} className="bg-white text-green-700 font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-gray-100 transition active:scale-95 text-lg">🏠 Menu</button>
-                                                {currentLevelIndex < LEVELS.length - 1 && (
-                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="bg-yellow-400 text-yellow-900 font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-yellow-300 transition active:scale-95 text-lg">Next Level ➡️</button>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             )}
-
                         </div>
 
                         {!isPlaying && <SeoContentSection />}
+
                     </main>
 
                     {!isPlaying && (
-                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500shrink-0">
-                            <p>&copy; 2024 Kids Learning Games. Educational fun for early learners.</p>
-                            <div className="flex gap-4 justify-center mt-3 text-xs font-medium text-gray-400">
-                                <button onClick={() => setActiveModal('privacy')} className="hover:text-blue-500">Privacy Policy</button>
-                                <button onClick={() => setActiveModal('terms')} className="hover:text-blue-500">Terms of Service</button>
-                                <button onClick={() => setActiveModal('contact')} className="hover:text-blue-500">Contact Us</button>
+                        <footer className="bg-white border-t border-gray-200 mt-auto">
+                            <div className="max-w-6xl mx-auto px-4 py-8">
+                                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                                    <div className="text-gray-500 text-sm text-center md:text-left">
+                                        &copy; {new Date().getFullYear()} Kids Memory Game. All rights reserved.<br/>
+                                        Educational web games for toddlers and preschoolers.
+                                    </div>
+                                    <div className="flex gap-6 text-sm font-semibold text-blue-600">
+                                        <button onClick={() => setActiveModal('privacy')} className="hover:underline">Privacy Policy</button>
+                                        <button onClick={() => setActiveModal('terms')} className="hover:underline">Terms of Use</button>
+                                    </div>
+                                </div>
                             </div>
                         </footer>
                     )}
@@ -538,52 +662,24 @@
                             title="Privacy Policy" 
                             onClose={() => setActiveModal(null)}
                             content={
-                                <>
-                                    <p>Last updated: October 26, 2024</p>
-                                    <p>At Kids Memory Game, we take privacy very seriously, especially for our young users. This game is designed to be a safe educational environment.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Information We Collect</h4>
-                                    <p>We do not collect any personally identifiable information (PII) from children. We do not require users to create an account or provide names or email addresses.</p>
-                                    <p>We may collect anonymous, aggregate usage data (such as which game categories are played most) to help us improve the game. This data cannot be traced back to an individual user.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Third-Party Services</h4>
-                                    <p>We may use Vercel Web Analytics for aggregate usage statistics. Vercel's privacy policy applies to their data handling. We do not serve third-party advertisements.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Parental Consent</h4>
-                                    <p>By allowing your child to use this game, you consent to the terms of this Privacy Policy. If you have questions, please contact us.</p>
-                                </>
+                                <div>
+                                    <p><strong>Last Updated:</strong> Today</p>
+                                    <p>Welcome to Kids Memory Game. We are committed to protecting your privacy and ensuring a safe online environment for children.</p>
+                                    <p>We do not collect any Personally Identifiable Information (PII) from children. The game runs entirely in your web browser.</p>
+                                </div>
                             }
                         />
                     )}
 
                     {activeModal === 'terms' && (
                         <LegalModal 
-                            title="Terms of Service" 
+                            title="Terms of Use" 
                             onClose={() => setActiveModal(null)}
                             content={
-                                <>
-                                    <p>Last updated: October 26, 2024</p>
-                                    <p>Welcome to Kids Memory Game. By accessing or using this web game, you agree to be bound by these Terms of Service.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Use of the Game</h4>
-                                    <p>This game is intended for educational and entertainment purposes for children. It should be used under parental or guardian supervision.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Intellectual Property</h4>
-                                    <p>All content in this game, including code, design, and graphics (excluding standard emojis), is the property of Kids Learning Games and protected by copyright laws.</p>
-                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Disclaimer</h4>
-                                    <p>This game is provided "as is" without warranties of any kind. While we strive for a great experience, we are not responsible for any issues arising from its use.</p>
-                                    <p>We reserve the right to modify or discontinue the game at any time.</p>
-                                </>
-                            }
-                        />
-                    )}
-
-                    {activeModal === 'contact' && (
-                        <LegalModal 
-                            title="Contact Us" 
-                            onClose={() => setActiveModal(null)}
-                            content={
-                                <>
-                                    <p>We love to hear feedback from parents, educators, and users!</p>
-                                    <p className="mt-4">If you have suggestions for new categories, have found a bug, or just want to say hello, please email us at:</p>
-                                    <p className="font-bold text-blue-600 text-lg mt-2">support@kidslearning.games</p>
-                                    <p className="mt-4 text-xs text-gray-400">(Note: This is a placeholder email for demo purposes).</p>
-                                </>
+                                <div>
+                                    <p>By accessing and playing Kids Memory Game, you accept these terms of use.</p>
+                                    <p>This game is provided free of charge for educational and entertainment purposes.</p>
+                                </div>
                             }
                         />
                     )}
@@ -593,8 +689,8 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
-
     </script>
+    
     <script>
         let deferredPrompt;
         const installBtn = document.getElementById('installApp');
@@ -624,6 +720,7 @@
             installBtn.style.display = 'none';
         });
     </script>
+    
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
