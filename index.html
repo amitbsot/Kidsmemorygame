@@ -18,7 +18,11 @@
     <meta name="description" content="Play the best free online memory game for kids. Improve cognitive skills, learn ABCs, colors, fruits, shapes, and more with our fun and educational matching game.">
     <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
     <meta name="author" content="Kids Learning Games">
-    
+
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <script src="react.production.min.js"></script>
     <script src="react-dom.production.min.js"></script>
     <script src="babel.min.js"></script>
@@ -526,7 +530,7 @@
                     </main>
 
                     {!isPlaying && (
-                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500">
+                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500shrink-0">
                             <p>&copy; 2024 Kids Learning Games. Educational fun for early learners.</p>
                             <div className="flex gap-4 justify-center mt-3 text-xs font-medium text-gray-400">
                                 <button onClick={() => setActiveModal('privacy')} className="hover:text-blue-500">Privacy Policy</button>
@@ -598,6 +602,46 @@
         root.render(<App />);
 
     </script>
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installApp');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to install: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (למטה), וגלול עד שתמצא את "הוסף למסך הבית".');
+            } else {
+                alert('כדי להתקין אפליקציה זו, השתמש בתפריט הדפדפן ובחר "הוסף למסך הבית".');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('App was installed.');
+            installBtn.style.display = 'none';
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
-הכפתור צריך להיות בתוך המשחק במקום נוח</td>
+האנליטיקס לא עובד לי</blockquote>
