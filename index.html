@@ -19,17 +19,10 @@
     <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
     <meta name="author" content="Kids Learning Games">
 
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
     <script src="react.production.min.js"></script>
     <script src="react-dom.production.min.js"></script>
     <script src="babel.min.js"></script>
     <script src="tailwind.js"></script>
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         /* ה-CSS המקורי שלך ללא שינוי */
@@ -602,46 +595,45 @@
         root.render(<App />);
 
     </script>
-    <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('installApp');
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installApp');
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
 
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to install: ${outcome}`);
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
-            } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (למטה), וגלול עד שתמצא את "הוסף למסך הבית".');
-            } else {
-                alert('כדי להתקין אפליקציה זו, השתמש בתפריט הדפדפן ובחר "הוסף למסך הבית".');
-            }
-        });
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to install: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (למטה), וגלול עד שתמצא את "הוסף למסך הבית".');
+            } else {
+                alert('כדי להתקין אפליקציה זו, השתמש בתפריט הדפדפן ובחר "הוסף למסך הבית".');
+            }
+        });
 
-        window.addEventListener('appinstalled', () => {
-            console.log('App was installed.');
-            installBtn.style.display = 'none';
-        });
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
+        window.addEventListener('appinstalled', () => {
+            console.log('App was installed.');
+            installBtn.style.display = 'none';
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
-האנליטיקס לא עובד לי</blockquote>
