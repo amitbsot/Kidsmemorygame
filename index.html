@@ -19,11 +19,6 @@
     <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
     <meta name="author" content="Kids Learning Games">
     
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    
     <script src="react.production.min.js"></script>
     <script src="react-dom.production.min.js"></script>
     <script src="babel.min.js"></script>
@@ -65,6 +60,11 @@
     </style>
 </head>
 <body class="overflow-x-hidden bg-polka text-gray-800">
+
+    <button id="installApp" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 100;" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition active:scale-95 text-lg flex items-center gap-2 bounceUI animate-bounce-ui">
+        התקן אפליקציה 📲
+    </button>
+
     <div id="root" class="min-h-screen flex flex-col"></div>
 
     <script type="text/babel" data-presets="react,env">
@@ -253,39 +253,12 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
-            // הוספת לוגיקה לטיפול בPWA והתקנה
-            const [deferredPrompt, setDeferredPrompt] = useState(null);
-            const [showInstallBtn, setShowInstallBtn] = useState(false);
-
             useEffect(() => {
                 const handleFullscreenChange = () => {
                     setIsFullscreen(!!document.fullscreenElement);
                 };
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
-                
-                // האזנה לאירוע לפני התקנה (עובד בעיקר בכרום/אנדרואיד)
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    // מנע מהדפדפן להציג את החלונית הדיפולטית שלו
-                    e.preventDefault();
-                    // שמור את האירוע כדי שנוכל להשתמש בו אחר כך
-                    setDeferredPrompt(e);
-                    // הצג את הכפתור המעוצב שלנו
-                    setShowInstallBtn(true);
-                });
-
-                // האזנה לאירוע כשהאפליקציה הותקנה בהצלחה
-                window.addEventListener('appinstalled', () => {
-                    console.log('App was installed.');
-                    setShowInstallBtn(false);
-                    setDeferredPrompt(null);
-                    // כאן ניתן לשלוח אירוע לאנליטיקס: "app_installed"
-                    window.va && window.va('app_installed', { category: 'PWA' });
-                });
-
-                return () => {
-                    document.removeEventListener('fullscreenchange', handleFullscreenChange);
-                    // (אין צורך להסיר appinstalled/beforeinstallprompt בתוך הbody של הReact אלא מחוצה לו במצב רגיל, אבל לdemo זה בסדר)
-                };
+                return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
             }, []);
 
             const enterFullscreen = (e) => {
@@ -397,32 +370,6 @@
                 }
             };
 
-            const handleInstallClick = async () => {
-                if (!deferredPrompt) {
-                    // אם אנחנו בiOS - הצג הדרכה
-                    if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                        alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (מרובע עם חץ למעלה בספארי), גלול למטה ובחר ב"הוסף למסך הבית".');
-                    } else {
-                        alert('אפליקציה זו ניתנת להתקנה רק דרך תפריט הדפדפן -> "הוסף למסך הבית".');
-                    }
-                    return;
-                }
-                
-                // הראה את חלונית ההתקנה של הדפדפן
-                deferredPrompt.prompt();
-                
-                // המתן לתגובת המשתמש
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to install: ${outcome}`);
-                
-                // שלח אירוע לאנליטיקס: המשתמש לחץ על "התקן"
-                window.va && window.va('install_clicked', { outcome: outcome });
-
-                // אנחנו לא יכולים להשתמש בזה שוב
-                setDeferredPrompt(null);
-                setShowInstallBtn(false);
-            };
-
             const currentLevel = LEVELS[currentLevelIndex];
             const isPlaying = gameState === 'playing' || gameState === 'won';
 
@@ -448,20 +395,8 @@
                             {/* MENU STATES */}
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-xl w-full text-center border-4 border-yellow-300">
-                                        <div className="flex justify-between items-center mb-8 border-b-2 border-green-100 pb-4">
-                                            <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 drop-shadow-sm">Select Game</h2>
-                                            
-                                            {/* כפתור ההתקנה החדש בתוך המשחק */}
-                                            {showInstallBtn && (
-                                                <button 
-                                                    onClick={handleInstallClick} 
-                                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-full shadow-md transform transition active:scale-95 text-base flex items-center gap-1.5 bounceUI animate-bounce-ui"
-                                                >
-                                                    <span className="text-xl">📲</span> התקן אפליקציה
-                                                </button>
-                                            )}
-                                        </div>
+                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-lg w-full text-center border-4 border-yellow-300">
+                                        <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-8 drop-shadow-sm">Select Game</h2>
                                         
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
@@ -591,7 +526,7 @@
                     </main>
 
                     {!isPlaying && (
-                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500shrink-0">
+                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500">
                             <p>&copy; 2024 Kids Learning Games. Educational fun for early learners.</p>
                             <div className="flex gap-4 justify-center mt-3 text-xs font-medium text-gray-400">
                                 <button onClick={() => setActiveModal('privacy')} className="hover:text-blue-500">Privacy Policy</button>
@@ -663,18 +598,6 @@
         root.render(<App />);
 
     </script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
 </body>
 </html>
-האנליטיקס לא עובד לי</blockquote>
+הכפתור צריך להיות בתוך המשחק במקום נוח</td>
