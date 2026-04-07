@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kids Memory Game - Fun & Educational Brain Training</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Memory Game">
+    
+    <link rel="apple-touch-icon" href="IMG_8097.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="IMG_8097.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="IMG_8097.png">
+    
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="description" content="Play the best free online memory game for kids. Improve cognitive skills, learn ABCs, colors, fruits, shapes, and more with our fun and educational matching game.">
+    <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
+    <meta name="author" content="Kids Learning Games">
+    
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    
+    <script src="react.production.min.js"></script>
+    <script src="react-dom.production.min.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="tailwind.js"></script>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        /* ה-CSS המקורי שלך ללא שינוי */
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body, html { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0fdf4; touch-action: pan-y; }
+        .seo-content, .legal-content { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .transition-transform { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceMatch { 0%, 100% { transform: scale(1) rotateY(180deg); } 50% { transform: scale(1.1) rotateY(180deg); } }
+        .animate-bounce-match { animation: bounceMatch 0.5s ease-in-out; }
+        @keyframes bounceUI { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .animate-bounce-ui { animation: bounceUI 0.5s ease-in-out; }
+        .bg-polka { background-color: #f0fdf4; background-image: radial-gradient(#bbf7d0 3px, transparent 3px); background-size: 40px 40px; }
+        .emoji-shadow { filter: drop-shadow(0px 8px 8px rgba(0,0,0,0.15)); }
+        @keyframes shake { 0%, 100% { transform: translateX(0) rotateY(180deg); } 20% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); } 40% { transform: translateX(6px) rotateY(180deg) rotate(3deg); } 60% { transform: translateX(-6px) rotateY(180deg) rotate(-3deg); } 80% { transform: translateX(6px) rotateY(180deg) rotate(3deg); } }
+        .animate-shake { animation: shake 0.5s ease-in-out; }
+        .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; opacity: 0; }
+        @keyframes fall { 0% { opacity: 1; top: -10%; transform: translateX(0) rotate(0deg); } 100% { opacity: 1; top: 110%; transform: translateX(20px) rotate(360deg); } }
+        .fullscreen-active { width: 100vw !important; height: 100vh !important; border-radius: 0 !important; border: none !important; padding: 2rem !important; touch-action: none !important; overscroll-behavior: none !important; }
+    </style>
+</head>
+<body class="overflow-x-hidden bg-polka text-gray-800">
+    <div id="root" class="min-h-screen flex flex-col"></div>
+
+    <script type="text/babel" data-presets="react,env">
+        const { useState, useEffect, useRef } = React;
+
+        const LegalModal = ({ title, content, onClose }) => (
+            <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
+                <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl animate-fade-in">
+                    <div className="flex justify-between items-center p-4 sm:p-6 border-b">
+                        <h2 className="text-2xl font-bold text-blue-600">{title}</h2>
+                        <button onClick={onClose} className="text-gray-400 hover:text-red-500 text-2xl font-bold transition">✕</button>
+                    </div>
+                    <div className="p-4 sm:p-6 overflow-y-auto legal-content text-gray-600 text-sm sm:text-base space-y-4">
+                        {content}
+                    </div>
+                </div>
+            </div>
+        );
+
+        const Header = () => (
+            <header className="bg-white/90 backdrop-blur-md border-b border-green-200 py-4 px-6 sticky top-0 z-40 flex justify-between items-center shadow-sm">
+                <div className="flex items-center gap-2">
+                    <span className="text-3xl emoji-shadow">🧠</span>
+                    <h1 className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">Kids Memory Game</h1>
+                </div>
+                <nav className="hidden sm:flex gap-4 font-bold text-green-600">
+                    <a href="#about-game" className="hover:text-blue-500 transition">How to Play</a>
+                    <a href="#features" className="hover:text-blue-500 transition">Features</a>
+                </nav>
+            </header>
+        );
+
+        const SeoContentSection = () => (
+            <article className="seo-content max-w-4xl mx-auto p-6 sm:p-10 bg-white/95 rounded-3xl shadow-xl mt-8 mb-12 border-4 border-green-100">
+                <h2 id="about-game" className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-6 text-center">
+                    Welcome to the Ultimate Kids Memory Game!
+                </h2>
+                
+                <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
+                    <p>
+                        Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory. Perfect for toddlers, preschoolers, and early learners, this interactive web game uses colorful visuals, engaging sounds, and exciting themes to make learning an absolute joy!
+                    </p>
+
+                    <h3 className="text-2xl font-bold text-green-500 mt-8 mb-4 border-b-2 border-green-100 pb-2">🧠 Why Memory Games are Great for Kids</h3>
+                    <ul className="list-disc pl-6 space-y-3">
+                        <li><strong>Improves Concentration:</strong> Matching games require players to focus closely on the screen, improving their attention span.</li>
+                        <li><strong>Enhances Visual Recognition:</strong> By remembering where specific shapes, fruits, or letters are hidden, children develop stronger visual discrimination skills.</li>
+                        <li><strong>Vocabulary Building:</strong> Our game includes voice pronunciation for every item. Children hear the words as they match them, reinforcing language learning.</li>
+                        <li><strong>Safe & Educational:</strong> Designed with young children in mind, featuring child-friendly navigation and no confusing external links.</li>
+                    </ul>
+
+                    <h3 id="features" className="text-2xl font-bold text-yellow-500 mt-8 mb-4 border-b-2 border-yellow-100 pb-2">🌟 Explore Six Fun Categories</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                            <strong>🐶 Animals:</strong> Discover cute animals and learn their names!
+                        </div>
+                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <strong>🔤 Letters (ABC):</strong> Master the English alphabet. Great for early reading preparation.
+                        </div>
+                        <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+                            <strong>🎨 Colors:</strong> Learn primary and secondary colors with visual and audio cues.
+                        </div>
+                        <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                            <strong>🍎 Fruits:</strong> Discover healthy foods and their names.
+                        </div>
+                        <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                            <strong>⭐ Shapes:</strong> Identify geometric shapes like circles, squares, and triangles.
+                        </div>
+                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+                            <strong>🚗 Vehicles:</strong> From cars to rockets, learn about transportation!
+                        </div>
+                    </div>
+                </div>
+            </article>
+        );
+
+        let preferredVoice = null;
+        const updateVoiceSelection = () => {
+            if (!('speechSynthesis' in window)) return;
+            const voices = window.speechSynthesis.getVoices();
+            preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Female') || v.name.includes('Google UK English Female'))) 
+                          || voices.find(v => v.lang.includes('en') && v.name.includes('Google'))
+                          || voices.find(v => v.lang === 'en-US') 
+                          || null;
+        };
+
+        if ('speechSynthesis' in window) {
+            updateVoiceSelection();
+            window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
+        }
+
+        const CATEGORIES = {
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }, { content: '🐔', label: 'Chicken' }, { content: '🐧', label: 'Penguin' }, { content: '🐢', label: 'Turtle' }, { content: '🐍', label: 'Snake' }, { content: '🐴', label: 'Horse' }, { content: '🐘', label: 'Elephant' }, { content: '🦒', label: 'Giraffe' }, { content: '🦓', label: 'Zebra' }, { content: '🐬', label: 'Dolphin' }, { content: '🐳', label: 'Whale' }, { content: '🐟', label: 'Fish' }, { content: '🐦', label: 'Bird' }
+            ]},
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }, { content: 'M', label: 'M', spokenLabel: 'm' }, { content: 'N', label: 'N', spokenLabel: 'n' }, { content: 'O', label: 'O', spokenLabel: 'o' }, { content: 'P', label: 'P', spokenLabel: 'p' }, { content: 'Q', label: 'Q', spokenLabel: 'q' }, { content: 'R', label: 'R', spokenLabel: 'r' }, { content: 'S', label: 'S', spokenLabel: 's' }, { content: 'T', label: 'T', spokenLabel: 't' }, { content: 'U', label: 'U', spokenLabel: 'u' }, { content: 'V', label: 'V', spokenLabel: 'v' }, { content: 'W', label: 'W', spokenLabel: 'w' }, { content: 'X', label: 'X', spokenLabel: 'x' }, { content: 'Y', label: 'Y', spokenLabel: 'y' }, { content: 'Z', label: 'Z', spokenLabel: 'z' }
+            ]},
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }, { content: '🩵', label: 'Light Blue' }, { content: '💚', label: 'Lime' }, { content: '🤎', label: 'Dark Brown' }
+            ]},
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }, { content: '🍆', label: 'Eggplant' }, { content: '🌽', label: 'Corn' }, { content: '🍄', label: 'Mushroom' }
+            ]},
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: '🚕', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
+            ]},
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
+            ]}
+        };
+
+        const LEVELS = [
+            { level: 1, pairs: 3, cols: 'grid-cols-2 sm:grid-cols-3', rows: 'grid-rows-3 sm:grid-rows-2' },
+            { level: 2, pairs: 6, cols: 'grid-cols-3 sm:grid-cols-4', rows: 'grid-rows-4 sm:grid-rows-3' },
+            { level: 3, pairs: 8, cols: 'grid-cols-4', rows: 'grid-rows-4' },
+            { level: 4, pairs: 10, cols: 'grid-cols-4 md:grid-cols-5', rows: 'grid-rows-5 md:grid-rows-4' },
+            { level: 5, pairs: 12, cols: 'grid-cols-4 md:grid-cols-6', rows: 'grid-rows-6 md:grid-rows-4' }
+        ];
+
+        const playVoice = (text) => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                if (preferredVoice) utterance.voice = preferredVoice;
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; 
+                utterance.pitch = 1.15; 
+                utterance.volume = 0.9; 
+                window.speechSynthesis.speak(utterance);
+            }
+        };
+
+        const playDing = () => {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const playNote = (freq, startTime) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + startTime);
+                    gain.gain.setValueAtTime(0, ctx.currentTime + startTime);
+                    gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + startTime + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + startTime + 0.3);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + startTime);
+                    osc.stop(ctx.currentTime + startTime + 0.3);
+                };
+                playNote(523.25, 0);    
+                playNote(659.25, 0.08); 
+                playNote(783.99, 0.16); 
+                playNote(1046.50, 0.24); 
+            } catch (e) { console.log("Audio API not supported"); }
+        };
+
+        const Confetti = () => {
+            const colors = ['#fce18a', '#ff726d', '#b48def', '#f4306d', '#42e2b8'];
+            const pieces = Array.from({ length: 50 }).map((_, i) => ({
+                id: i, left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 2}s`, animationDuration: `${Math.random() * 2 + 2}s`, backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+            }));
+            return (
+                <div className="absolute inset-0 pointer-events-none z-[70] overflow-hidden">
+                    {pieces.map(p => <div key={p.id} className="confetti rounded-full" style={{ left: p.left, backgroundColor: p.backgroundColor, animation: `fall ${p.animationDuration} linear ${p.animationDelay} infinite` }} /> )}
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeModal, setActiveModal] = useState(null); 
+            const [gameState, setGameState] = useState('menu'); 
+            const [selectedCategory, setSelectedCategory] = useState(null);
+            const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
+            const [previousLevelItems, setPreviousLevelItems] = useState([]);
+
+            const [cards, setCards] = useState([]);
+            const [flippedIndices, setFlippedIndices] = useState([]);
+            const [mismatchIndices, setMismatchIndices] = useState([]); 
+            const [matches, setMatches] = useState(0);
+            const [isLocked, setIsLocked] = useState(false);
+            const [highlightMatch, setHighlightMatch] = useState(null); 
+            
+            // Fullscreen states & refs
+            const [isFullscreen, setIsFullscreen] = useState(false);
+            const boardRef = useRef(null);
+
+            // הוספת לוגיקה לטיפול בPWA והתקנה
+            const [deferredPrompt, setDeferredPrompt] = useState(null);
+            const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+            useEffect(() => {
+                const handleFullscreenChange = () => {
+                    setIsFullscreen(!!document.fullscreenElement);
+                };
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+                
+                // האזנה לאירוע לפני התקנה (עובד בעיקר בכרום/אנדרואיד)
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    // מנע מהדפדפן להציג את החלונית הדיפולטית שלו
+                    e.preventDefault();
+                    // שמור את האירוע כדי שנוכל להשתמש בו אחר כך
+                    setDeferredPrompt(e);
+                    // הצג את הכפתור המעוצב שלנו
+                    setShowInstallBtn(true);
+                });
+
+                // האזנה לאירוע כשהאפליקציה הותקנה בהצלחה
+                window.addEventListener('appinstalled', () => {
+                    console.log('App was installed.');
+                    setShowInstallBtn(false);
+                    setDeferredPrompt(null);
+                    // כאן ניתן לשלוח אירוע לאנליטיקס: "app_installed"
+                    window.va && window.va('app_installed', { category: 'PWA' });
+                });
+
+                return () => {
+                    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+                    // (אין צורך להסיר appinstalled/beforeinstallprompt בתוך הbody של הReact אלא מחוצה לו במצב רגיל, אבל לdemo זה בסדר)
+                };
+            }, []);
+
+            const enterFullscreen = (e) => {
+                e.stopPropagation();
+                if (!document.fullscreenElement) {
+                    if (boardRef.current && boardRef.current.requestFullscreen) {
+                        boardRef.current.requestFullscreen().catch(err => {
+                            console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                        });
+                    }
+                }
+            };
+
+            const exitFullscreen = (e) => {
+                e.stopPropagation();
+                if (document.fullscreenElement) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            };
+
+            const resetToMenu = () => {
+                setGameState('menu');
+                setSelectedCategory(null);
+                setPreviousLevelItems([]); 
+                if (document.fullscreenElement) document.exitFullscreen();
+            };
+
+            const initGame = (categoryKey, levelIdx) => {
+                const category = CATEGORIES[categoryKey];
+                const level = LEVELS[levelIdx];
+                
+                let selectedItems = [];
+
+                if (levelIdx > 0 && selectedCategory === categoryKey && previousLevelItems.length >= 2) {
+                    const shuffledPrev = [...previousLevelItems].sort(() => 0.5 - Math.random());
+                    const carryOverItems = shuffledPrev.slice(0, 2);
+                    
+                    const remainingPool = category.items.filter(item => !carryOverItems.some(c => c.label === item.label));
+                    const shuffledRemaining = remainingPool.sort(() => 0.5 - Math.random());
+                    const newItems = shuffledRemaining.slice(0, level.pairs - 2);
+                    
+                    selectedItems = [...carryOverItems, ...newItems].sort(() => 0.5 - Math.random());
+                } else {
+                    const shuffledItems = [...category.items].sort(() => 0.5 - Math.random());
+                    selectedItems = shuffledItems.slice(0, level.pairs);
+                }
+
+                setPreviousLevelItems(selectedItems);
+                setSelectedCategory(categoryKey);
+                setCurrentLevelIndex(levelIdx);
+                
+                const gameCards = [...selectedItems, ...selectedItems].sort(() => 0.5 - Math.random()).map((item, index) => ({
+                    id: index, ...item, isFlipped: false, isMatched: false
+                }));
+
+                setCards(gameCards);
+                setFlippedIndices([]);
+                setMismatchIndices([]);
+                setMatches(0);
+                setIsLocked(false);
+                setHighlightMatch(null);
+                setGameState('playing');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handleCardClick = (index) => {
+                if (isLocked || cards[index].isFlipped || cards[index].isMatched) return;
+
+                const newFlippedIndices = [...flippedIndices, index];
+                setCards(prev => prev.map((c, i) => i === index ? { ...c, isFlipped: true } : c));
+                setFlippedIndices(newFlippedIndices);
+
+                if (newFlippedIndices.length === 1) {
+                    playVoice(cards[index].spokenLabel || cards[index].label);
+                } 
+                else if (newFlippedIndices.length === 2) {
+                    setIsLocked(true);
+                    const [firstIndex, secondIndex] = newFlippedIndices;
+                    const isMatch = cards[firstIndex].label === cards[secondIndex].label;
+
+                    if (!isMatch) {
+                        playVoice(cards[secondIndex].spokenLabel || cards[secondIndex].label);
+                    }
+
+                    setTimeout(() => {
+                        if (isMatch) {
+                            playDing();
+                            setHighlightMatch(cards[firstIndex]);
+                            
+                            setTimeout(() => {
+                                playVoice(cards[firstIndex].spokenLabel || cards[firstIndex].label);
+                            }, 100);
+
+                            setTimeout(() => {
+                                setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
+                                setFlippedIndices([]); setMatches(m => m + 1); setHighlightMatch(null); setIsLocked(false);
+                            }, 2000); 
+                        } else {
+                            setMismatchIndices([firstIndex, secondIndex]);
+                            setTimeout(() => {
+                                setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isFlipped: false } : c));
+                                setFlippedIndices([]); setMismatchIndices([]); setIsLocked(false);
+                            }, 800);
+                        }
+                    }, 1100);
+                }
+            };
+
+            const handleInstallClick = async () => {
+                if (!deferredPrompt) {
+                    // אם אנחנו בiOS - הצג הדרכה
+                    if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                        alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (מרובע עם חץ למעלה בספארי), גלול למטה ובחר ב"הוסף למסך הבית".');
+                    } else {
+                        alert('אפליקציה זו ניתנת להתקנה רק דרך תפריט הדפדפן -> "הוסף למסך הבית".');
+                    }
+                    return;
+                }
+                
+                // הראה את חלונית ההתקנה של הדפדפן
+                deferredPrompt.prompt();
+                
+                // המתן לתגובת המשתמש
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to install: ${outcome}`);
+                
+                // שלח אירוע לאנליטיקס: המשתמש לחץ על "התקן"
+                window.va && window.va('install_clicked', { outcome: outcome });
+
+                // אנחנו לא יכולים להשתמש בזה שוב
+                setDeferredPrompt(null);
+                setShowInstallBtn(false);
+            };
+
+            const currentLevel = LEVELS[currentLevelIndex];
+            const isPlaying = gameState === 'playing' || gameState === 'won';
+
+            useEffect(() => {
+                let winTimer;
+                if (currentLevel && matches > 0 && matches === currentLevel.pairs && gameState === 'playing') {
+                    winTimer = setTimeout(() => {
+                        playVoice("Great job!");
+                        setGameState('won');
+                    }, 800);
+                }
+                return () => { if (winTimer) clearTimeout(winTimer); };
+            }, [matches, currentLevel, gameState, currentLevelIndex, selectedCategory]);
+
+            return (
+                <>
+                    {!isPlaying && <Header />}
+
+                    <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
+                        
+                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4 md:p-6 lg:p-8'}`}>
+                            
+                            {/* MENU STATES */}
+                            {(gameState === 'menu' || gameState === 'level_select') && (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-xl w-full text-center border-4 border-yellow-300">
+                                        <div className="flex justify-between items-center mb-8 border-b-2 border-green-100 pb-4">
+                                            <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 drop-shadow-sm">Select Game</h2>
+                                            
+                                            {/* כפתור ההתקנה החדש בתוך המשחק */}
+                                            {showInstallBtn && (
+                                                <button 
+                                                    onClick={handleInstallClick} 
+                                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-full shadow-md transform transition active:scale-95 text-base flex items-center gap-1.5 bounceUI animate-bounce-ui"
+                                                >
+                                                    <span className="text-xl">📲</span> התקן אפליקציה
+                                                </button>
+                                            )}
+                                        </div>
+                                        
+                                        <div className="animate-fade-in w-full mx-auto">
+                                            {gameState === 'menu' ? (
+                                                <div>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                                                        {Object.keys(CATEGORIES).map(key => (
+                                                            <button 
+                                                                key={key}
+                                                                onClick={() => {
+                                                                    setSelectedCategory(key);
+                                                                    setGameState('level_select');
+                                                                }}
+                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
+                                                            >
+                                                                <span className="text-3xl mb-1">{CATEGORIES[key].items[0].content}</span>
+                                                                <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="animate-fade-in">
+                                                    <div className="flex justify-between items-center mb-6">
+                                                        <button 
+                                                            onClick={resetToMenu}
+                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-2 px-3 sm:px-4 rounded-xl shadow-sm transition active:scale-95 text-sm"
+                                                        >⬅️ Back</button>
+                                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <div className="w-[70px] sm:w-[85px]"></div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                        {LEVELS.map((lvl, idx) => (
+                                                            <button 
+                                                                key={idx}
+                                                                onClick={() => initGame(selectedCategory, idx)}
+                                                                className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-2 border-yellow-400 font-bold py-4 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-lg flex flex-col items-center"
+                                                            >
+                                                                <span className="text-sm font-normal text-yellow-700">Level</span>
+                                                                <span className="text-3xl font-black">{lvl.level}</span>
+                                                                <span className="text-xs font-bold bg-white/50 px-2 py-0.5 rounded-full mt-1">{lvl.pairs} Pairs</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* GAME BOARD */}
+                            {isPlaying && (
+                                <div ref={boardRef} className={`w-full h-full p-2 sm:p-4 bg-polka rounded-xl shadow-inner relative flex flex-col ${gameState === 'won' ? 'overflow-hidden' : ''}`}>
+                                    {gameState === 'won' && <Confetti />}
+                                    
+                                    {/* Game Header */}
+                                    <div className="flex justify-between items-center gap-2 pb-3 mb-3 border-b-2 border-green-200 shrink-0">
+                                        <div className="flex items-center gap-2">
+                                            <button onClick={resetToMenu} className="text-2xl hover:scale-110 transition active:scale-95">🏠</button>
+                                            <div className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm">
+                                                <span className={`w-5 h-5 rounded-md ${CATEGORIES[selectedCategory].color}`}></span>
+                                                <span className="font-bold text-gray-700 text-sm sm:text-base">{CATEGORIES[selectedCategory].title}</span>
+                                                <span className="text-gray-400">|</span>
+                                                <span className="font-medium text-gray-500 text-sm">Lvl {currentLevel.level}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="text-sm font-bold bg-white px-3 py-1 rounded-full shadow-sm">
+                                                <span className="text-green-600">{matches}</span> / {currentLevel.pairs}
+                                            </div>
+                                            {isFullscreen ? (
+                                                <button onClick={exitFullscreen} className="text-xl hover:scale-110 transition">🔳</button>
+                                            ) : (
+                                                <button onClick={enterFullscreen} className="text-xl hover:scale-110 transition">🔲</button>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Grid */}
+                                    <div className="flex-1 flex items-center justify-center">
+                                        <div className={`grid ${currentLevel.cols} ${currentLevel.rows} gap-2 sm:gap-3 w-full h-full`}>
+                                            {cards.map((card, index) => (
+                                                <div 
+                                                    key={card.id} 
+                                                    onClick={() => handleCardClick(index)}
+                                                    className="aspect-[1/1] perspective-1000 cursor-pointer"
+                                                >
+                                                    <div className={`w-full h-full transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${mismatchIndices.includes(index) ? 'animate-shake' : ''} ${card === highlightMatch ? 'animate-bounce-match' : ''}`}>
+                                                        {/* Front */}
+                                                        <div className="absolute inset-0 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-md border-2 border-green-100 backface-hidden">
+                                                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl emoji-shadow">❓</span>
+                                                        </div>
+                                                        {/* Back */}
+                                                        <div className={`absolute inset-0 ${card.isMatched ? 'bg-green-100 border-green-300' : 'bg-white border-blue-100'} rounded-xl sm:rounded-2xl flex flex-col items-center justify-center shadow-lg border-2 rotate-y-180 backface-hidden p-1`}>
+                                                            <span className={`font-black text-center emoji-shadow ${selectedCategory === 'abc' ? 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-blue-700' : 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'}`}>
+                                                                {card.content}
+                                                            </span>
+                                                            <span className="text-[10px] sm:text-xs font-bold text-gray-500 mt-1 sm:mt-2 truncate w-full text-center px-1">
+                                                                {card.label}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Win Overlay */}
+                                    {gameState === 'won' && (
+                                        <div className="absolute inset-0 bg-green-500/90 backdrop-blur-sm flex flex-col items-center justify-center z-50 animate-fade-in p-6 rounded-xl">
+                                            <span className="text-8xl mb-4 emoji-shadow">🎉</span>
+                                            <h3 className="text-5xl font-extrabold text-white mb-6 drop-shadow-md">Great Job!</h3>
+                                            <div className="flex gap-4">
+                                                <button onClick={resetToMenu} className="bg-white text-green-700 font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-gray-100 transition active:scale-95 text-lg">🏠 Menu</button>
+                                                {currentLevelIndex < LEVELS.length - 1 && (
+                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="bg-yellow-400 text-yellow-900 font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-yellow-300 transition active:scale-95 text-lg">Next Level ➡️</button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                        </div>
+
+                        {!isPlaying && <SeoContentSection />}
+                    </main>
+
+                    {!isPlaying && (
+                        <footer className="border-t border-green-100 bg-white/80 py-6 px-6 text-center text-sm text-gray-500shrink-0">
+                            <p>&copy; 2024 Kids Learning Games. Educational fun for early learners.</p>
+                            <div className="flex gap-4 justify-center mt-3 text-xs font-medium text-gray-400">
+                                <button onClick={() => setActiveModal('privacy')} className="hover:text-blue-500">Privacy Policy</button>
+                                <button onClick={() => setActiveModal('terms')} className="hover:text-blue-500">Terms of Service</button>
+                                <button onClick={() => setActiveModal('contact')} className="hover:text-blue-500">Contact Us</button>
+                            </div>
+                        </footer>
+                    )}
+
+                    {activeModal === 'privacy' && (
+                        <LegalModal 
+                            title="Privacy Policy" 
+                            onClose={() => setActiveModal(null)}
+                            content={
+                                <>
+                                    <p>Last updated: October 26, 2024</p>
+                                    <p>At Kids Memory Game, we take privacy very seriously, especially for our young users. This game is designed to be a safe educational environment.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Information We Collect</h4>
+                                    <p>We do not collect any personally identifiable information (PII) from children. We do not require users to create an account or provide names or email addresses.</p>
+                                    <p>We may collect anonymous, aggregate usage data (such as which game categories are played most) to help us improve the game. This data cannot be traced back to an individual user.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Third-Party Services</h4>
+                                    <p>We may use Vercel Web Analytics for aggregate usage statistics. Vercel's privacy policy applies to their data handling. We do not serve third-party advertisements.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Parental Consent</h4>
+                                    <p>By allowing your child to use this game, you consent to the terms of this Privacy Policy. If you have questions, please contact us.</p>
+                                </>
+                            }
+                        />
+                    )}
+
+                    {activeModal === 'terms' && (
+                        <LegalModal 
+                            title="Terms of Service" 
+                            onClose={() => setActiveModal(null)}
+                            content={
+                                <>
+                                    <p>Last updated: October 26, 2024</p>
+                                    <p>Welcome to Kids Memory Game. By accessing or using this web game, you agree to be bound by these Terms of Service.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Use of the Game</h4>
+                                    <p>This game is intended for educational and entertainment purposes for children. It should be used under parental or guardian supervision.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Intellectual Property</h4>
+                                    <p>All content in this game, including code, design, and graphics (excluding standard emojis), is the property of Kids Learning Games and protected by copyright laws.</p>
+                                    <h4 className="font-bold text-gray-700 mt-4 mb-1">Disclaimer</h4>
+                                    <p>This game is provided "as is" without warranties of any kind. While we strive for a great experience, we are not responsible for any issues arising from its use.</p>
+                                    <p>We reserve the right to modify or discontinue the game at any time.</p>
+                                </>
+                            }
+                        />
+                    )}
+
+                    {activeModal === 'contact' && (
+                        <LegalModal 
+                            title="Contact Us" 
+                            onClose={() => setActiveModal(null)}
+                            content={
+                                <>
+                                    <p>We love to hear feedback from parents, educators, and users!</p>
+                                    <p className="mt-4">If you have suggestions for new categories, have found a bug, or just want to say hello, please email us at:</p>
+                                    <p className="font-bold text-blue-600 text-lg mt-2">support@kidslearning.games</p>
+                                    <p className="mt-4 text-xs text-gray-400">(Note: This is a placeholder email for demo purposes).</p>
+                                </>
+                            }
+                        />
+                    )}
+                </>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+האנליטיקס לא עובד לי</blockquote>
