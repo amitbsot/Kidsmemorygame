@@ -1,0 +1,22 @@
+{
+  "name": "Kids Memory Game",
+  "short_name": "Memory Game",
+  "description": "Fun & Educational Matching Game for Kids",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0fdf4",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "IMG_8097.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "IMG_8097.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
