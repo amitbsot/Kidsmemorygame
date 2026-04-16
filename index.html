@@ -31,7 +31,11 @@
     <script src="babel.min.js"></script>
     <script src="tailwind.js"></script>
 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
+        /* ה-CSS המקורי נשמר */
         * {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -136,13 +140,6 @@
     <script type="text/babel" data-presets="react,env">
         const { useState, useEffect, useRef } = React;
 
-        // Function to trigger Monetag Vignette Ad
-        const showAd = () => {
-            if (typeof window.showVignette === 'function') {
-                window.showVignette();
-            }
-        };
-
         const LegalModal = ({ title, content, onClose }) => (
             <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
                 <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl animate-fade-in">
@@ -175,10 +172,41 @@
                 <h2 id="about-game" className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-6 text-center">
                     Welcome to the Ultimate Kids Memory Game!
                 </h2>
+                
                 <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
                     <p>
-                        Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory.
+                        Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory. Perfect for toddlers, preschoolers, and early learners, this interactive web game uses colorful visuals, engaging sounds, and exciting themes to make learning an absolute joy!
                     </p>
+
+                    <h3 className="text-2xl font-bold text-green-500 mt-8 mb-4 border-b-2 border-green-100 pb-2">🧠 Why Memory Games are Great for Kids</h3>
+                    <ul className="list-disc pl-6 space-y-3">
+                        <li><strong>Improves Concentration:</strong> Matching games require players to focus closely on the screen, improving their attention span.</li>
+                        <li><strong>Enhances Visual Recognition:</strong> By remembering where specific shapes, fruits, or letters are hidden, children develop stronger visual discrimination skills.</li>
+                        <li><strong>Vocabulary Building:</strong> Our game includes voice pronunciation for every item. Children hear the words as they match them, reinforcing language learning.</li>
+                        <li><strong>Safe & Educational:</strong> Designed with young children in mind, featuring child-friendly navigation and no confusing external links.</li>
+                    </ul>
+
+                    <h3 id="features" className="text-2xl font-bold text-yellow-500 mt-8 mb-4 border-b-2 border-yellow-100 pb-2">🌟 Explore Six Fun Categories</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                            <strong>🐶 Animals:</strong> Discover cute animals and learn their names!
+                        </div>
+                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <strong>🔤 Letters (ABC):</strong> Master the English alphabet. Great for early reading preparation.
+                        </div>
+                        <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+                            <strong>🎨 Colors:</strong> Learn primary and secondary colors with visual and audio cues.
+                        </div>
+                        <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                            <strong>🍎 Fruits:</strong> Discover healthy foods and their names.
+                        </div>
+                        <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                            <strong>⭐ Shapes:</strong> Identify geometric shapes like circles, squares, and triangles.
+                        </div>
+                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+                            <strong>🚗 Vehicles:</strong> From cars to rockets, learn about transportation!
+                        </div>
+                    </div>
                 </div>
             </article>
         );
@@ -187,8 +215,9 @@
         const updateVoiceSelection = () => {
             if (!('speechSynthesis' in window)) return;
             const voices = window.speechSynthesis.getVoices();
-            preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Female'))) 
-                          || voices.find(v => v.lang.includes('en'))
+            preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Female') || v.name.includes('Google UK English Female'))) 
+                          || voices.find(v => v.lang.includes('en') && v.name.includes('Google'))
+                          || voices.find(v => v.lang === 'en-US') 
                           || null;
         };
 
@@ -198,12 +227,24 @@
         }
 
         const CATEGORIES = {
-            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [{ content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }] },
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [{ content: 'A', label: 'A' }, { content: 'B', label: 'B' }, { content: 'C', label: 'C' }, { content: 'D', label: 'D' }, { content: 'E', label: 'E' }, { content: 'F', label: 'F' }] },
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [{ content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }] },
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [{ content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }] },
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [{ content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚀', label: 'Rocket' }] },
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [{ content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }] }
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }, { content: '🐔', label: 'Chicken' }, { content: '🐧', label: 'Penguin' }, { content: '🐢', label: 'Turtle' }, { content: '🐍', label: 'Snake' }, { content: '🐴', label: 'Horse' }, { content: '🐘', label: 'Elephant' }, { content: '🦒', label: 'Giraffe' }, { content: '🦓', label: 'Zebra' }, { content: '🐬', label: 'Dolphin' }, { content: '🐳', label: 'Whale' }, { content: '🐟', label: 'Fish' }, { content: '🐦', label: 'Bird' }
+            ]},
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }, { content: 'M', label: 'M', spokenLabel: 'm' }, { content: 'N', label: 'N', spokenLabel: 'n' }, { content: 'O', label: 'O', spokenLabel: 'o' }, { content: 'P', label: 'P', spokenLabel: 'p' }, { content: 'Q', label: 'Q', spokenLabel: 'q' }, { content: 'R', label: 'R', spokenLabel: 'r' }, { content: 'S', label: 'S', spokenLabel: 's' }, { content: 'T', label: 'T', spokenLabel: 't' }, { content: 'U', label: 'U', spokenLabel: 'u' }, { content: 'V', label: 'V', spokenLabel: 'v' }, { content: 'W', label: 'W', spokenLabel: 'w' }, { content: 'X', label: 'X', spokenLabel: 'x' }, { content: 'Y', label: 'Y', spokenLabel: 'y' }, { content: 'Z', label: 'Z', spokenLabel: 'z' }
+            ]},
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }, { content: '🩵', label: 'Light Blue' }, { content: '💚', label: 'Lime' }, { content: '🤎', label: 'Dark Brown' }
+            ]},
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }, { content: '🍆', label: 'Eggplant' }, { content: '🌽', label: 'Corn' }, { content: '🍄', label: 'Mushroom' }
+            ]},
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: 'タクシー', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
+            ]},
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
+            ]}
         };
 
         const LEVELS = [
@@ -220,8 +261,36 @@
                 const utterance = new SpeechSynthesisUtterance(text);
                 if (preferredVoice) utterance.voice = preferredVoice;
                 utterance.lang = 'en-US';
+                utterance.rate = 0.85; 
+                utterance.pitch = 1.15; 
+                utterance.volume = 0.9; 
                 window.speechSynthesis.speak(utterance);
             }
+        };
+
+        const playDing = () => {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const playNote = (freq, startTime) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + startTime);
+                    gain.gain.setValueAtTime(0, ctx.currentTime + startTime);
+                    gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + startTime + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + startTime + 0.3);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + startTime);
+                    osc.stop(ctx.currentTime + startTime + 0.3);
+                };
+                playNote(523.25, 0);    
+                playNote(659.25, 0.08); 
+                playNote(783.99, 0.16); 
+                playNote(1046.50, 0.24); 
+            } catch (e) { console.log("Audio API not supported"); }
         };
 
         const Confetti = () => {
@@ -249,11 +318,47 @@
             const [matches, setMatches] = useState(0);
             const [isLocked, setIsLocked] = useState(false);
             const [highlightMatch, setHighlightMatch] = useState(null); 
+            
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
+            // הפונקציה המיוחדת לטריגר של הפרסומת (תיקון 1 + 2)
+            const triggerAd = () => {
+                if (typeof window.showVignette === 'function') {
+                    window.showVignette();
+                }
+            };
+
+            useEffect(() => {
+                const handleFullscreenChange = () => {
+                    setIsFullscreen(!!document.fullscreenElement);
+                };
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+                return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            }, []);
+
+            const enterFullscreen = (e) => {
+                e.stopPropagation();
+                if (!document.fullscreenElement) {
+                    if (boardRef.current && boardRef.current.requestFullscreen) {
+                        boardRef.current.requestFullscreen().catch(err => {
+                            console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                        });
+                    }
+                }
+            };
+
+            const exitFullscreen = (e) => {
+                e.stopPropagation();
+                if (document.fullscreenElement) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            };
+
             const resetToMenu = () => {
-                showAd(); // Trigger Ad on return to menu
+                triggerAd(); // קריאה לפרסומת בחזרה לתפריט
                 setGameState('menu');
                 setSelectedCategory(null);
                 setPreviousLevelItems([]); 
@@ -261,12 +366,25 @@
             };
 
             const initGame = (categoryKey, levelIdx) => {
-                showAd(); // Trigger Ad on stage change
+                triggerAd(); // קריאה לפרסומת במעבר שלב
                 const category = CATEGORIES[categoryKey];
                 const level = LEVELS[levelIdx];
+                
                 let selectedItems = [];
-                const shuffledItems = [...category.items].sort(() => 0.5 - Math.random());
-                selectedItems = shuffledItems.slice(0, level.pairs);
+
+                if (levelIdx > 0 && selectedCategory === categoryKey && previousLevelItems.length >= 2) {
+                    const shuffledPrev = [...previousLevelItems].sort(() => 0.5 - Math.random());
+                    const carryOverItems = shuffledPrev.slice(0, 2);
+                    
+                    const remainingPool = category.items.filter(item => !carryOverItems.some(c => c.label === item.label));
+                    const shuffledRemaining = remainingPool.sort(() => 0.5 - Math.random());
+                    const newItems = shuffledRemaining.slice(0, level.pairs - 2);
+                    
+                    selectedItems = [...carryOverItems, ...newItems].sort(() => 0.5 - Math.random());
+                } else {
+                    const shuffledItems = [...category.items].sort(() => 0.5 - Math.random());
+                    selectedItems = shuffledItems.slice(0, level.pairs);
+                }
 
                 setPreviousLevelItems(selectedItems);
                 setSelectedCategory(categoryKey);
@@ -283,29 +401,43 @@
                 setIsLocked(false);
                 setHighlightMatch(null);
                 setGameState('playing');
+                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
             const handleCardClick = (index) => {
                 if (isLocked || cards[index].isFlipped || cards[index].isMatched) return;
+
                 const newFlippedIndices = [...flippedIndices, index];
                 setCards(prev => prev.map((c, i) => i === index ? { ...c, isFlipped: true } : c));
                 setFlippedIndices(newFlippedIndices);
 
                 if (newFlippedIndices.length === 1) {
-                    playVoice(cards[index].label);
-                } else if (newFlippedIndices.length === 2) {
+                    playVoice(cards[index].spokenLabel || cards[index].label);
+                } 
+                else if (newFlippedIndices.length === 2) {
                     setIsLocked(true);
                     const [firstIndex, secondIndex] = newFlippedIndices;
                     const isMatch = cards[firstIndex].label === cards[secondIndex].label;
 
+                    if (!isMatch) {
+                        playVoice(cards[secondIndex].spokenLabel || cards[secondIndex].label);
+                    }
+
+                    // תיקון 3: קיצור זמני ההמתנה כשיש זוג, כדי שהמשחק לא "ייתקע"
                     setTimeout(() => {
                         if (isMatch) {
+                            playDing();
                             setHighlightMatch(cards[firstIndex]);
+                            
+                            setTimeout(() => {
+                                playVoice(cards[firstIndex].spokenLabel || cards[firstIndex].label);
+                            }, 50);
+
                             setTimeout(() => {
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
                                 setFlippedIndices([]); setMatches(m => m + 1); setHighlightMatch(null); setIsLocked(false);
-                            }, 1500); 
+                            }, 1200); // קוצר מ-2000 ל-1200
                         } else {
                             setMismatchIndices([firstIndex, secondIndex]);
                             setTimeout(() => {
@@ -313,7 +445,7 @@
                                 setFlippedIndices([]); setMismatchIndices([]); setIsLocked(false);
                             }, 800);
                         }
-                    }, 1000);
+                    }, 700); // קוצר מ-1100 ל-700
                 }
             };
 
@@ -321,107 +453,288 @@
             const isPlaying = gameState === 'playing' || gameState === 'won';
 
             useEffect(() => {
+                let winTimer;
                 if (currentLevel && matches > 0 && matches === currentLevel.pairs && gameState === 'playing') {
-                    setTimeout(() => setGameState('won'), 800);
+                    winTimer = setTimeout(() => {
+                        playVoice("Great job!");
+                        setGameState('won');
+                    }, 800);
                 }
-            }, [matches, currentLevel, gameState]);
+                return () => { if (winTimer) clearTimeout(winTimer); };
+            }, [matches, currentLevel, gameState, currentLevelIndex, selectedCategory]);
 
             return (
                 <>
                     {!isPlaying && <Header />}
+
                     <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
-                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4'}`}>
+                        
+                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4 md:p-6 lg:p-8'}`}>
                             
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                                    <div className="bg-white/95 rounded-3xl shadow-xl p-8 max-w-lg w-full text-center border-4 border-yellow-300">
-                                        <h2 className="text-3xl font-extrabold text-blue-600 mb-8">Select Game</h2>
-                                        {gameState === 'menu' ? (
-                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                                {Object.keys(CATEGORIES).map(key => (
-                                                    <button key={key} onClick={() => { setSelectedCategory(key); setGameState('level_select'); }} className={`${CATEGORIES[key].color} text-white font-bold py-6 rounded-2xl shadow-md active:scale-95 flex flex-col items-center`}>
-                                                        <span className="text-3xl">{CATEGORIES[key].items[0].content}</span>
-                                                        <span className="text-sm">{CATEGORIES[key].title}</span>
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <div className="animate-fade-in">
-                                                <button onClick={() => setGameState('menu')} className="bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded-xl mb-6">⬅️ Back</button>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    {LEVELS.map((lvl, idx) => (
-                                                        <button key={idx} onClick={() => initGame(selectedCategory, idx)} className="bg-yellow-100 text-yellow-900 border-2 border-yellow-400 font-bold py-4 rounded-2xl active:scale-95">
-                                                            Stage {lvl.level}
-                                                        </button>
-                                                    ))}
+                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-lg w-full text-center border-4 border-yellow-300">
+                                        <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-8 drop-shadow-sm">Select Game</h2>
+                                        
+                                        <div className="animate-fade-in w-full mx-auto">
+                                            {gameState === 'menu' ? (
+                                                <div>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                                                        {Object.keys(CATEGORIES).map(key => (
+                                                            <button 
+                                                                key={key}
+                                                                onClick={() => {
+                                                                    setSelectedCategory(key);
+                                                                    setGameState('level_select');
+                                                                }}
+                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
+                                                            >
+                                                                <span className="text-3xl mb-1">{CATEGORIES[key].items[0].content}</span>
+                                                                <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            ) : (
+                                                <div className="animate-fade-in">
+                                                    <div className="flex justify-between items-center mb-6">
+                                                        <button 
+                                                            onClick={resetToMenu}
+                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-2 px-3 sm:px-4 rounded-xl shadow-sm transition active:scale-95 text-sm"
+                                                        >⬅️ Back</button>
+                                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <div className="w-[70px] sm:w-[85px]"></div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                        {LEVELS.map((lvl, idx) => (
+                                                            <button 
+                                                                key={idx}
+                                                                onClick={() => initGame(selectedCategory, idx)}
+                                                                className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-2 border-yellow-400 font-bold py-4 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-lg flex flex-col items-center"
+                                                            >
+                                                                <span>Stage {lvl.level}</span>
+                                                                <span className="text-xs sm:text-sm font-normal opacity-80 mt-1">{lvl.pairs} Pairs</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
                             {isPlaying && (
-                                <div className="absolute inset-0 flex flex-col items-center p-2 w-full h-full">
-                                    <div className="w-full flex justify-between items-center mb-2 z-10">
-                                        <button onClick={resetToMenu} className="bg-white text-blue-500 font-bold py-2 px-4 rounded-xl shadow border-2 border-blue-200">Menu</button>
-                                        <h3 className="text-xl font-bold">Stage {currentLevelIndex + 1}</h3>
-                                        <div className="text-lg font-bold text-green-600 bg-white px-3 py-2 rounded-xl shadow">
-                                            {matches} / {currentLevel.pairs}
+                                <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full overflow-visible">
+                                    
+                                    <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-2">
+                                        <button 
+                                            onClick={resetToMenu}
+                                            className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
+                                        >Menu</button>
+                                        <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
+                                        <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-white px-3 py-1.5 sm:py-2 rounded-xl shadow whitespace-nowrap">
+                                            Pairs: {matches} / {currentLevel.pairs}
                                         </div>
                                     </div>
 
-                                    <div ref={boardRef} className="flex-1 w-full bg-blue-50/70 border-4 border-blue-300 rounded-[2rem] p-4 relative">
-                                        <div className={`grid gap-2 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
-                                            {cards.map((card, index) => (
-                                                <div key={index} onClick={() => handleCardClick(index)} className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''}`}>
-                                                    <div className="absolute inset-0 bg-orange-400 rounded-xl border-4 border-white flex justify-center items-center backface-hidden">
-                                                        <span className="text-white text-4xl">?</span>
-                                                    </div>
-                                                    <div className="absolute inset-0 bg-white rounded-xl border-4 border-blue-200 flex justify-center items-center backface-hidden rotate-y-180">
-                                                        <span className="text-5xl">{card.content}</span>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                    <div className="w-full bg-white border-2 border-gray-100 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
+                                        <div 
+                                            className="bg-green-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
+                                            style={{width: `${Math.max(5, (matches / currentLevel.pairs) * 100)}%`}}
+                                        >
+                                            {matches > 0 && <span className="text-[8px] sm:text-xs text-white font-bold animate-fade-in overflow-visible">⭐</span>}
                                         </div>
+                                    </div>
 
-                                        {highlightMatch && (
-                                            <div className="absolute inset-0 flex items-center justify-center z-[60] bg-black/30 backdrop-blur-sm">
-                                                <div className="bg-white rounded-[3rem] p-12 shadow-2xl animate-bounce-ui border-8 border-yellow-300 flex flex-col items-center">
-                                                    <span className="text-8xl mb-4">{highlightMatch.content}</span>
-                                                    <span className="text-4xl font-black text-blue-600 uppercase">{highlightMatch.label}</span>
-                                                </div>
+                                    <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
+                                        <div 
+                                            ref={boardRef}
+                                            className={`w-full h-full bg-blue-50/70 backdrop-blur-md border-blue-300/80 shadow-2xl flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] sm:border-[6px] lg:border-[8px] rounded-[1.5rem] sm:rounded-[2.5rem] lg:rounded-[3.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
+                                        >
+                                            
+                                            <button 
+                                                onClick={!isFullscreen ? enterFullscreen : undefined}
+                                                onDoubleClick={isFullscreen ? exitFullscreen : undefined}
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '15px',
+                                                    right: '15px',
+                                                    width: 'max(20px, 3%)',
+                                                    height: 'max(20px, 3%)',
+                                                    background: 'transparent',
+                                                    border: 'none',
+                                                    padding: 0,
+                                                    cursor: 'pointer',
+                                                    zIndex: 80
+                                                }}
+                                                title={isFullscreen ? "Double Click to Exit Fullscreen" : "Fullscreen"}
+                                            >
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{width: '100%', height: '100%', color: '#3b82f6'}}>
+                                                    {isFullscreen ? (
+                                                        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+                                                    ) : (
+                                                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                                                    )}
+                                                </svg>
+                                            </button>
+
+                                            <div className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
+                                                {cards.map((card, index) => {
+                                                    const isMismatched = mismatchIndices.includes(index);
+                                                    return (
+                                                    <div 
+                                                        key={index} onClick={() => handleCardClick(index)}
+                                                        /* תיקון 3: כאן הקלפים מעלימים את עצמם בעדינות כאשר נמצא זוג */
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-all duration-500 ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'opacity-0 pointer-events-none scale-75' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                    >
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
+                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
+                                                        </div>
+                                                        
+                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(147,197,253,1)] sm:shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-[3px] lg:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                            <div className="flex-1 w-full flex items-center justify-center h-full">
+                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    );
+                                                })}
                                             </div>
-                                        )}
 
-                                        {gameState === 'won' && (
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md rounded-inherit">
-                                                <Confetti />
-                                                <div className="bg-white rounded-[2rem] p-8 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400">
-                                                    <h2 className="text-4xl font-black text-green-500 mb-6">Awesome! 🎉</h2>
-                                                    <div className="flex flex-col gap-4">
-                                                        {currentLevelIndex < LEVELS.length - 1 ? (
-                                                            <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="bg-blue-500 text-white font-bold py-4 rounded-2xl text-xl">Next Stage ➡️</button>
-                                                        ) : (
-                                                            <button onClick={() => initGame(selectedCategory, 0)} className="bg-blue-500 text-white font-bold py-4 rounded-2xl text-xl">Play Again</button>
+                                            {highlightMatch && (
+                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
+                                                    <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
+                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                                        {selectedCategory !== 'abc' && (
+                                                            <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100 overflow-visible">{highlightMatch.label}</span>
                                                         )}
-                                                        <button onClick={resetToMenu} className="bg-gray-200 text-gray-800 font-bold py-3 rounded-2xl">Main Menu</button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+
+                                            {gameState === 'won' && (
+                                                <>
+                                                    <Confetti />
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md p-4 animate-fade-in rounded-inherit">
+                                                        <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
+                                                            <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
+                                                            <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                            
+                                                            <div className="flex flex-col gap-3">
+                                                                {currentLevelIndex < LEVELS.length - 1 ? (
+                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                                ) : (
+                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                                )}
+                                                                <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+
+                                        </div>
                                     </div>
                                 </div>
                             )}
                         </div>
+
                         {!isPlaying && <SeoContentSection />}
+
                     </main>
+
+                    {!isPlaying && (
+                        <footer className="bg-white border-t border-gray-200 mt-auto">
+                            <div className="max-w-6xl mx-auto px-4 py-8">
+                                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                                    <div className="text-gray-500 text-sm text-center md:text-left">
+                                        &copy; {new Date().getFullYear()} Kids Memory Game. All rights reserved.<br/>
+                                        Educational web games for toddlers and preschoolers.
+                                    </div>
+                                    <div className="flex gap-6 text-sm font-semibold text-blue-600">
+                                        <button onClick={() => setActiveModal('privacy')} className="hover:underline">Privacy Policy</button>
+                                        <button onClick={() => setActiveModal('terms')} className="hover:underline">Terms of Use</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                    )}
+
+                    {activeModal === 'privacy' && (
+                        <LegalModal 
+                            title="Privacy Policy" 
+                            onClose={() => setActiveModal(null)}
+                            content={
+                                <div>
+                                    <p><strong>Last Updated:</strong> Today</p>
+                                    <p>Welcome to Kids Memory Game. We are committed to protecting your privacy and ensuring a safe online environment for children.</p>
+                                    <p>We do not collect any Personally Identifiable Information (PII) from children. The game runs entirely in your web browser.</p>
+                                </div>
+                            }
+                        />
+                    )}
+
+                    {activeModal === 'terms' && (
+                        <LegalModal 
+                            title="Terms of Use" 
+                            onClose={() => setActiveModal(null)}
+                            content={
+                                <div>
+                                    <p>By accessing and playing Kids Memory Game, you accept these terms of use.</p>
+                                    <p>This game is provided free of charge for educational and entertainment purposes.</p>
+                                </div>
+                            }
+                        />
+                    )}
                 </>
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    </script>
+    
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installApp');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to install: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (למטה), וגלול עד שתמצא את "הוסף למסך הבית".');
+            } else {
+                alert('כדי להתקין אפליקציה זו, השתמש בתפריט הדפדפן ובחר "הוסף למסך הבית".');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('App was installed.');
+            installBtn.style.display = 'none';
+        });
+    </script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
     </script>
 </body>
 </html>
