@@ -35,7 +35,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        /* ה-CSS המקורי נשמר */
         * {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -322,12 +321,17 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
-            // הפונקציה המיוחדת לטריגר של הפרסומת (תיקון 1 + 2)
+            // הפונקציה שמפעילה את הפרסומת
             const triggerAd = () => {
                 if (typeof window.showVignette === 'function') {
                     window.showVignette();
                 }
             };
+
+            // קריאה לפרסומת בפתיחת העמוד הראשי
+            useEffect(() => {
+                triggerAd();
+            }, []);
 
             useEffect(() => {
                 const handleFullscreenChange = () => {
@@ -358,7 +362,7 @@
             };
 
             const resetToMenu = () => {
-                triggerAd(); // קריאה לפרסומת בחזרה לתפריט
+                triggerAd();
                 setGameState('menu');
                 setSelectedCategory(null);
                 setPreviousLevelItems([]); 
@@ -366,7 +370,7 @@
             };
 
             const initGame = (categoryKey, levelIdx) => {
-                triggerAd(); // קריאה לפרסומת במעבר שלב
+                triggerAd();
                 const category = CATEGORIES[categoryKey];
                 const level = LEVELS[levelIdx];
                 
@@ -424,7 +428,6 @@
                         playVoice(cards[secondIndex].spokenLabel || cards[secondIndex].label);
                     }
 
-                    // תיקון 3: קיצור זמני ההמתנה כשיש זוג, כדי שהמשחק לא "ייתקע"
                     setTimeout(() => {
                         if (isMatch) {
                             playDing();
@@ -432,12 +435,12 @@
                             
                             setTimeout(() => {
                                 playVoice(cards[firstIndex].spokenLabel || cards[firstIndex].label);
-                            }, 50);
+                            }, 100);
 
                             setTimeout(() => {
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
                                 setFlippedIndices([]); setMatches(m => m + 1); setHighlightMatch(null); setIsLocked(false);
-                            }, 1200); // קוצר מ-2000 ל-1200
+                            }, 2000); 
                         } else {
                             setMismatchIndices([firstIndex, secondIndex]);
                             setTimeout(() => {
@@ -445,7 +448,7 @@
                                 setFlippedIndices([]); setMismatchIndices([]); setIsLocked(false);
                             }, 800);
                         }
-                    }, 700); // קוצר מ-1100 ל-700
+                    }, 1100);
                 }
             };
 
@@ -484,6 +487,7 @@
                                                             <button 
                                                                 key={key}
                                                                 onClick={() => {
+                                                                    triggerAd(); // קריאה לפרסומת בלחיצה על קטגוריה
                                                                     setSelectedCategory(key);
                                                                     setGameState('level_select');
                                                                 }}
@@ -521,7 +525,8 @@
                                             )}
                                         </div>
                                     </div>
-                                )}
+                                </div>
+                            )}
 
                             {isPlaying && (
                                 <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full overflow-visible">
@@ -584,8 +589,7 @@
                                                     return (
                                                     <div 
                                                         key={index} onClick={() => handleCardClick(index)}
-                                                        /* תיקון 3: כאן הקלפים מעלימים את עצמם בעדינות כאשר נמצא זוג */
-                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-all duration-500 ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'opacity-0 pointer-events-none scale-75' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
                                                             <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
