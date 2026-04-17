@@ -29,7 +29,7 @@
         body, html {
             margin: 0;
             font-family: 'Rubik', sans-serif;
-            background-color: #e0f2fe; /* שמח ובהיר - כחול שמיים פסטלי */
+            background-color: #e0f2fe;
             background-image: radial-gradient(#bae6fd 15%, transparent 15%);
             background-size: 30px 30px;
             touch-action: pan-y;
@@ -39,7 +39,7 @@
         /* --- Colorful Toy Styles --- */
         .gentle-toy-card {
             background-color: #ffffff;
-            border: 4px solid #60a5fa; /* מסגרת כחולה שמחה */
+            border: 4px solid #60a5fa;
             border-radius: 24px;
             box-shadow: 6px 8px 0px 0px #93c5fd; 
             transition: all 0.15s ease-out;
@@ -166,25 +166,46 @@
             window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
         }
 
-        // צבעים חמים ושמחים לכל קטגוריה
+        // Updated Categories with 12+ items for higher levels
         const CATEGORIES = {
             animals: { id: 'animals', title: 'Animals', color: 'bg-orange-200', textColors: 'text-orange-800', items: [
-                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, 
+                { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, 
+                { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, 
+                { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, 
+                { content: '🐵', label: 'Monkey' }
             ]},
             abc: { id: 'abc', title: 'Letters', color: 'bg-blue-200', textColors: 'text-blue-800', items: [
-                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, 
+                { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, 
+                { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' },
+                { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' },
+                { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' },
+                { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }
             ]},
             colors: { id: 'colors', title: 'Colors', color: 'bg-red-200', textColors: 'text-red-800', items: [
-                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, 
+                { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' },
+                { content: '🌸', label: 'Pink' }, { content: '🟤', label: 'Brown' }, { content: '⚫', label: 'Black' },
+                { content: '⚪', label: 'White' }, { content: '🔘', label: 'Gray' }, { content: '🩵', label: 'Cyan' }
             ]},
             fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-200', textColors: 'text-green-800', items: [
-                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🍊', label: 'Orange' }, 
+                { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' },
+                { content: '🍋', label: 'Lemon' }, { content: '🍒', label: 'Cherry' }, { content: '🍑', label: 'Peach' },
+                { content: '🍍', label: 'Pineapple' }, { content: '🥝', label: 'Kiwi' }, { content: '🥑', label: 'Avocado' }
             ]},
             transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-200', textColors: 'text-yellow-800', items: [
-                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, 
+                { content: '✈️', label: 'Airplane' }, { content: '🚲', label: 'Bicycle' }, { content: '⛵', label: 'Boat' },
+                { content: '🚁', label: 'Helicopter' }, { content: '🏍️', label: 'Motorcycle' }, { content: '🚚', label: 'Truck' },
+                { content: '🚀', label: 'Rocket' }, { content: '🛴', label: 'Scooter' }, { content: '🚜', label: 'Tractor' }
             ]},
             shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-200', textColors: 'text-purple-800', items: [
-                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, 
+                { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '♦️', label: 'Diamond' },
+                { content: '🔲', label: 'Rectangle' }, { content: '🛑', label: 'Octagon' }, { content: '🌙', label: 'Crescent' },
+                { content: '➕', label: 'Cross' }, { content: '☁️', label: 'Cloud' }, { content: '⚡', label: 'Lightning' }
             ]}
         };
 
@@ -440,31 +461,31 @@
 
                     {showPlayerModal && (
                         <div className="fixed inset-0 z-50 bg-blue-900/40 backdrop-blur-sm flex justify-center items-center p-4">
-                            <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col gentle-toy-card p-6 animate-bounce-ui relative">
-                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-slate-300 hover:text-red-400 font-bold text-xl">✕</button>
-                                <h2 className="text-2xl sm:text-3xl font-black text-blue-600 mb-6 text-center gentle-title">Who is playing?</h2>
+                            <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col gentle-toy-card p-8 animate-bounce-ui relative">
+                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-slate-300 hover:text-red-400 font-bold text-2xl">✕</button>
+                                <h2 className="text-3xl sm:text-4xl font-black text-blue-600 mb-8 text-center gentle-title">Who is playing?</h2>
                                 
-                                <div className="flex justify-center gap-3 mb-6">
+                                <div className="flex justify-center gap-4 mb-8">
                                     {[1, 2, 3, 4].map(n => (
                                         <button 
                                             key={n}
                                             onClick={() => handleNumPlayersChange(n)}
-                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform border-[3px] ${numPlayers === n ? 'bg-blue-200 text-blue-800 border-blue-400 scale-110 shadow-[0_4px_0_#60a5fa]' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`}
+                                            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full font-bold text-2xl sm:text-3xl transition-transform border-[3px] ${numPlayers === n ? 'bg-blue-200 text-blue-800 border-blue-400 scale-110 shadow-[0_4px_0_#60a5fa]' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`}
                                         >
                                             {n}
                                         </button>
                                     ))}
                                 </div>
                                 
-                                <div className="space-y-3 mb-8">
+                                <div className="space-y-4 mb-10">
                                     {players.map((p, i) => (
                                         <div key={p.id} className="flex items-center gap-3">
-                                            <span className="text-2xl sm:text-3xl drop-shadow-sm">{['🔴','🔵','🟢','🟡'][i]}</span>
+                                            <span className="text-3xl drop-shadow-sm">{['🔴','🔵','🟢','🟡'][i]}</span>
                                             <input 
                                                 type="text"
                                                 value={p.name}
                                                 onChange={(e) => handleNameChange(i, e.target.value)}
-                                                className="flex-1 border-[3px] border-blue-100 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-slate-700 focus:border-blue-300 focus:outline-none transition-colors"
+                                                className="flex-1 border-[3px] border-blue-100 rounded-xl px-4 py-3 sm:py-4 text-xl font-bold text-slate-700 focus:border-blue-300 focus:outline-none transition-colors"
                                                 placeholder={`Player ${i + 1}`}
                                                 maxLength="12"
                                             />
@@ -474,7 +495,7 @@
                                 
                                 <button 
                                     onClick={submitPlayers}
-                                    className="w-full bg-green-400 text-white font-black py-3 sm:py-4 px-6 gentle-toy-button border-green-600 shadow-[0_5px_0_#16a34a] text-xl flex justify-center items-center gap-2"
+                                    className="w-full bg-green-400 text-white font-black py-4 sm:py-5 px-6 gentle-toy-button border-green-600 shadow-[0_5px_0_#16a34a] text-2xl flex justify-center items-center gap-2"
                                 >
                                     Continue ➡️
                                 </button>
@@ -484,17 +505,19 @@
 
                     <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
                         
-                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[400px] p-4 md:p-6 lg:p-8'}`}>
+                        <div className={`w-full max-w-7xl mx-auto relative flex items-center justify-center shrink-0 ${isPlaying ? 'flex-1 h-full p-2 sm:p-4' : 'min-h-[500px] p-4 md:p-8 lg:p-12'}`}>
                             
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                                    <div className="bg-white/95 backdrop-blur-sm gentle-toy-card p-6 sm:p-8 max-w-lg w-full text-center">
-                                        <h2 className="text-3xl md:text-4xl font-black text-blue-600 mb-8 gentle-title">Select Game</h2>
+                                    {/* רווחים מוגדלים וכרטיס רחב יותר לתפריט הראשי */}
+                                    <div className="bg-white/95 backdrop-blur-sm gentle-toy-card p-8 sm:p-10 max-w-2xl w-full text-center">
+                                        <h2 className="text-4xl md:text-5xl font-black text-blue-600 mb-10 gentle-title">Select Game</h2>
                                         
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
                                                 <div>
-                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                                                    {/* רווחים גדולים יותר בין קטגוריות */}
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
                                                         {Object.keys(CATEGORIES).map(key => (
                                                             <button 
                                                                 key={key}
@@ -502,33 +525,34 @@
                                                                     setSelectedCategory(key);
                                                                     setShowPlayerModal(true);
                                                                 }}
-                                                                className={`${CATEGORIES[key].color} ${CATEGORIES[key].textColors} font-bold py-5 sm:py-6 px-2 gentle-toy-button text-lg flex flex-col items-center justify-center gap-1 border-[3px] border-white/50 shadow-md`}
+                                                                className={`${CATEGORIES[key].color} ${CATEGORIES[key].textColors} font-bold py-6 sm:py-8 px-2 gentle-toy-button text-lg flex flex-col items-center justify-center gap-2 border-[3px] border-white/50 shadow-md`}
                                                             >
-                                                                <span className="text-3xl mb-1 drop-shadow-sm">{CATEGORIES[key].items[0].content}</span>
-                                                                <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
+                                                                <span className="text-4xl sm:text-5xl mb-1 drop-shadow-sm">{CATEGORIES[key].items[0].content}</span>
+                                                                <span className="text-base sm:text-xl">{CATEGORIES[key].title}</span>
                                                             </button>
                                                         ))}
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div className="animate-fade-in">
-                                                    <div className="flex justify-between items-center mb-6">
+                                                    <div className="flex justify-between items-center mb-8">
                                                         <button 
                                                             onClick={resetToMenu}
-                                                            className="bg-blue-50 text-blue-500 font-bold py-2 px-3 sm:px-4 gentle-toy-button text-sm border-blue-200"
+                                                            className="bg-blue-50 text-blue-500 font-bold py-3 px-4 sm:px-6 gentle-toy-button text-base border-blue-200"
                                                         >⬅️ Back</button>
-                                                        <h3 className="text-xl sm:text-2xl font-black text-blue-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
-                                                        <div className="w-[70px] sm:w-[85px]"></div>
+                                                        <h3 className="text-2xl sm:text-3xl font-black text-blue-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <div className="w-[85px] sm:w-[100px]"></div>
                                                     </div>
-                                                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                                    {/* רווחים גדולים יותר בין שלבים */}
+                                                    <div className="grid grid-cols-2 gap-4 sm:gap-6">
                                                         {LEVELS.map((lvl, idx) => (
                                                             <button 
                                                                 key={idx}
                                                                 onClick={() => initGame(selectedCategory, idx)}
-                                                                className="bg-yellow-100 text-yellow-800 font-bold py-4 px-2 gentle-toy-button border-yellow-300 text-lg flex flex-col items-center"
+                                                                className="bg-yellow-100 text-yellow-800 font-bold py-6 px-4 gentle-toy-button border-yellow-300 text-xl flex flex-col items-center gap-1"
                                                             >
                                                                 <span>Stage {lvl.level}</span>
-                                                                <span className="text-xs sm:text-sm font-medium opacity-80 mt-1">{lvl.pairs} Pairs</span>
+                                                                <span className="text-sm sm:text-base font-medium opacity-80">{lvl.pairs} Pairs</span>
                                                             </button>
                                                         ))}
                                                     </div>
@@ -607,13 +631,11 @@
                                                         key={index} onClick={(e) => handleCardClick(e, index)}
                                                         className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-80' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
-                                                        {/* גב הקלף העליז והצבעוני */}
                                                         <div className={`absolute inset-0 bg-yellow-100 rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-yellow-300 shadow-[0_5px_0_#fde047] flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
                                                             <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-yellow-400/50 rounded-lg sm:rounded-xl"></div>
                                                             <span className="text-yellow-400 font-black" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
                                                         
-                                                        {/* פני הקלף עם שאיבת התמונה (או אימוג'י ב-fallback) */}
                                                         <div className={`absolute inset-0 bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-blue-200 shadow-[0_5px_0_#bfdbfe] flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
                                                             <div className="flex-1 w-full flex items-center justify-center h-full p-2">
                                                                 <img 
