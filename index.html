@@ -166,47 +166,27 @@
             window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
         }
 
-        const CATEGORIES = {
-            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-200', textColors: 'text-orange-800', items: [
-                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, 
-                { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, 
-                { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, 
-                { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, 
-                { content: '🐵', label: 'Monkey' }
+                const CATEGORIES = {
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', textColors: 'text-orange-900', items: [
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }, { content: '🐔', label: 'Chicken' }, { content: '🐧', label: 'Penguin' }, { content: '🐢', label: 'Turtle' }, { content: '🐍', label: 'Snake' }, { content: '🐴', label: 'Horse' }, { content: '🐘', label: 'Elephant' }, { content: '🦒', label: 'Giraffe' }, { content: '🦓', label: 'Zebra' }, { content: '🐬', label: 'Dolphin' }, { content: '🐳', label: 'Whale' }, { content: '🐟', label: 'Fish' }, { content: '🐦', label: 'Bird' }
             ]},
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-200', textColors: 'text-blue-800', items: [
-                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, 
-                { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, 
-                { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' },
-                { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' },
-                { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' },
-                { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', textColors: 'text-blue-900', items: [
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }, { content: 'M', label: 'M', spokenLabel: 'm' }, { content: 'N', label: 'N', spokenLabel: 'n' }, { content: 'O', label: 'O', spokenLabel: 'o' }, { content: 'P', label: 'P', spokenLabel: 'p' }, { content: 'Q', label: 'Q', spokenLabel: 'q' }, { content: 'R', label: 'R', spokenLabel: 'r' }, { content: 'S', label: 'S', spokenLabel: 's' }, { content: 'T', label: 'T', spokenLabel: 't' }, { content: 'U', label: 'U', spokenLabel: 'u' }, { content: 'V', label: 'V', spokenLabel: 'v' }, { content: 'W', label: 'W', spokenLabel: 'w' }, { content: 'X', label: 'X', spokenLabel: 'x' }, { content: 'Y', label: 'Y', spokenLabel: 'y' }, { content: 'Z', label: 'Z', spokenLabel: 'z' }
             ]},
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-200', textColors: 'text-red-800', items: [
-                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, 
-                { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' },
-                { content: '🌸', label: 'Pink' }, { content: '🟤', label: 'Brown' }, { content: '⚫', label: 'Black' },
-                { content: '⚪', label: 'White' }, { content: '🔘', label: 'Gray' }, { content: '🩵', label: 'Cyan' }
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', textColors: 'text-red-900', items: [
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }, { content: '🩵', label: 'Light Blue' }, { content: '💚', label: 'Lime' }, { content: '🤎', label: 'Dark Brown' }
             ]},
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-200', textColors: 'text-green-800', items: [
-                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🍊', label: 'Orange' }, 
-                { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' },
-                { content: '🍋', label: 'Lemon' }, { content: '🍒', label: 'Cherry' }, { content: '🍑', label: 'Peach' },
-                { content: '🍍', label: 'Pineapple' }, { content: '🥝', label: 'Kiwi' }, { content: '🥑', label: 'Avocado' }
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', textColors: 'text-green-900', items: [
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🍊', label: 'Orange' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }
             ]},
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-200', textColors: 'text-yellow-800', items: [
-                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, 
-                { content: '✈️', label: 'Airplane' }, { content: '🚲', label: 'Bicycle' }, { content: '⛵', label: 'Boat' },
-                { content: '🚁', label: 'Helicopter' }, { content: '🏍️', label: 'Motorcycle' }, { content: '🚚', label: 'Truck' },
-                { content: '🚀', label: 'Rocket' }, { content: '🛴', label: 'Scooter' }, { content: '🚜', label: 'Tractor' }
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', textColors: 'text-yellow-900', items: [
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: '🚕', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
             ]},
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-200', textColors: 'text-purple-800', items: [
-                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, 
-                { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '♦️', label: 'Diamond' },
-                { content: '🔲', label: 'Rectangle' }, { content: '🛑', label: 'Octagon' }, { content: '🌙', label: 'Crescent' },
-                { content: '➕', label: 'Cross' }, { content: '☁️', label: 'Cloud' }, { content: '⚡', label: 'Lightning' }
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', textColors: 'text-purple-900', items: [
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
             ]}
         };
+
 
         const LEVELS = [
             { level: 1, pairs: 3, cols: 'grid-cols-2 sm:grid-cols-3', rows: 'grid-rows-3 sm:grid-rows-2' },
