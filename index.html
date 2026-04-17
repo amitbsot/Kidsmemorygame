@@ -3,30 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kids Memory Game - Fun & Educational Brain Training</title>
+    <title>Kids Memory Game - Fun & Educational</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Memory Game">
     
-    <link rel="apple-touch-icon" href="IMG_8097.png?v=2">
-    <link rel="icon" type="image/png" sizes="192x192" href="IMG_8097.png?v=2">
-    <link rel="icon" type="image/png" sizes="512x512" href="IMG_8097.png?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800;900&display=swap" rel="stylesheet">
     
-    <link rel="manifest" href="manifest.json">
-
-    <meta name="description" content="Play the best free online memory game for kids. Improve cognitive skills, learn ABCs, colors, fruits, shapes, and more with our fun and educational matching game.">
-    <meta name="keywords" content="kids memory game, educational games, brain training for kids, matching game, learn ABC, learn colors, free kids games">
-    <meta name="author" content="Kids Learning Games">
-    
-    <script>(function(s){s.dataset.zone='10886757',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-    
-    <script src="react.production.min.js"></script>
-    <script src="react-dom.production.min.js"></script>
-    <script src="babel.min.js"></script>
-    <script src="tailwind.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.3/babel.min.js"></script>
 
     <style>
         * {
@@ -40,18 +28,45 @@
 
         body, html {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0fdf4;
+            font-family: 'Rubik', sans-serif; /* Changed to ThinkFun's font */
+            background-color: #f8fafc; /* Very light slate */
+            background-image: radial-gradient(#e2e8f0 15%, transparent 15%); /* Gentle polka dots */
+            background-size: 30px 30px;
             touch-action: pan-y;
+            color: #334155;
         }
 
-        .seo-content, .legal-content {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
+        /* --- Gentle ThinkFun Toy Styles --- */
+        .gentle-toy-card {
+            background-color: #ffffff;
+            border: 3px solid #94a3b8; /* Soft slate border instead of dark black */
+            border-radius: 24px;
+            box-shadow: 6px 8px 0px 0px #cbd5e1; /* Gentle solid shadow */
+            transition: all 0.15s ease-out;
+        }
+        
+        .gentle-toy-button {
+            border: 3px solid #94a3b8;
+            border-radius: 16px;
+            box-shadow: 0px 5px 0px 0px #cbd5e1;
+            transition: all 0.1s;
+            cursor: pointer;
+        }
+        .gentle-toy-button:hover {
+            filter: brightness(0.95);
+        }
+        .gentle-toy-button:active {
+            transform: translateY(5px);
+            box-shadow: 0px 0px 0px 0px #cbd5e1;
         }
 
+        .gentle-title {
+            color: #475569;
+            text-shadow: 2px 2px 0px #e2e8f0;
+        }
+
+        /* --- Game Utilities --- */
+        .seo-content, .legal-content { user-select: text; }
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden {
@@ -59,7 +74,6 @@
             -webkit-backface-visibility: hidden;
         }
         .rotate-y-180 { transform: rotateY(180deg); }
-        
         .transition-transform { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         
@@ -76,19 +90,9 @@
 
         @keyframes bounceUI {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.05); }
         }
         .animate-bounce-ui { animation: bounceUI 0.5s ease-in-out; }
-
-        .bg-polka {
-            background-color: #f0fdf4;
-            background-image: radial-gradient(#bbf7d0 3px, transparent 3px);
-            background-size: 40px 40px;
-        }
-        
-        .emoji-shadow {
-            filter: drop-shadow(0px 8px 8px rgba(0,0,0,0.15));
-        }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0) rotateY(180deg); }
@@ -101,10 +105,8 @@
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            opacity: 0;
+            width: 10px; height: 10px;
+            background-color: #f00; opacity: 0;
         }
         @keyframes fall {
             0% { opacity: 1; top: -10%; transform: translateX(0) rotate(0deg); }
@@ -112,60 +114,38 @@
         }
         
         .fullscreen-active {
-            width: 100vw !important;
-            height: 100vh !important;
-            border-radius: 0 !important;
-            border: none !important;
-            padding: 2rem !important;
-            touch-action: none !important;
+            width: 100vw !important; height: 100vh !important;
+            border-radius: 0 !important; border: none !important;
+            padding: 2rem !important; touch-action: none !important;
             overscroll-behavior: none !important;
         }
     </style>
 </head>
-<body class="overflow-x-hidden bg-polka text-gray-800">
-    
-    <button id="installApp" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 100;" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition active:scale-95 text-lg flex items-center gap-2 bounceUI animate-bounce-ui overflow-visible">
-        התקן אפליקציה 📲
-    </button>
+<body class="overflow-x-hidden text-slate-700">
 
     <div id="root" class="min-h-screen flex flex-col"></div>
 
     <script type="text/babel" data-presets="react,env">
         const { useState, useEffect, useRef } = React;
 
-        const LegalModal = ({ title, content, onClose }) => (
-            <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
-                <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl animate-fade-in">
-                    <div className="flex justify-between items-center p-4 sm:p-6 border-b">
-                        <h2 className="text-2xl font-bold text-blue-600">{title}</h2>
-                        <button onClick={onClose} className="text-gray-400 hover:text-red-500 text-2xl font-bold transition">✕</button>
-                    </div>
-                    <div className="p-4 sm:p-6 overflow-y-auto legal-content text-gray-600 text-sm sm:text-base space-y-4">
-                        {content}
-                    </div>
-                </div>
-            </div>
-        );
-
         const Header = () => (
-            <header className="bg-white/90 backdrop-blur-md border-b border-green-200 py-4 px-6 sticky top-0 z-40 flex justify-between items-center shadow-sm">
+            <header className="bg-white/80 backdrop-blur-md border-b-4 border-slate-200 py-4 px-6 sticky top-0 z-40 flex justify-center sm:justify-between items-center shadow-sm">
                 <div className="flex items-center gap-2">
-                    <span className="text-3xl emoji-shadow">🧠</span>
-                    <h1 className="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight">Kids Memory Game</h1>
+                    <span className="text-3xl">🧠</span>
+                    <h1 className="text-2xl sm:text-3xl font-black gentle-title text-slate-600">Kids Memory</h1>
                 </div>
-                <nav className="hidden sm:flex gap-4 font-bold text-green-600">
-                    <a href="#about-game" className="hover:text-blue-500 transition">How to Play</a>
-                    <a href="#features" className="hover:text-blue-500 transition">Features</a>
+                <nav className="hidden sm:flex gap-4 font-bold text-slate-500">
+                    <a href="#about-game" className="hover:text-blue-400 transition">How to Play</a>
                 </nav>
             </header>
         );
 
         const SeoContentSection = () => (
-            <article className="seo-content max-w-4xl mx-auto p-6 sm:p-10 bg-white/95 rounded-3xl shadow-xl mt-8 mb-12 border-4 border-green-100">
-                <h2 id="about-game" className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-6 text-center">
+            <article className="seo-content max-w-4xl mx-auto p-6 sm:p-10 bg-white rounded-3xl gentle-toy-card mt-8 mb-12">
+                <h2 id="about-game" className="text-3xl sm:text-4xl font-black text-slate-600 mb-6 text-center gentle-title">
                     Welcome to the Ultimate Kids Memory Game!
                 </h2>
-                <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
+                <div className="space-y-6 text-slate-600 leading-relaxed text-lg font-medium">
                     <p>Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory.</p>
                 </div>
             </article>
@@ -186,23 +166,24 @@
             window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
         }
 
+        // Updated Categories to use Pastel Colors
         const CATEGORIES = {
-            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-100', textColors: 'text-orange-600', items: [
                 { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }
             ]},
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-100', textColors: 'text-blue-600', items: [
                 { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }
             ]},
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-100', textColors: 'text-red-500', items: [
                 { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }
             ]},
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-100', textColors: 'text-green-600', items: [
                 { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }
             ]},
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-100', textColors: 'text-yellow-600', items: [
                 { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }
             ]},
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-100', textColors: 'text-purple-600', items: [
                 { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }
             ]}
         };
@@ -266,7 +247,6 @@
         };
 
         const App = () => {
-            const [activeModal, setActiveModal] = useState(null); 
             const [gameState, setGameState] = useState('menu'); 
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
@@ -282,7 +262,6 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
-            // הגדרות שחקנים חדשות (Multiplayer)
             const [showPlayerModal, setShowPlayerModal] = useState(false);
             const [numPlayers, setNumPlayers] = useState(1);
             const [players, setPlayers] = useState([{ id: 1, name: 'Player 1', score: 0 }]);
@@ -300,19 +279,15 @@
                 e.stopPropagation();
                 if (!document.fullscreenElement) {
                     if (boardRef.current && boardRef.current.requestFullscreen) {
-                        boardRef.current.requestFullscreen().catch(err => {
-                            console.error(`Error attempting to enable fullscreen: ${err.message}`);
-                        });
+                        boardRef.current.requestFullscreen().catch(err => console.error(err));
                     }
                 }
             };
 
             const exitFullscreen = (e) => {
                 e.stopPropagation();
-                if (document.fullscreenElement) {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
+                if (document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen();
                 }
             };
 
@@ -340,7 +315,6 @@
             };
 
             const submitPlayers = () => {
-                // מילוי אוטומטי של שמות אם הושארו ריקים
                 setPlayers(prev => prev.map((p, i) => ({ ...p, name: p.name.trim() || `Player ${i + 1}` })));
                 setShowPlayerModal(false);
                 setGameState('level_select');
@@ -381,12 +355,10 @@
                 setIsLocked(false);
                 setHighlightMatch(null);
                 
-                // איפוס ניקוד ושחקן נוכחי בתחילת שלב
                 setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
                 setCurrentPlayerIndex(0);
                 
                 setGameState('playing');
-                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
@@ -427,10 +399,7 @@
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
                                 setFlippedIndices([]); 
                                 setMatches(m => m + 1);
-                                
-                                // העלאת הניקוד לשחקן הנוכחי (התור נשאר אצלו)
                                 setPlayers(prev => prev.map((p, i) => i === currentPlayerIndex ? { ...p, score: p.score + 1 } : p));
-                                
                                 setHighlightMatch(null); 
                                 setIsLocked(false);
                             }, 2000); 
@@ -440,10 +409,7 @@
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isFlipped: false } : c));
                                 setFlippedIndices([]); 
                                 setMismatchIndices([]); 
-                                
-                                // העברת תור לשחקן הבא אם טעו
                                 setCurrentPlayerIndex(prev => (prev + 1) % numPlayers);
-                                
                                 setIsLocked(false);
                             }, 800);
                         }
@@ -465,7 +431,6 @@
                 return () => { if (winTimer) clearTimeout(winTimer); };
             }, [matches, currentLevel, gameState, currentLevelIndex, selectedCategory]);
 
-            // מציאת המנצח/ים
             const maxScore = Math.max(...players.map(p => p.score));
             const winners = players.filter(p => p.score === maxScore);
 
@@ -473,19 +438,19 @@
                 <>
                     {!isPlaying && <Header />}
 
-                    {/* חלון מרחף - בחירת מספר שחקנים ושמות */}
+                    {/* Player Setup Modal - Light & Gentle style */}
                     {showPlayerModal && (
-                        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
-                            <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col shadow-2xl border-[6px] border-yellow-300 p-6 animate-bounce-ui relative">
-                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-xl">✕</button>
-                                <h2 className="text-2xl sm:text-3xl font-extrabold text-blue-600 mb-6 text-center drop-shadow-sm">Who is playing?</h2>
+                        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center p-4">
+                            <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col gentle-toy-card p-6 animate-bounce-ui relative">
+                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-red-400 font-bold text-xl">✕</button>
+                                <h2 className="text-2xl sm:text-3xl font-black text-slate-600 mb-6 text-center gentle-title">Who is playing?</h2>
                                 
                                 <div className="flex justify-center gap-3 mb-6">
                                     {[1, 2, 3, 4].map(n => (
                                         <button 
                                             key={n}
                                             onClick={() => handleNumPlayersChange(n)}
-                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform ${numPlayers === n ? 'bg-blue-500 text-white scale-110 shadow-[0_4px_0_#2563eb]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-gray-200'}`}
+                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform border-[3px] ${numPlayers === n ? 'bg-blue-100 text-blue-600 border-blue-300 scale-110 shadow-[0_4px_0_#93c5fd]' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`}
                                         >
                                             {n}
                                         </button>
@@ -495,12 +460,12 @@
                                 <div className="space-y-3 mb-8">
                                     {players.map((p, i) => (
                                         <div key={p.id} className="flex items-center gap-3">
-                                            <span className="text-2xl sm:text-3xl drop-shadow-md">{['🔴','🔵','🟢','🟡'][i]}</span>
+                                            <span className="text-2xl sm:text-3xl drop-shadow-sm">{['🔴','🔵','🟢','🟡'][i]}</span>
                                             <input 
                                                 type="text"
                                                 value={p.name}
                                                 onChange={(e) => handleNameChange(i, e.target.value)}
-                                                className="flex-1 border-[3px] border-blue-100 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-gray-700 focus:border-blue-400 focus:outline-none transition-colors"
+                                                className="flex-1 border-[3px] border-slate-200 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-slate-600 focus:border-blue-300 focus:outline-none transition-colors"
                                                 placeholder={`Player ${i + 1}`}
                                                 maxLength="12"
                                             />
@@ -510,7 +475,7 @@
                                 
                                 <button 
                                     onClick={submitPlayers}
-                                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 sm:py-4 px-6 rounded-2xl shadow-[0_6px_0_#16a34a] transform transition active:translate-y-2 active:shadow-[0_0px_0_#16a34a] text-xl flex justify-center items-center gap-2"
+                                    className="w-full bg-green-100 text-green-700 font-black py-3 sm:py-4 px-6 gentle-toy-button text-xl flex justify-center items-center gap-2"
                                 >
                                     Continue ➡️
                                 </button>
@@ -524,8 +489,8 @@
                             
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_10px_0_rgba(209,213,219,1)] p-6 sm:p-8 max-w-lg w-full text-center border-4 border-yellow-300">
-                                        <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-8 drop-shadow-sm">Select Game</h2>
+                                    <div className="bg-white/95 backdrop-blur-sm gentle-toy-card p-6 sm:p-8 max-w-lg w-full text-center">
+                                        <h2 className="text-3xl md:text-4xl font-black text-slate-600 mb-8 gentle-title">Select Game</h2>
                                         
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
@@ -536,9 +501,9 @@
                                                                 key={key}
                                                                 onClick={() => {
                                                                     setSelectedCategory(key);
-                                                                    setShowPlayerModal(true); // הצגת החלון המרחף
+                                                                    setShowPlayerModal(true);
                                                                 }}
-                                                                className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
+                                                                className={`${CATEGORIES[key].color} ${CATEGORIES[key].textColors} font-bold py-5 sm:py-6 px-2 gentle-toy-button text-lg flex flex-col items-center justify-center gap-1`}
                                                             >
                                                                 <span className="text-3xl mb-1">{CATEGORIES[key].items[0].content}</span>
                                                                 <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
@@ -551,9 +516,9 @@
                                                     <div className="flex justify-between items-center mb-6">
                                                         <button 
                                                             onClick={resetToMenu}
-                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-2 px-3 sm:px-4 rounded-xl shadow-sm transition active:scale-95 text-sm"
+                                                            className="bg-slate-100 text-slate-500 font-bold py-2 px-3 sm:px-4 gentle-toy-button text-sm"
                                                         >⬅️ Back</button>
-                                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <h3 className="text-xl sm:text-2xl font-black text-slate-600 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
                                                         <div className="w-[70px] sm:w-[85px]"></div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -561,10 +526,10 @@
                                                             <button 
                                                                 key={idx}
                                                                 onClick={() => initGame(selectedCategory, idx)}
-                                                                className="bg-yellow-100 hover:bg-yellow-300 text-yellow-900 border-2 border-yellow-400 font-bold py-4 px-2 rounded-2xl shadow-sm transform transition active:scale-95 text-lg flex flex-col items-center"
+                                                                className="bg-yellow-50 text-yellow-700 font-bold py-4 px-2 gentle-toy-button text-lg flex flex-col items-center"
                                                             >
                                                                 <span>Stage {lvl.level}</span>
-                                                                <span className="text-xs sm:text-sm font-normal opacity-80 mt-1">{lvl.pairs} Pairs</span>
+                                                                <span className="text-xs sm:text-sm font-medium opacity-80 mt-1">{lvl.pairs} Pairs</span>
                                                             </button>
                                                         ))}
                                                     </div>
@@ -582,24 +547,22 @@
                                         <div className="flex justify-between items-center">
                                             <button 
                                                 onClick={resetToMenu}
-                                                className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
+                                                className="bg-white text-slate-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 gentle-toy-button text-xs sm:text-base"
                                             >Menu</button>
-                                            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
+                                            <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-600 truncate px-2">Stage {currentLevelIndex + 1}</h3>
                                             
-                                            {/* הצגת מצב יחיד במידת הצורך בפינה */}
                                             {numPlayers === 1 && (
-                                                <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-white px-3 py-1.5 sm:py-2 rounded-xl shadow whitespace-nowrap">
+                                                <div className="text-xs sm:text-lg md:text-xl font-bold text-blue-500 bg-white px-3 py-1.5 sm:py-2 rounded-xl border-[3px] border-slate-200 shadow-sm whitespace-nowrap">
                                                     Pairs: {matches} / {currentLevel.pairs}
                                                 </div>
                                             )}
                                         </div>
 
-                                        {/* תצוגת שחקנים מרובים */}
                                         {numPlayers > 1 && (
                                             <div className="flex gap-2 overflow-x-auto w-full justify-center pb-1">
                                                 {players.map((p, i) => (
-                                                    <div key={p.id} className={`px-3 py-1.5 rounded-xl shadow-sm border-2 flex items-center gap-1.5 transition-all duration-300 ${i === currentPlayerIndex ? 'bg-blue-500 border-blue-600 text-white transform scale-105 shadow-md' : 'bg-white border-gray-200 text-gray-500 opacity-90'}`}>
-                                                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: ['#ef4444', '#3b82f6', '#22c55e', '#eab308'][i]}}></div>
+                                                    <div key={p.id} className={`px-3 py-1.5 rounded-xl shadow-sm border-[3px] flex items-center gap-1.5 transition-all duration-300 ${i === currentPlayerIndex ? 'bg-blue-50 border-blue-300 text-blue-600 transform scale-105 shadow-[0_3px_0_#93c5fd]' : 'bg-white border-slate-200 text-slate-400'}`}>
+                                                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: ['#f87171', '#60a5fa', '#4ade80', '#facc15'][i]}}></div>
                                                         <span className="font-bold whitespace-nowrap text-sm sm:text-base">{p.name}:</span> 
                                                         <span className="font-black text-sm sm:text-base">{p.score}</span>
                                                     </div>
@@ -608,9 +571,9 @@
                                         )}
                                     </div>
 
-                                    <div className="w-full bg-white border-2 border-gray-100 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
+                                    <div className="w-full bg-white border-[3px] border-slate-200 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
                                         <div 
-                                            className="bg-green-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
+                                            className="bg-green-300 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
                                             style={{width: `${Math.max(5, (matches / currentLevel.pairs) * 100)}%`}}
                                         >
                                             {matches > 0 && <span className="text-[8px] sm:text-xs text-white font-bold animate-fade-in overflow-visible">⭐</span>}
@@ -620,27 +583,15 @@
                                     <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
                                         <div 
                                             ref={boardRef}
-                                            className={`w-full h-full bg-blue-50/70 backdrop-blur-md border-blue-300/80 shadow-2xl flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] sm:border-[6px] lg:border-[8px] rounded-[1.5rem] sm:rounded-[2.5rem] lg:rounded-[3.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
+                                            className={`w-full h-full bg-blue-50/50 backdrop-blur-sm border-slate-200 shadow-lg flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
                                         >
                                             
                                             <button 
                                                 onClick={!isFullscreen ? enterFullscreen : undefined}
                                                 onDoubleClick={isFullscreen ? exitFullscreen : undefined}
-                                                style={{
-                                                    position: 'absolute',
-                                                    top: '15px',
-                                                    right: '15px',
-                                                    width: 'max(20px, 3%)',
-                                                    height: 'max(20px, 3%)',
-                                                    background: 'transparent',
-                                                    border: 'none',
-                                                    padding: 0,
-                                                    cursor: 'pointer',
-                                                    zIndex: 80
-                                                }}
-                                                title={isFullscreen ? "Double Click to Exit Fullscreen" : "Fullscreen"}
+                                                className="absolute top-4 right-4 w-6 h-6 sm:w-8 sm:h-8 text-slate-400 hover:text-slate-600 z-50"
                                             >
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{width: '100%', height: '100%', color: '#3b82f6'}}>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
                                                     {isFullscreen ? (
                                                         <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
                                                     ) : (
@@ -649,22 +600,25 @@
                                                 </svg>
                                             </button>
 
+                                            {/* Gentle Toy Cards Design for the Board */}
                                             <div className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
                                                 {cards.map((card, index) => {
                                                     const isMismatched = mismatchIndices.includes(index);
                                                     return (
                                                     <div 
                                                         key={index} onClick={(e) => handleCardClick(e, index)}
-                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
+                                                        className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-80' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
-                                                        <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
-                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-white/50 rounded-lg sm:rounded-xl"></div>
-                                                            <span className="text-white opacity-95 font-black emoji-shadow" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
+                                                        {/* Unflipped Backside (Question Mark) */}
+                                                        <div className={`absolute inset-0 bg-slate-50 rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-slate-400 shadow-[0_5px_0_#cbd5e1] flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-slate-300 rounded-lg sm:rounded-xl"></div>
+                                                            <span className="text-slate-300 font-black" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
                                                         
-                                                        <div className={`absolute inset-0 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(147,197,253,1)] sm:shadow-[0_6px_0_rgba(147,197,253,1)] border-2 sm:border-[3px] lg:border-4 border-blue-200 flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                        {/* Flipped Frontside (Emoji/Content) */}
+                                                        <div className={`absolute inset-0 bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-slate-400 shadow-[0_5px_0_#cbd5e1] flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
                                                             <div className="flex-1 w-full flex items-center justify-center h-full">
-                                                                <span className="emoji-shadow transform hover:scale-110 transition duration-300 z-10 leading-none" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
+                                                                <span className="transform hover:scale-110 transition duration-300 z-10 leading-none drop-shadow-sm" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -673,11 +627,11 @@
                                             </div>
 
                                             {highlightMatch && (
-                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-black/30 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
-                                                    <div className="bg-gradient-to-br from-white to-yellow-50 rounded-[3rem] p-8 sm:p-12 shadow-2xl flex flex-col items-center justify-center transform scale-100 animate-bounce-ui border-8 border-yellow-300">
-                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 emoji-shadow">{highlightMatch.content}</span>
+                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-slate-900/10 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
+                                                    <div className="bg-white rounded-[3rem] p-8 sm:p-12 gentle-toy-card flex flex-col items-center justify-center transform scale-100 animate-bounce-ui">
+                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 drop-shadow-md">{highlightMatch.content}</span>
                                                         {selectedCategory !== 'abc' && (
-                                                            <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-white px-10 py-4 rounded-full shadow-md border-2 border-blue-100 overflow-visible">{highlightMatch.label}</span>
+                                                            <span className="text-3xl sm:text-5xl font-black text-slate-500 uppercase tracking-widest bg-slate-50 px-10 py-4 rounded-full border-[3px] border-slate-200 overflow-visible">{highlightMatch.label}</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -686,32 +640,32 @@
                                             {gameState === 'won' && (
                                                 <>
                                                     <Confetti />
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md p-4 animate-fade-in rounded-inherit">
-                                                        <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-slate-900/30 z-[60] backdrop-blur-sm p-4 animate-fade-in rounded-inherit">
+                                                        <div className="bg-white rounded-[2rem] p-6 text-center max-w-md w-full gentle-toy-card transform scale-100 animate-bounce-ui">
                                                             
                                                             {numPlayers > 1 ? (
                                                                 <>
-                                                                    <h2 className="text-3xl sm:text-4xl font-black text-green-500 mb-2 emoji-shadow">
-                                                                        {winners.length > 1 ? "Congradulations! 🤝" : `Congradulations! 🏆`}
+                                                                    <h2 className="text-3xl sm:text-4xl font-black text-green-400 mb-2 gentle-title">
+                                                                        {winners.length > 1 ? "Great Job! 🤝" : `Awesome! 🏆`}
                                                                     </h2>
-                                                                    <p className="text-lg sm:text-xl text-gray-700 mb-6 font-bold">
+                                                                    <p className="text-lg sm:text-xl text-slate-500 mb-6 font-bold">
                                                                         {winners.map(w => w.name).join(' & ')} got {winners[0].score} pairs!
                                                                     </p>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
-                                                                    <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                                    <h2 className="text-4xl font-black text-green-400 mb-2 gentle-title">Awesome! 🎉</h2>
+                                                                    <p className="text-xl text-slate-500 mb-6 font-bold">You found all the pairs!</p>
                                                                 </>
                                                             )}
                                                             
                                                             <div className="flex flex-col gap-3">
                                                                 {currentLevelIndex < LEVELS.length - 1 ? (
-                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-lg flex justify-center items-center gap-2">Next Stage Now ➡️</button>
+                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-50 text-blue-600 font-black py-4 px-6 gentle-toy-button text-lg flex justify-center items-center gap-2">Next Stage ➡️</button>
                                                                 ) : (
-                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-95 text-xl">Play Again</button>
+                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-50 text-blue-600 font-black py-4 px-6 gentle-toy-button text-xl">Play Again</button>
                                                                 )}
-                                                                <button onClick={resetToMenu} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl shadow transform transition active:scale-95">Main Menu</button>
+                                                                <button onClick={resetToMenu} className="w-full bg-slate-50 text-slate-500 font-bold py-3 px-6 gentle-toy-button text-lg">Main Menu</button>
                                                             </div>
                                                         </div>
                                                     </div>
