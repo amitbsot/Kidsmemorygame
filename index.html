@@ -282,6 +282,12 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
+            // הגדרות שחקנים חדשות (Multiplayer)
+            const [showPlayerModal, setShowPlayerModal] = useState(false);
+            const [numPlayers, setNumPlayers] = useState(1);
+            const [players, setPlayers] = useState([{ id: 1, name: 'Player 1', score: 0 }]);
+            const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+
             useEffect(() => {
                 const handleFullscreenChange = () => {
                     setIsFullscreen(!!document.fullscreenElement);
@@ -314,7 +320,30 @@
                 setGameState('menu');
                 setSelectedCategory(null);
                 setPreviousLevelItems([]); 
+                setShowPlayerModal(false);
                 if (document.fullscreenElement) document.exitFullscreen();
+            };
+
+            const handleNumPlayersChange = (n) => {
+                setNumPlayers(n);
+                setPlayers(prev => {
+                    const newPlayers = [];
+                    for (let i = 0; i < n; i++) {
+                        newPlayers.push(prev[i] || { id: i + 1, name: `Player ${i + 1}`, score: 0 });
+                    }
+                    return newPlayers;
+                });
+            };
+
+            const handleNameChange = (index, newName) => {
+                setPlayers(prev => prev.map((p, i) => i === index ? { ...p, name: newName } : p));
+            };
+
+            const submitPlayers = () => {
+                // מילוי אוטומטי של שמות אם הושארו ריקים
+                setPlayers(prev => prev.map((p, i) => ({ ...p, name: p.name.trim() || `Player ${i + 1}` })));
+                setShowPlayerModal(false);
+                setGameState('level_select');
             };
 
             const initGame = (categoryKey, levelIdx) => {
@@ -351,12 +380,16 @@
                 setMatches(0);
                 setIsLocked(false);
                 setHighlightMatch(null);
+                
+                // איפוס ניקוד ושחקן נוכחי בתחילת שלב
+                setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
+                setCurrentPlayerIndex(0);
+                
                 setGameState('playing');
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            // הפונקציה שמונעת מהפרסומת לקפוץ כלוחצים על הקלפים
             const handleCardClick = (e, index) => {
                 if (e && e.nativeEvent) {
                     e.nativeEvent.stopImmediatePropagation();
@@ -392,13 +425,26 @@
 
                             setTimeout(() => {
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isMatched: true } : c));
-                                setFlippedIndices([]); setMatches(m => m + 1); setHighlightMatch(null); setIsLocked(false);
+                                setFlippedIndices([]); 
+                                setMatches(m => m + 1);
+                                
+                                // העלאת הניקוד לשחקן הנוכחי (התור נשאר אצלו)
+                                setPlayers(prev => prev.map((p, i) => i === currentPlayerIndex ? { ...p, score: p.score + 1 } : p));
+                                
+                                setHighlightMatch(null); 
+                                setIsLocked(false);
                             }, 2000); 
                         } else {
                             setMismatchIndices([firstIndex, secondIndex]);
                             setTimeout(() => {
                                 setCards(prev => prev.map((c, i) => (i === firstIndex || i === secondIndex) ? { ...c, isFlipped: false } : c));
-                                setFlippedIndices([]); setMismatchIndices([]); setIsLocked(false);
+                                setFlippedIndices([]); 
+                                setMismatchIndices([]); 
+                                
+                                // העברת תור לשחקן הבא אם טעו
+                                setCurrentPlayerIndex(prev => (prev + 1) % numPlayers);
+                                
+                                setIsLocked(false);
                             }, 800);
                         }
                     }, 1100);
@@ -419,9 +465,58 @@
                 return () => { if (winTimer) clearTimeout(winTimer); };
             }, [matches, currentLevel, gameState, currentLevelIndex, selectedCategory]);
 
+            // מציאת המנצח/ים
+            const maxScore = Math.max(...players.map(p => p.score));
+            const winners = players.filter(p => p.score === maxScore);
+
             return (
                 <>
                     {!isPlaying && <Header />}
+
+                    {/* חלון מרחף - בחירת מספר שחקנים ושמות */}
+                    {showPlayerModal && (
+                        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
+                            <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col shadow-2xl border-[6px] border-yellow-300 p-6 animate-bounce-ui relative">
+                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-xl">✕</button>
+                                <h2 className="text-2xl sm:text-3xl font-extrabold text-blue-600 mb-6 text-center drop-shadow-sm">Who is playing?</h2>
+                                
+                                <div className="flex justify-center gap-3 mb-6">
+                                    {[1, 2, 3, 4].map(n => (
+                                        <button 
+                                            key={n}
+                                            onClick={() => handleNumPlayersChange(n)}
+                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform ${numPlayers === n ? 'bg-blue-500 text-white scale-110 shadow-[0_4px_0_#2563eb]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-gray-200'}`}
+                                        >
+                                            {n}
+                                        </button>
+                                    ))}
+                                </div>
+                                
+                                <div className="space-y-3 mb-8">
+                                    {players.map((p, i) => (
+                                        <div key={p.id} className="flex items-center gap-3">
+                                            <span className="text-2xl sm:text-3xl drop-shadow-md">{['🔴','🔵','🟢','🟡'][i]}</span>
+                                            <input 
+                                                type="text"
+                                                value={p.name}
+                                                onChange={(e) => handleNameChange(i, e.target.value)}
+                                                className="flex-1 border-[3px] border-blue-100 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-gray-700 focus:border-blue-400 focus:outline-none transition-colors"
+                                                placeholder={`Player ${i + 1}`}
+                                                maxLength="12"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <button 
+                                    onClick={submitPlayers}
+                                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 sm:py-4 px-6 rounded-2xl shadow-[0_6px_0_#16a34a] transform transition active:translate-y-2 active:shadow-[0_0px_0_#16a34a] text-xl flex justify-center items-center gap-2"
+                                >
+                                    Continue ➡️
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                     <main className={`flex-1 flex flex-col relative w-full items-center ${isPlaying ? 'h-[100dvh]' : ''}`}>
                         
@@ -441,7 +536,7 @@
                                                                 key={key}
                                                                 onClick={() => {
                                                                     setSelectedCategory(key);
-                                                                    setGameState('level_select');
+                                                                    setShowPlayerModal(true); // הצגת החלון המרחף
                                                                 }}
                                                                 className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
                                                             >
@@ -483,15 +578,34 @@
                             {isPlaying && (
                                 <div className="absolute inset-0 flex flex-col items-center p-2 sm:p-4 w-full h-full overflow-visible">
                                     
-                                    <div className="w-full flex justify-between items-center mb-2 mt-1 shrink-0 z-10 px-2">
-                                        <button 
-                                            onClick={resetToMenu}
-                                            className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
-                                        >Menu</button>
-                                        <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
-                                        <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-white px-3 py-1.5 sm:py-2 rounded-xl shadow whitespace-nowrap">
-                                            Pairs: {matches} / {currentLevel.pairs}
+                                    <div className="w-full flex flex-col gap-2 mb-2 mt-1 shrink-0 z-10 px-2">
+                                        <div className="flex justify-between items-center">
+                                            <button 
+                                                onClick={resetToMenu}
+                                                className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-xl shadow border-2 border-blue-200 hover:bg-blue-50 active:scale-95 transition text-xs sm:text-base"
+                                            >Menu</button>
+                                            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-700 truncate px-2">Stage {currentLevelIndex + 1}</h3>
+                                            
+                                            {/* הצגת מצב יחיד במידת הצורך בפינה */}
+                                            {numPlayers === 1 && (
+                                                <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-white px-3 py-1.5 sm:py-2 rounded-xl shadow whitespace-nowrap">
+                                                    Pairs: {matches} / {currentLevel.pairs}
+                                                </div>
+                                            )}
                                         </div>
+
+                                        {/* תצוגת שחקנים מרובים */}
+                                        {numPlayers > 1 && (
+                                            <div className="flex gap-2 overflow-x-auto w-full justify-center pb-1">
+                                                {players.map((p, i) => (
+                                                    <div key={p.id} className={`px-3 py-1.5 rounded-xl shadow-sm border-2 flex items-center gap-1.5 transition-all duration-300 ${i === currentPlayerIndex ? 'bg-blue-500 border-blue-600 text-white transform scale-105 shadow-md' : 'bg-white border-gray-200 text-gray-500 opacity-90'}`}>
+                                                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: ['#ef4444', '#3b82f6', '#22c55e', '#eab308'][i]}}></div>
+                                                        <span className="font-bold whitespace-nowrap text-sm sm:text-base">{p.name}:</span> 
+                                                        <span className="font-black text-sm sm:text-base">{p.score}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="w-full bg-white border-2 border-gray-100 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
@@ -574,8 +688,22 @@
                                                     <Confetti />
                                                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-[60] backdrop-blur-md p-4 animate-fade-in rounded-inherit">
                                                         <div className="bg-gradient-to-br from-white to-green-50 rounded-[2rem] p-6 shadow-2xl text-center max-w-md w-full border-8 border-yellow-400 transform scale-100 animate-bounce-ui">
-                                                            <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
-                                                            <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                            
+                                                            {numPlayers > 1 ? (
+                                                                <>
+                                                                    <h2 className="text-3xl sm:text-4xl font-black text-green-500 mb-2 emoji-shadow">
+                                                                        {winners.length > 1 ? "It's a Tie! 🤝" : `${winners[0].name} Wins! 🏆`}
+                                                                    </h2>
+                                                                    <p className="text-lg sm:text-xl text-gray-700 mb-6 font-bold">
+                                                                        {winners.map(w => w.name).join(' & ')} got {winners[0].score} pairs!
+                                                                    </p>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <h2 className="text-4xl font-black text-green-500 mb-2 emoji-shadow">Awesome! 🎉</h2>
+                                                                    <p className="text-xl text-gray-700 mb-6 font-bold">You found all the pairs!</p>
+                                                                </>
+                                                            )}
                                                             
                                                             <div className="flex flex-col gap-3">
                                                                 {currentLevelIndex < LEVELS.length - 1 ? (
