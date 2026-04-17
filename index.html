@@ -30,16 +30,6 @@
     <script src="react-dom.production.min.js"></script>
     <script src="babel.min.js"></script>
     <script src="tailwind.js"></script>
-    <script>(function(s){s.dataset.zone='10886757',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-
-
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         * {
@@ -414,7 +404,13 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            const handleCardClick = (index) => {
+            // הפונקציה המעודכנת שחוסמת לחיצות פרסומת בתוך הקלפים
+            const handleCardClick = (e, index) => {
+                if (e && e.nativeEvent) {
+                    e.nativeEvent.stopImmediatePropagation();
+                    e.stopPropagation();
+                }
+
                 if (isLocked || cards[index].isFlipped || cards[index].isMatched) return;
 
                 const newFlippedIndices = [...flippedIndices, index];
@@ -593,7 +589,7 @@
                                                     const isMismatched = mismatchIndices.includes(index);
                                                     return (
                                                     <div 
-                                                        key={index} onClick={() => handleCardClick(index)}
+                                                        key={index} onClick={(e) => handleCardClick(e, index)}
                                                         className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-90' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
                                                         <div className={`absolute inset-0 bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_4px_0_rgba(217,119,6,1)] sm:shadow-[0_6px_0_rgba(217,119,6,1)] border-2 sm:border-[3px] lg:border-4 border-white flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
