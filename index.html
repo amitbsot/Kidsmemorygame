@@ -321,17 +321,15 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
-            // הפונקציה שמפעילה את הפרסומת
-            const triggerAd = () => {
+            // משתנה מעקב חדש שמנהל בדיוק מתי "עברנו עמוד" מבחינת הפרסומת
+            const [currentView, setCurrentView] = useState('home');
+
+            // הפעלת הפרסומת רק כשה-currentView משתנה (כלומר בעת מעבר מסך אמיתי)
+            useEffect(() => {
                 if (typeof window.showVignette === 'function') {
                     window.showVignette();
                 }
-            };
-
-            // קריאה לפרסומת בפתיחת העמוד הראשי
-            useEffect(() => {
-                triggerAd();
-            }, []);
+            }, [currentView]);
 
             useEffect(() => {
                 const handleFullscreenChange = () => {
@@ -362,15 +360,14 @@
             };
 
             const resetToMenu = () => {
-                triggerAd();
                 setGameState('menu');
                 setSelectedCategory(null);
                 setPreviousLevelItems([]); 
+                setCurrentView('home'); // מעדכן למסך הבית - יפעיל פרסומת
                 if (document.fullscreenElement) document.exitFullscreen();
             };
 
             const initGame = (categoryKey, levelIdx) => {
-                triggerAd();
                 const category = CATEGORIES[categoryKey];
                 const level = LEVELS[levelIdx];
                 
@@ -405,6 +402,7 @@
                 setIsLocked(false);
                 setHighlightMatch(null);
                 setGameState('playing');
+                setCurrentView(`playing_${categoryKey}_${levelIdx}`); // מעדכן למסך שלב חדש - יפעיל פרסומת
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
@@ -487,9 +485,9 @@
                                                             <button 
                                                                 key={key}
                                                                 onClick={() => {
-                                                                    triggerAd(); // קריאה לפרסומת בלחיצה על קטגוריה
                                                                     setSelectedCategory(key);
                                                                     setGameState('level_select');
+                                                                    setCurrentView(`level_select_${key}`); // מעדכן למסך בחירת שלבים - יפעיל פרסומת
                                                                 }}
                                                                 className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
                                                             >
