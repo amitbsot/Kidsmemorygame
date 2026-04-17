@@ -28,41 +28,41 @@
 
         body, html {
             margin: 0;
-            font-family: 'Rubik', sans-serif; /* Changed to ThinkFun's font */
-            background-color: #f8fafc; /* Very light slate */
-            background-image: radial-gradient(#e2e8f0 15%, transparent 15%); /* Gentle polka dots */
+            font-family: 'Rubik', sans-serif;
+            background-color: #e0f2fe; /* שמח ובהיר - כחול שמיים פסטלי */
+            background-image: radial-gradient(#bae6fd 15%, transparent 15%);
             background-size: 30px 30px;
             touch-action: pan-y;
-            color: #334155;
+            color: #1e293b;
         }
 
-        /* --- Gentle ThinkFun Toy Styles --- */
+        /* --- Colorful Toy Styles --- */
         .gentle-toy-card {
             background-color: #ffffff;
-            border: 3px solid #94a3b8; /* Soft slate border instead of dark black */
+            border: 4px solid #60a5fa; /* מסגרת כחולה שמחה */
             border-radius: 24px;
-            box-shadow: 6px 8px 0px 0px #cbd5e1; /* Gentle solid shadow */
+            box-shadow: 6px 8px 0px 0px #93c5fd; 
             transition: all 0.15s ease-out;
         }
         
         .gentle-toy-button {
-            border: 3px solid #94a3b8;
+            border: 3px solid rgba(0,0,0,0.1);
             border-radius: 16px;
-            box-shadow: 0px 5px 0px 0px #cbd5e1;
+            box-shadow: 0px 5px 0px 0px rgba(0,0,0,0.15);
             transition: all 0.1s;
             cursor: pointer;
         }
         .gentle-toy-button:hover {
-            filter: brightness(0.95);
+            filter: brightness(0.95) saturate(1.2);
         }
         .gentle-toy-button:active {
             transform: translateY(5px);
-            box-shadow: 0px 0px 0px 0px #cbd5e1;
+            box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.1);
         }
 
         .gentle-title {
-            color: #475569;
-            text-shadow: 2px 2px 0px #e2e8f0;
+            color: #1e40af;
+            text-shadow: 2px 2px 0px #bfdbfe;
         }
 
         /* --- Game Utilities --- */
@@ -121,7 +121,7 @@
         }
     </style>
 </head>
-<body class="overflow-x-hidden text-slate-700">
+<body class="overflow-x-hidden text-slate-800">
 
     <div id="root" class="min-h-screen flex flex-col"></div>
 
@@ -129,12 +129,12 @@
         const { useState, useEffect, useRef } = React;
 
         const Header = () => (
-            <header className="bg-white/80 backdrop-blur-md border-b-4 border-slate-200 py-4 px-6 sticky top-0 z-40 flex justify-center sm:justify-between items-center shadow-sm">
+            <header className="bg-white/90 backdrop-blur-md border-b-4 border-blue-200 py-4 px-6 sticky top-0 z-40 flex justify-center sm:justify-between items-center shadow-sm">
                 <div className="flex items-center gap-2">
                     <span className="text-3xl">🧠</span>
-                    <h1 className="text-2xl sm:text-3xl font-black gentle-title text-slate-600">Kids Memory</h1>
+                    <h1 className="text-2xl sm:text-3xl font-black gentle-title">Kids Memory</h1>
                 </div>
-                <nav className="hidden sm:flex gap-4 font-bold text-slate-500">
+                <nav className="hidden sm:flex gap-4 font-bold text-blue-600">
                     <a href="#about-game" className="hover:text-blue-400 transition">How to Play</a>
                 </nav>
             </header>
@@ -142,10 +142,10 @@
 
         const SeoContentSection = () => (
             <article className="seo-content max-w-4xl mx-auto p-6 sm:p-10 bg-white rounded-3xl gentle-toy-card mt-8 mb-12">
-                <h2 id="about-game" className="text-3xl sm:text-4xl font-black text-slate-600 mb-6 text-center gentle-title">
+                <h2 id="about-game" className="text-3xl sm:text-4xl font-black text-blue-800 mb-6 text-center gentle-title">
                     Welcome to the Ultimate Kids Memory Game!
                 </h2>
-                <div className="space-y-6 text-slate-600 leading-relaxed text-lg font-medium">
+                <div className="space-y-6 text-slate-700 leading-relaxed text-lg font-medium">
                     <p>Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory.</p>
                 </div>
             </article>
@@ -166,24 +166,24 @@
             window.speechSynthesis.onvoiceschanged = updateVoiceSelection;
         }
 
-        // Updated Categories to use Pastel Colors
+        // צבעים חמים ושמחים לכל קטגוריה
         const CATEGORIES = {
-            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-100', textColors: 'text-orange-600', items: [
+            animals: { id: 'animals', title: 'Animals', color: 'bg-orange-200', textColors: 'text-orange-800', items: [
                 { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }
             ]},
-            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-100', textColors: 'text-blue-600', items: [
+            abc: { id: 'abc', title: 'Letters', color: 'bg-blue-200', textColors: 'text-blue-800', items: [
                 { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }
             ]},
-            colors: { id: 'colors', title: 'Colors', color: 'bg-red-100', textColors: 'text-red-500', items: [
+            colors: { id: 'colors', title: 'Colors', color: 'bg-red-200', textColors: 'text-red-800', items: [
                 { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }
             ]},
-            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-100', textColors: 'text-green-600', items: [
+            fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-200', textColors: 'text-green-800', items: [
                 { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }
             ]},
-            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-100', textColors: 'text-yellow-600', items: [
+            transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-200', textColors: 'text-yellow-800', items: [
                 { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }
             ]},
-            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-100', textColors: 'text-purple-600', items: [
+            shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-200', textColors: 'text-purple-800', items: [
                 { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }
             ]}
         };
@@ -438,19 +438,18 @@
                 <>
                     {!isPlaying && <Header />}
 
-                    {/* Player Setup Modal - Light & Gentle style */}
                     {showPlayerModal && (
-                        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center p-4">
+                        <div className="fixed inset-0 z-50 bg-blue-900/40 backdrop-blur-sm flex justify-center items-center p-4">
                             <div className="bg-white rounded-[2rem] w-full max-w-md flex flex-col gentle-toy-card p-6 animate-bounce-ui relative">
-                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-red-400 font-bold text-xl">✕</button>
-                                <h2 className="text-2xl sm:text-3xl font-black text-slate-600 mb-6 text-center gentle-title">Who is playing?</h2>
+                                <button onClick={() => setShowPlayerModal(false)} className="absolute top-4 right-4 text-slate-300 hover:text-red-400 font-bold text-xl">✕</button>
+                                <h2 className="text-2xl sm:text-3xl font-black text-blue-600 mb-6 text-center gentle-title">Who is playing?</h2>
                                 
                                 <div className="flex justify-center gap-3 mb-6">
                                     {[1, 2, 3, 4].map(n => (
                                         <button 
                                             key={n}
                                             onClick={() => handleNumPlayersChange(n)}
-                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform border-[3px] ${numPlayers === n ? 'bg-blue-100 text-blue-600 border-blue-300 scale-110 shadow-[0_4px_0_#93c5fd]' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`}
+                                            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full font-bold text-xl sm:text-2xl transition-transform border-[3px] ${numPlayers === n ? 'bg-blue-200 text-blue-800 border-blue-400 scale-110 shadow-[0_4px_0_#60a5fa]' : 'bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100'}`}
                                         >
                                             {n}
                                         </button>
@@ -465,7 +464,7 @@
                                                 type="text"
                                                 value={p.name}
                                                 onChange={(e) => handleNameChange(i, e.target.value)}
-                                                className="flex-1 border-[3px] border-slate-200 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-slate-600 focus:border-blue-300 focus:outline-none transition-colors"
+                                                className="flex-1 border-[3px] border-blue-100 rounded-xl px-4 py-2 sm:py-3 text-lg font-bold text-slate-700 focus:border-blue-300 focus:outline-none transition-colors"
                                                 placeholder={`Player ${i + 1}`}
                                                 maxLength="12"
                                             />
@@ -475,7 +474,7 @@
                                 
                                 <button 
                                     onClick={submitPlayers}
-                                    className="w-full bg-green-100 text-green-700 font-black py-3 sm:py-4 px-6 gentle-toy-button text-xl flex justify-center items-center gap-2"
+                                    className="w-full bg-green-400 text-white font-black py-3 sm:py-4 px-6 gentle-toy-button border-green-600 shadow-[0_5px_0_#16a34a] text-xl flex justify-center items-center gap-2"
                                 >
                                     Continue ➡️
                                 </button>
@@ -490,7 +489,7 @@
                             {(gameState === 'menu' || gameState === 'level_select') && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
                                     <div className="bg-white/95 backdrop-blur-sm gentle-toy-card p-6 sm:p-8 max-w-lg w-full text-center">
-                                        <h2 className="text-3xl md:text-4xl font-black text-slate-600 mb-8 gentle-title">Select Game</h2>
+                                        <h2 className="text-3xl md:text-4xl font-black text-blue-600 mb-8 gentle-title">Select Game</h2>
                                         
                                         <div className="animate-fade-in w-full mx-auto">
                                             {gameState === 'menu' ? (
@@ -503,9 +502,9 @@
                                                                     setSelectedCategory(key);
                                                                     setShowPlayerModal(true);
                                                                 }}
-                                                                className={`${CATEGORIES[key].color} ${CATEGORIES[key].textColors} font-bold py-5 sm:py-6 px-2 gentle-toy-button text-lg flex flex-col items-center justify-center gap-1`}
+                                                                className={`${CATEGORIES[key].color} ${CATEGORIES[key].textColors} font-bold py-5 sm:py-6 px-2 gentle-toy-button text-lg flex flex-col items-center justify-center gap-1 border-[3px] border-white/50 shadow-md`}
                                                             >
-                                                                <span className="text-3xl mb-1">{CATEGORIES[key].items[0].content}</span>
+                                                                <span className="text-3xl mb-1 drop-shadow-sm">{CATEGORIES[key].items[0].content}</span>
                                                                 <span className="text-sm sm:text-base">{CATEGORIES[key].title}</span>
                                                             </button>
                                                         ))}
@@ -516,9 +515,9 @@
                                                     <div className="flex justify-between items-center mb-6">
                                                         <button 
                                                             onClick={resetToMenu}
-                                                            className="bg-slate-100 text-slate-500 font-bold py-2 px-3 sm:px-4 gentle-toy-button text-sm"
+                                                            className="bg-blue-50 text-blue-500 font-bold py-2 px-3 sm:px-4 gentle-toy-button text-sm border-blue-200"
                                                         >⬅️ Back</button>
-                                                        <h3 className="text-xl sm:text-2xl font-black text-slate-600 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
+                                                        <h3 className="text-xl sm:text-2xl font-black text-blue-700 truncate px-2">{CATEGORIES[selectedCategory].title}</h3>
                                                         <div className="w-[70px] sm:w-[85px]"></div>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -526,7 +525,7 @@
                                                             <button 
                                                                 key={idx}
                                                                 onClick={() => initGame(selectedCategory, idx)}
-                                                                className="bg-yellow-50 text-yellow-700 font-bold py-4 px-2 gentle-toy-button text-lg flex flex-col items-center"
+                                                                className="bg-yellow-100 text-yellow-800 font-bold py-4 px-2 gentle-toy-button border-yellow-300 text-lg flex flex-col items-center"
                                                             >
                                                                 <span>Stage {lvl.level}</span>
                                                                 <span className="text-xs sm:text-sm font-medium opacity-80 mt-1">{lvl.pairs} Pairs</span>
@@ -547,12 +546,12 @@
                                         <div className="flex justify-between items-center">
                                             <button 
                                                 onClick={resetToMenu}
-                                                className="bg-white text-slate-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 gentle-toy-button text-xs sm:text-base"
+                                                className="bg-white text-blue-500 font-bold py-1.5 px-3 sm:py-2 sm:px-4 gentle-toy-button text-xs sm:text-base border-blue-200 shadow-sm"
                                             >Menu</button>
-                                            <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-600 truncate px-2">Stage {currentLevelIndex + 1}</h3>
+                                            <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-blue-800 truncate px-2 gentle-title">Stage {currentLevelIndex + 1}</h3>
                                             
                                             {numPlayers === 1 && (
-                                                <div className="text-xs sm:text-lg md:text-xl font-bold text-blue-500 bg-white px-3 py-1.5 sm:py-2 rounded-xl border-[3px] border-slate-200 shadow-sm whitespace-nowrap">
+                                                <div className="text-xs sm:text-lg md:text-xl font-bold text-green-600 bg-green-50 px-3 py-1.5 sm:py-2 rounded-xl border-[3px] border-green-200 shadow-sm whitespace-nowrap">
                                                     Pairs: {matches} / {currentLevel.pairs}
                                                 </div>
                                             )}
@@ -561,8 +560,8 @@
                                         {numPlayers > 1 && (
                                             <div className="flex gap-2 overflow-x-auto w-full justify-center pb-1">
                                                 {players.map((p, i) => (
-                                                    <div key={p.id} className={`px-3 py-1.5 rounded-xl shadow-sm border-[3px] flex items-center gap-1.5 transition-all duration-300 ${i === currentPlayerIndex ? 'bg-blue-50 border-blue-300 text-blue-600 transform scale-105 shadow-[0_3px_0_#93c5fd]' : 'bg-white border-slate-200 text-slate-400'}`}>
-                                                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: ['#f87171', '#60a5fa', '#4ade80', '#facc15'][i]}}></div>
+                                                    <div key={p.id} className={`px-3 py-1.5 rounded-xl shadow-sm border-[3px] flex items-center gap-1.5 transition-all duration-300 ${i === currentPlayerIndex ? 'bg-blue-100 border-blue-400 text-blue-800 transform scale-105 shadow-[0_3px_0_#60a5fa]' : 'bg-white border-blue-100 text-slate-500'}`}>
+                                                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: ['#ef4444', '#3b82f6', '#22c55e', '#eab308'][i]}}></div>
                                                         <span className="font-bold whitespace-nowrap text-sm sm:text-base">{p.name}:</span> 
                                                         <span className="font-black text-sm sm:text-base">{p.score}</span>
                                                     </div>
@@ -571,9 +570,9 @@
                                         )}
                                     </div>
 
-                                    <div className="w-full bg-white border-[3px] border-slate-200 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
+                                    <div className="w-full bg-white border-[3px] border-blue-100 rounded-full h-2 sm:h-4 mb-3 shrink-0 shadow-inner overflow-hidden relative z-10">
                                         <div 
-                                            className="bg-green-300 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
+                                            className="bg-green-400 h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end px-1"
                                             style={{width: `${Math.max(5, (matches / currentLevel.pairs) * 100)}%`}}
                                         >
                                             {matches > 0 && <span className="text-[8px] sm:text-xs text-white font-bold animate-fade-in overflow-visible">⭐</span>}
@@ -583,13 +582,13 @@
                                     <div className="flex-1 w-full min-h-0 flex items-center justify-center pb-2 z-10">
                                         <div 
                                             ref={boardRef}
-                                            className={`w-full h-full bg-blue-50/50 backdrop-blur-sm border-slate-200 shadow-lg flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
+                                            className={`w-full h-full bg-blue-50/60 backdrop-blur-md border-blue-200 shadow-xl flex flex-col justify-center relative ${isFullscreen ? 'fullscreen-active overflow-hidden touch-none' : 'border-[4px] sm:border-[6px] lg:border-[8px] rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-5 md:p-6 lg:p-8 touch-none'}`}
                                         >
                                             
                                             <button 
                                                 onClick={!isFullscreen ? enterFullscreen : undefined}
                                                 onDoubleClick={isFullscreen ? exitFullscreen : undefined}
-                                                className="absolute top-4 right-4 w-6 h-6 sm:w-8 sm:h-8 text-slate-400 hover:text-slate-600 z-50"
+                                                className="absolute top-4 right-4 w-6 h-6 sm:w-8 sm:h-8 text-blue-400 hover:text-blue-600 z-50 transition"
                                             >
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
                                                     {isFullscreen ? (
@@ -600,7 +599,6 @@
                                                 </svg>
                                             </button>
 
-                                            {/* Gentle Toy Cards Design for the Board */}
                                             <div className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full h-full ${currentLevel.cols} ${currentLevel.rows} perspective-1000 mx-auto justify-items-center items-center`}>
                                                 {cards.map((card, index) => {
                                                     const isMismatched = mismatchIndices.includes(index);
@@ -609,16 +607,27 @@
                                                         key={index} onClick={(e) => handleCardClick(e, index)}
                                                         className={`relative w-full h-full cursor-pointer transform-style-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''} ${card.isMatched ? 'animate-bounce-match opacity-80' : ''} ${isMismatched ? 'animate-shake' : ''}`}
                                                     >
-                                                        {/* Unflipped Backside (Question Mark) */}
-                                                        <div className={`absolute inset-0 bg-slate-50 rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-slate-400 shadow-[0_5px_0_#cbd5e1] flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
-                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-slate-300 rounded-lg sm:rounded-xl"></div>
-                                                            <span className="text-slate-300 font-black" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
+                                                        {/* גב הקלף העליז והצבעוני */}
+                                                        <div className={`absolute inset-0 bg-yellow-100 rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-yellow-300 shadow-[0_5px_0_#fde047] flex justify-center items-center backface-hidden ${card.isFlipped || card.isMatched ? 'hidden' : ''}`}>
+                                                            <div className="absolute inset-1 sm:inset-2 border-2 border-dashed border-yellow-400/50 rounded-lg sm:rounded-xl"></div>
+                                                            <span className="text-yellow-400 font-black" style={{ fontSize: 'clamp(2rem, 8vmin, 5rem)' }}>?</span>
                                                         </div>
                                                         
-                                                        {/* Flipped Frontside (Emoji/Content) */}
-                                                        <div className={`absolute inset-0 bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-slate-400 shadow-[0_5px_0_#cbd5e1] flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
-                                                            <div className="flex-1 w-full flex items-center justify-center h-full">
-                                                                <span className="transform hover:scale-110 transition duration-300 z-10 leading-none drop-shadow-sm" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)' }}>{card.content}</span>
+                                                        {/* פני הקלף עם שאיבת התמונה (או אימוג'י ב-fallback) */}
+                                                        <div className={`absolute inset-0 bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl border-[3px] border-blue-200 shadow-[0_5px_0_#bfdbfe] flex flex-col justify-center items-center backface-hidden rotate-y-180 overflow-hidden ${!(card.isFlipped || card.isMatched) ? 'hidden' : ''}`}>
+                                                            <div className="flex-1 w-full flex items-center justify-center h-full p-2">
+                                                                <img 
+                                                                    src={`cards/${card.label.toLowerCase()}.png`} 
+                                                                    alt={card.label}
+                                                                    className="max-w-[80%] max-h-[80%] object-contain drop-shadow-sm z-20 pointer-events-none"
+                                                                    onError={(e) => {
+                                                                        e.target.style.display = 'none';
+                                                                        if(e.target.nextSibling) e.target.nextSibling.style.display = 'inline-block';
+                                                                    }}
+                                                                />
+                                                                <span className="transform hover:scale-110 transition duration-300 z-10 leading-none drop-shadow-sm" style={{ fontSize: 'clamp(2rem, 10vmin, 6rem)', display: 'none' }}>
+                                                                    {card.content}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -627,11 +636,24 @@
                                             </div>
 
                                             {highlightMatch && (
-                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-slate-900/10 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
+                                                <div className="absolute inset-0 flex items-center justify-center z-[60] bg-blue-900/10 backdrop-blur-sm animate-fade-in pointer-events-none rounded-inherit">
                                                     <div className="bg-white rounded-[3rem] p-8 sm:p-12 gentle-toy-card flex flex-col items-center justify-center transform scale-100 animate-bounce-ui">
-                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 drop-shadow-md">{highlightMatch.content}</span>
+                                                        
+                                                        <img 
+                                                            src={`cards/${highlightMatch.label.toLowerCase()}.png`} 
+                                                            alt={highlightMatch.label}
+                                                            className="max-w-[12rem] max-h-[12rem] sm:max-w-[16rem] sm:max-h-[16rem] object-contain drop-shadow-md mb-4"
+                                                            onError={(e) => {
+                                                                e.target.style.display = 'none';
+                                                                if(e.target.nextSibling) e.target.nextSibling.style.display = 'inline-block';
+                                                            }}
+                                                        />
+                                                        <span className="text-[6rem] sm:text-[10rem] leading-none mb-4 drop-shadow-md" style={{ display: 'none' }}>
+                                                            {highlightMatch.content}
+                                                        </span>
+                                                        
                                                         {selectedCategory !== 'abc' && (
-                                                            <span className="text-3xl sm:text-5xl font-black text-slate-500 uppercase tracking-widest bg-slate-50 px-10 py-4 rounded-full border-[3px] border-slate-200 overflow-visible">{highlightMatch.label}</span>
+                                                            <span className="text-3xl sm:text-5xl font-black text-blue-600 uppercase tracking-widest bg-blue-50 px-10 py-4 rounded-full border-[3px] border-blue-200 overflow-visible">{highlightMatch.label}</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -640,32 +662,32 @@
                                             {gameState === 'won' && (
                                                 <>
                                                     <Confetti />
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-slate-900/30 z-[60] backdrop-blur-sm p-4 animate-fade-in rounded-inherit">
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-blue-900/20 z-[60] backdrop-blur-sm p-4 animate-fade-in rounded-inherit">
                                                         <div className="bg-white rounded-[2rem] p-6 text-center max-w-md w-full gentle-toy-card transform scale-100 animate-bounce-ui">
                                                             
                                                             {numPlayers > 1 ? (
                                                                 <>
-                                                                    <h2 className="text-3xl sm:text-4xl font-black text-green-400 mb-2 gentle-title">
+                                                                    <h2 className="text-3xl sm:text-4xl font-black text-green-500 mb-2 gentle-title">
                                                                         {winners.length > 1 ? "Great Job! 🤝" : `Awesome! 🏆`}
                                                                     </h2>
-                                                                    <p className="text-lg sm:text-xl text-slate-500 mb-6 font-bold">
+                                                                    <p className="text-lg sm:text-xl text-slate-600 mb-6 font-bold">
                                                                         {winners.map(w => w.name).join(' & ')} got {winners[0].score} pairs!
                                                                     </p>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <h2 className="text-4xl font-black text-green-400 mb-2 gentle-title">Awesome! 🎉</h2>
-                                                                    <p className="text-xl text-slate-500 mb-6 font-bold">You found all the pairs!</p>
+                                                                    <h2 className="text-4xl font-black text-green-500 mb-2 gentle-title">Awesome! 🎉</h2>
+                                                                    <p className="text-xl text-slate-600 mb-6 font-bold">You found all the pairs!</p>
                                                                 </>
                                                             )}
                                                             
                                                             <div className="flex flex-col gap-3">
                                                                 {currentLevelIndex < LEVELS.length - 1 ? (
-                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-50 text-blue-600 font-black py-4 px-6 gentle-toy-button text-lg flex justify-center items-center gap-2">Next Stage ➡️</button>
+                                                                    <button onClick={() => initGame(selectedCategory, currentLevelIndex + 1)} className="w-full bg-blue-400 text-white font-black py-4 px-6 gentle-toy-button border-blue-500 shadow-[0_5px_0_#3b82f6] text-lg flex justify-center items-center gap-2">Next Stage ➡️</button>
                                                                 ) : (
-                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-50 text-blue-600 font-black py-4 px-6 gentle-toy-button text-xl">Play Again</button>
+                                                                    <button onClick={() => initGame(selectedCategory, 0)} className="w-full bg-blue-400 text-white font-black py-4 px-6 gentle-toy-button border-blue-500 shadow-[0_5px_0_#3b82f6] text-xl">Play Again</button>
                                                                 )}
-                                                                <button onClick={resetToMenu} className="w-full bg-slate-50 text-slate-500 font-bold py-3 px-6 gentle-toy-button text-lg">Main Menu</button>
+                                                                <button onClick={resetToMenu} className="w-full bg-slate-100 text-slate-600 font-bold py-3 px-6 gentle-toy-button border-slate-200 shadow-[0_4px_0_#cbd5e1] text-lg">Main Menu</button>
                                                             </div>
                                                         </div>
                                                     </div>
