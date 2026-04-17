@@ -21,9 +21,6 @@
     
     <script>(function(s){s.dataset.zone='10886757',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
     <script defer src="/_vercel/insights/script.js"></script>
     
     <script src="react.production.min.js"></script>
@@ -168,41 +165,8 @@
                 <h2 id="about-game" className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-6 text-center">
                     Welcome to the Ultimate Kids Memory Game!
                 </h2>
-                
                 <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
-                    <p>
-                        Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory. Perfect for toddlers, preschoolers, and early learners, this interactive web game uses colorful visuals, engaging sounds, and exciting themes to make learning an absolute joy!
-                    </p>
-
-                    <h3 className="text-2xl font-bold text-green-500 mt-8 mb-4 border-b-2 border-green-100 pb-2">🧠 Why Memory Games are Great for Kids</h3>
-                    <ul className="list-disc pl-6 space-y-3">
-                        <li><strong>Improves Concentration:</strong> Matching games require players to focus closely on the screen, improving their attention span.</li>
-                        <li><strong>Enhances Visual Recognition:</strong> By remembering where specific shapes, fruits, or letters are hidden, children develop stronger visual discrimination skills.</li>
-                        <li><strong>Vocabulary Building:</strong> Our game includes voice pronunciation for every item. Children hear the words as they match them, reinforcing language learning.</li>
-                        <li><strong>Safe & Educational:</strong> Designed with young children in mind, featuring child-friendly navigation and no confusing external links.</li>
-                    </ul>
-
-                    <h3 id="features" className="text-2xl font-bold text-yellow-500 mt-8 mb-4 border-b-2 border-yellow-100 pb-2">🌟 Explore Six Fun Categories</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                            <strong>🐶 Animals:</strong> Discover cute animals and learn their names!
-                        </div>
-                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                            <strong>🔤 Letters (ABC):</strong> Master the English alphabet. Great for early reading preparation.
-                        </div>
-                        <div className="bg-red-50 p-4 rounded-xl border border-red-100">
-                            <strong>🎨 Colors:</strong> Learn primary and secondary colors with visual and audio cues.
-                        </div>
-                        <div className="bg-green-50 p-4 rounded-xl border border-green-100">
-                            <strong>🍎 Fruits:</strong> Discover healthy foods and their names.
-                        </div>
-                        <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
-                            <strong>⭐ Shapes:</strong> Identify geometric shapes like circles, squares, and triangles.
-                        </div>
-                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
-                            <strong>🚗 Vehicles:</strong> From cars to rockets, learn about transportation!
-                        </div>
-                    </div>
+                    <p>Our <strong>Free Kids Memory Game</strong> is designed to provide hours of fun while simultaneously enhancing cognitive skills, concentration, and short-term memory.</p>
                 </div>
             </article>
         );
@@ -224,22 +188,22 @@
 
         const CATEGORIES = {
             animals: { id: 'animals', title: 'Animals', color: 'bg-orange-400', items: [
-                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }, { content: '🐔', label: 'Chicken' }, { content: '🐧', label: 'Penguin' }, { content: '🐢', label: 'Turtle' }, { content: '🐍', label: 'Snake' }, { content: '🐴', label: 'Horse' }, { content: '🐘', label: 'Elephant' }, { content: '🦒', label: 'Giraffe' }, { content: '🦓', label: 'Zebra' }, { content: '🐬', label: 'Dolphin' }, { content: '🐳', label: 'Whale' }, { content: '🐟', label: 'Fish' }, { content: '🐦', label: 'Bird' }
+                { content: '🐶', label: 'Dog' }, { content: '🐱', label: 'Cat' }, { content: '🐭', label: 'Mouse' }, { content: '🐰', label: 'Rabbit' }, { content: '🦊', label: 'Fox' }, { content: '🐻', label: 'Bear' }, { content: '🐼', label: 'Panda' }, { content: '🦁', label: 'Lion' }, { content: '🐯', label: 'Tiger' }, { content: '🐮', label: 'Cow' }, { content: '🐷', label: 'Pig' }, { content: '🐸', label: 'Frog' }, { content: '🐵', label: 'Monkey' }
             ]},
             abc: { id: 'abc', title: 'Letters', color: 'bg-blue-400', items: [
-                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }, { content: 'G', label: 'G', spokenLabel: 'g' }, { content: 'H', label: 'H', spokenLabel: 'h' }, { content: 'I', label: 'I', spokenLabel: 'i' }, { content: 'J', label: 'J', spokenLabel: 'j' }, { content: 'K', label: 'K', spokenLabel: 'k' }, { content: 'L', label: 'L', spokenLabel: 'l' }, { content: 'M', label: 'M', spokenLabel: 'm' }, { content: 'N', label: 'N', spokenLabel: 'n' }, { content: 'O', label: 'O', spokenLabel: 'o' }, { content: 'P', label: 'P', spokenLabel: 'p' }, { content: 'Q', label: 'Q', spokenLabel: 'q' }, { content: 'R', label: 'R', spokenLabel: 'r' }, { content: 'S', label: 'S', spokenLabel: 's' }, { content: 'T', label: 'T', spokenLabel: 't' }, { content: 'U', label: 'U', spokenLabel: 'u' }, { content: 'V', label: 'V', spokenLabel: 'v' }, { content: 'W', label: 'W', spokenLabel: 'w' }, { content: 'X', label: 'X', spokenLabel: 'x' }, { content: 'Y', label: 'Y', spokenLabel: 'y' }, { content: 'Z', label: 'Z', spokenLabel: 'z' }
+                { content: 'A', label: 'A', spokenLabel: 'a' }, { content: 'B', label: 'B', spokenLabel: 'b' }, { content: 'C', label: 'C', spokenLabel: 'c' }, { content: 'D', label: 'D', spokenLabel: 'd' }, { content: 'E', label: 'E', spokenLabel: 'e' }, { content: 'F', label: 'F', spokenLabel: 'f' }
             ]},
             colors: { id: 'colors', title: 'Colors', color: 'bg-red-400', items: [
-                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }, { content: '🟠', label: 'Orange' }, { content: '🟣', label: 'Purple' }, { content: '⚫', label: 'Black' }, { content: '⚪', label: 'White' }, { content: '🟤', label: 'Brown' }, { content: '🩷', label: 'Pink' }, { content: '🔘', label: 'Grey' }, { content: '💧', label: 'Cyan' }, { content: '🩵', label: 'Light Blue' }, { content: '💚', label: 'Lime' }, { content: '🤎', label: 'Dark Brown' }
+                { content: '🔴', label: 'Red' }, { content: '🔵', label: 'Blue' }, { content: '🟢', label: 'Green' }, { content: '🟡', label: 'Yellow' }
             ]},
             fruits: { id: 'fruits', title: 'Fruits', color: 'bg-green-400', items: [
-                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }, { content: '🍊', label: 'Orange' }, { content: '🥦', label: 'Broccoli' }, { content: '🍇', label: 'Grapes' }, { content: '🍉', label: 'Watermelon' }, { content: '🍓', label: 'Strawberry' }, { content: '🍒', label: 'Cherry' }, { content: '🍍', label: 'Pineapple' }, { content: '🥭', label: 'Mango' }, { content: '🍑', label: 'Peach' }, { content: '🍐', label: 'Pear' }, { content: '🍈', label: 'Melon' }, { content: '🍋', label: 'Lemon' }, { content: '🥝', label: 'Kiwi' }, { content: '🥥', label: 'Coconut' }, { content: '🥑', label: 'Avocado' }, { content: '🍆', label: 'Eggplant' }, { content: '🌽', label: 'Corn' }, { content: '🍄', label: 'Mushroom' }
+                { content: '🍎', label: 'Apple' }, { content: '🍌', label: 'Banana' }, { content: '🥕', label: 'Carrot' }, { content: '🍅', label: 'Tomato' }
             ]},
             transport: { id: 'transport', title: 'Vehicles', color: 'bg-yellow-400', items: [
-                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }, { content: '⛵', label: 'Boat' }, { content: '🚲', label: 'Bicycle' }, { content: '🚁', label: 'Helicopter' }, { content: '🚀', label: 'Rocket' }, { content: '🚚', label: 'Truck' }, { content: '🛵', label: 'Motorcycle' }, { content: '🚜', label: 'Tractor' }, { content: '🚒', label: 'Firetruck' }, { content: '🛴', label: 'Scooter' }, { content: '🚑', label: 'Ambulance' }, { content: '🚓', label: 'Police Car' }, { content: 'タクシー', label: 'Taxi' }, { content: '🛶', label: 'Canoe' }
+                { content: '🚗', label: 'Car' }, { content: '🚌', label: 'Bus' }, { content: '🚂', label: 'Train' }, { content: '✈️', label: 'Airplane' }
             ]},
             shapes: { id: 'shapes', title: 'Shapes', color: 'bg-purple-400', items: [
-                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }, { content: '❤️', label: 'Heart' }, { content: '💎', label: 'Diamond' }, { content: '🔷', label: 'Rhombus' }, { content: '⬛', label: 'Rectangle' }, { content: '🔶', label: 'Pentagon' }, { content: '🛑', label: 'Hexagon' }, { content: '🌙', label: 'Crescent' }, { content: '☁️', label: 'Cloud' }, { content: '❌', label: 'Cross' }, { content: '✔️', label: 'Check' }, { content: '🌀', label: 'Spiral' }, { content: '✨', label: 'Sparkle' }, { content: '💧', label: 'Drop' }, { content: '❄️', label: 'Snowflake' }
+                { content: '⭕', label: 'Circle' }, { content: '🟥', label: 'Square' }, { content: '🔺', label: 'Triangle' }, { content: '⭐', label: 'Star' }
             ]}
         };
 
@@ -318,16 +282,6 @@
             const [isFullscreen, setIsFullscreen] = useState(false);
             const boardRef = useRef(null);
 
-            // משתנה מעקב חדש שמנהל בדיוק מתי "עברנו עמוד" מבחינת הפרסומת
-            const [currentView, setCurrentView] = useState('home');
-
-            // הפעלת הפרסומת רק כשה-currentView משתנה (כלומר בעת מעבר מסך אמיתי)
-            useEffect(() => {
-                if (typeof window.showVignette === 'function') {
-                    window.showVignette();
-                }
-            }, [currentView]);
-
             useEffect(() => {
                 const handleFullscreenChange = () => {
                     setIsFullscreen(!!document.fullscreenElement);
@@ -360,7 +314,6 @@
                 setGameState('menu');
                 setSelectedCategory(null);
                 setPreviousLevelItems([]); 
-                setCurrentView('home'); // מעדכן למסך הבית - יפעיל פרסומת
                 if (document.fullscreenElement) document.exitFullscreen();
             };
 
@@ -399,12 +352,11 @@
                 setIsLocked(false);
                 setHighlightMatch(null);
                 setGameState('playing');
-                setCurrentView(`playing_${categoryKey}_${levelIdx}`); // מעדכן למסך שלב חדש - יפעיל פרסומת
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
-            // הפונקציה המעודכנת שחוסמת לחיצות פרסומת בתוך הקלפים
+            // הפונקציה שמונעת מהפרסומת לקפוץ כלוחצים על הקלפים
             const handleCardClick = (e, index) => {
                 if (e && e.nativeEvent) {
                     e.nativeEvent.stopImmediatePropagation();
@@ -490,7 +442,6 @@
                                                                 onClick={() => {
                                                                     setSelectedCategory(key);
                                                                     setGameState('level_select');
-                                                                    setCurrentView(`level_select_${key}`); // מעדכן למסך בחירת שלבים - יפעיל פרסומת
                                                                 }}
                                                                 className={`${CATEGORIES[key].color} hover:opacity-80 text-white font-bold py-5 sm:py-6 px-2 rounded-2xl shadow-md transform transition active:scale-95 text-lg flex flex-col items-center justify-center gap-1`}
                                                             >
@@ -648,98 +599,12 @@
                         {!isPlaying && <SeoContentSection />}
 
                     </main>
-
-                    {!isPlaying && (
-                        <footer className="bg-white border-t border-gray-200 mt-auto">
-                            <div className="max-w-6xl mx-auto px-4 py-8">
-                                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                                    <div className="text-gray-500 text-sm text-center md:text-left">
-                                        &copy; {new Date().getFullYear()} Kids Memory Game. All rights reserved.<br/>
-                                        Educational web games for toddlers and preschoolers.
-                                    </div>
-                                    <div className="flex gap-6 text-sm font-semibold text-blue-600">
-                                        <button onClick={() => setActiveModal('privacy')} className="hover:underline">Privacy Policy</button>
-                                        <button onClick={() => setActiveModal('terms')} className="hover:underline">Terms of Use</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </footer>
-                    )}
-
-                    {activeModal === 'privacy' && (
-                        <LegalModal 
-                            title="Privacy Policy" 
-                            onClose={() => setActiveModal(null)}
-                            content={
-                                <div>
-                                    <p><strong>Last Updated:</strong> Today</p>
-                                    <p>Welcome to Kids Memory Game. We are committed to protecting your privacy and ensuring a safe online environment for children.</p>
-                                    <p>We do not collect any Personally Identifiable Information (PII) from children. The game runs entirely in your web browser.</p>
-                                </div>
-                            }
-                        />
-                    )}
-
-                    {activeModal === 'terms' && (
-                        <LegalModal 
-                            title="Terms of Use" 
-                            onClose={() => setActiveModal(null)}
-                            content={
-                                <div>
-                                    <p>By accessing and playing Kids Memory Game, you accept these terms of use.</p>
-                                    <p>This game is provided free of charge for educational and entertainment purposes.</p>
-                                </div>
-                            }
-                        />
-                    )}
                 </>
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
-    </script>
-    
-    <script>
-        let deferredPrompt;
-        const installBtn = document.getElementById('installApp');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to install: ${outcome}`);
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
-            } else if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                alert('כדי להתקין: לחץ על כפתור ה"שיתוף" (למטה), וגלול עד שתמצא את "הוסף למסך הבית".');
-            } else {
-                alert('כדי להתקין אפליקציה זו, השתמש בתפריט הדפדפן ובחר "הוסף למסך הבית".');
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            console.log('App was installed.');
-            installBtn.style.display = 'none';
-        });
-    </script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
     </script>
 </body>
 </html>
